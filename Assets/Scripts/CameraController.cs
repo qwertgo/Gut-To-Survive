@@ -1,30 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class CameraController : GravityObject
+public class CameraController : MonoBehaviour
 {
 
     [SerializeField] Transform player;
+    [SerializeField] GravityHandler gravityhandler;
 
-    private void Start()
+    //public void StartGravityChange(Vector2 gravityDirection, UnityEvent gravityChangedEvent, PlayerController pController)
+    //{
+    //    float rotationZ = Vector2.SignedAngle(Vector2.down, gravityDirection);
+    //    pController.enabled = false;
+    //    if(rotationZ != transform.eulerAngles.z)
+    //    {
+    //        StartCoroutine(ChangeRotationOverTime(transform.eulerAngles.z, rotationZ, gravityChangedEvent));
+    //        pController.enabled = false;
+    //    }
+    //}
+
+    public IEnumerator ChangeRotationOverTime( float rotationEnd)
     {
-        if (gravityChangedEvent == null)
-            gravityChangedEvent = new UnityEngine.Events.UnityEvent();
-
-        gravityChangedEvent.AddListener(ChangeRotation);
-    }
-
-    void ChangeRotation()
-    {
-        float rotationZ = Vector2.SignedAngle(Vector2.down, gravityDirection);
-        StartCoroutine(ChangeRotationOverTime(transform.eulerAngles.z, rotationZ));
-        //Vector3 rot = transform.eulerAngles;
-        //transform.eulerAngles = new Vector3(rot.x, rot.y, rotationZ);
-    }
-
-    IEnumerator ChangeRotationOverTime(float rotationStart, float rotationEnd)
-    {
+        
+        float rotationStart = transform.eulerAngles.z;
         float t = 0;
         while(t < 1)
         {
@@ -36,6 +34,8 @@ public class CameraController : GravityObject
             t += Time.fixedDeltaTime;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
+
+        gravityhandler.CameraFinishedRotating();
     }
 
     // Update is called once per frame

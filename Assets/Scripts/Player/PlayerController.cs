@@ -7,6 +7,7 @@ using static PolarityHandler;
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
     [Header("Parameters")]
+    [HideInInspector] public bool isSleeping;
     [SerializeField] Polarity polarity;
     [SerializeField] float walkSpeed;
     [SerializeField] float jumpHeight;
@@ -28,6 +29,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is Exiting a forcefield
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
+    Vector2 velocitySaveWhenSleeping;
 
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
@@ -38,7 +40,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
     float forcefieldEnterMagnitude;             //Strength of Velocity when entering a forcefield
-    float standartRotation = 0;
+    float lerpToRotation = 0;
     float rotationLerpT =0;
 
     bool isGrounded;
@@ -50,8 +52,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform headCheckTransform;
     [SerializeField] Transform leftSideCheckTransform;
     [SerializeField] Transform rightSideCheckTransform;
-    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] GravityHandler gravityHandler;
+    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on
+    [SerializeField] Sprite bloodSplash;
+    [SerializeField] Collider2D pCollider;
 
 
     private void Start()
@@ -62,6 +67,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             controls.Enable();
             controls.Player.SetCallbacks(this);
         }
+
+        if (gravityChangedEvent == null)
+            gravityChangedEvent = new UnityEngine.Events.UnityEvent();
+
+        gravityChangedEvent.AddListener(EndedgravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
         inAirMovementCap = -inAirMovementCap + 1;
@@ -87,8 +97,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     private void FixedUpdate()
     {
         CheckIfPlayerEnteredNewState();
-        ActOnCurrentStage();
 
+        if (isSleeping)
+            return;
+
+        ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
         rb.velocity = walkVelocity + forcefieldVelocity + jddVelocity;
     }
@@ -111,7 +124,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             jddVelocity = Vector2.zero;
 
-            ChangeGravity();
+            PrepareGravityChange();
         }
 
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking      
@@ -122,6 +135,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void ActOnCurrentStage()
     {
+        
+
         switch (currentState)                                            //react depending on playerState
         {
             case State.jump:
@@ -164,19 +179,26 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         return left || right;
     }
 
-    void ChangeGravity()
+    void PrepareGravityChange()
     {
-        Collider2D groundCollider = Physics2D.OverlapCircle(transform.position, 2.5f, groundLayer);
-
-        Vector2 collsionPoint = groundCollider.ClosestPoint(transform.position);
-
         Vector2 pos = transform.position;
+        Collider2D groundCollider = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckradius, groundLayer);
+        Vector2 collsionPoint = groundCollider.ClosestPoint(pos);
+
         gravityDirection = collsionPoint - pos;
+        float playerRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
         rotationLerpT = 1;
         rb.rotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
-        standartRotation = rb.rotation;
+        lerpToRotation = rb.rotation;
 
-        gravityChangedEvent.Invoke();
+        velocitySaveWhenSleeping = rb.velocity;
+        gravityHandler.StartGravityChange(this, playerRotation, gravityChangedEvent, rb);
+    }
+
+    void EndedgravityChange()
+    {
+        isSleeping = false;
+        rb.velocity = velocitySaveWhenSleeping;
     }
 
     //Handling States
@@ -194,7 +216,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
         float exitRotation = Vector2.SignedAngle(Vector2.down, forcefieldExitDirection);
-        rb.rotation = Mathf.Lerp(exitRotation, standartRotation, rotationLerpT);
+        rb.rotation = Mathf.LerpAngle(exitRotation, lerpToRotation, rotationLerpT);
     }
 
     void Jump()
@@ -249,6 +271,24 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             forcefieldExitMagnitude = Mathf.Max(0, forcefieldExitMagnitude);
             forcefieldVelocity = forcefieldExitDirection * forcefieldExitMagnitude;
         }
+    }
+
+    public void Die()
+    {
+        isSleeping = true;
+        rb.velocity = Vector2.zero;
+        enabled = false;
+        spriteRenderer.sprite = bloodSplash;
+        spriteRenderer.color = Color.white;
+        pCollider.enabled = false;
+
+        StartCoroutine(RestartLevel());
+    }
+
+    IEnumerator RestartLevel()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     
@@ -327,10 +367,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 walkVelocityX = 0;
                 break;
             case "Spikes":
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                Die();
                 break;
             case "GameWon":
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene("GameWon");
                 break;
         }
     }

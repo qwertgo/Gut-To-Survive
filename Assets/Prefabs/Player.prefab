@@ -243,10 +243,11 @@ MonoBehaviour:
   headCheckTransform: {fileID: 2421048445925974519}
   leftSideCheckTransform: {fileID: 8008313694768922629}
   rightSideCheckTransform: {fileID: 8207008697910916395}
+  spriteRenderer: {fileID: 2421048444573215169}
+  cameraController: {fileID: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
-  spriteRenderer: {fileID: 2421048444573215169}
+    m_Bits: 136
 --- !u!1 &2421048445925974518
 GameObject:
   m_ObjectHideFlags: 0
