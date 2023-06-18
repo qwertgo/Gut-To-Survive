@@ -71,6 +71,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (gravityChangedEvent == null)
             gravityChangedEvent = new UnityEngine.Events.UnityEvent();
 
+        gravityDirection = Vector2.down;
+
         gravityChangedEvent.AddListener(EndedgravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;

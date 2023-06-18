@@ -19,22 +19,23 @@ public class CameraController : MonoBehaviour
     //    }
     //}
 
-    public IEnumerator ChangeRotationOverTime( float rotationEnd)
+    public IEnumerator ChangeRotationOverTime( float rotateTowards)
     {
         
         float rotationStart = transform.eulerAngles.z;
         float t = 0;
-        while(t < 1)
-        {
-            float rotationZ = Mathf.LerpAngle(rotationStart, rotationEnd, t);
+        Vector3 rot = transform.eulerAngles;
 
-            Vector3 rot = transform.eulerAngles;
+        while (t < 1)
+        {
+            float rotationZ = Mathf.LerpAngle(rotationStart, rotateTowards, t);
             transform.eulerAngles = new Vector3(rot.x, rot.y, rotationZ);
 
             t += Time.fixedDeltaTime;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
 
+        transform.eulerAngles = new Vector3(rot.x, rot.y, rotateTowards);
         gravityhandler.CameraFinishedRotating();
     }
 

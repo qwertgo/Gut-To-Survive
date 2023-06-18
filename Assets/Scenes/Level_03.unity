@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807b4e6c8efc0494481814920f41f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  motionSicknessSafeMode: 0
   cam: {fileID: 131545247}
   camTransform: {fileID: 131545245}
 --- !u!4 &190181587
@@ -1348,7 +1349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1399362903
 BoxCollider2D:
   m_ObjectHideFlags: 0
