@@ -7,44 +7,45 @@ using static PolarityHandler;
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
     [Header("Parameters")]
-    [HideInInspector] public bool isSleeping;
+    [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [SerializeField] Polarity polarity;
     [SerializeField] float walkSpeed;
     [SerializeField] float jumpHeight;
     [SerializeField] float jumpLength;
     [SerializeField] float maxFallingSpeed;
     [SerializeField, Range(1, 10)] float dropMultiplier;
-    [SerializeField, Range(0f, 1f)] float inAirMovementCap;
-    [SerializeField] float rotationSpeed;
+    [SerializeField, Range(0f, 1f)] float inAirMovementCap;                 //How much can player turn when in air
+    [SerializeField] float rotateToGroundSpeed;                             //Speed at wich player rotates towards Ground after exiting forcefield
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
-    [SerializeField] float forcefieldVelocityLoss;
+    [SerializeField] float forcefieldVelocityLoss;                          //How much jddVelocity player looses per frame when inside forcefield
     [SerializeField] float groundCheckradius;
-
-    PlayerInput controls;
-    ForceField currentForcefield;
-    Vector2 jddVelocity;                        //Velocity of Jump/Dash/Drop in one 
-    Vector2 forcefieldVelocity;
-    Vector2 leftStickDir;                       //Direction of the left Gamepadstick
-    Vector2 dashDirection;
-    Vector2 forcefieldExitDirection;            //Direction of velocity when player is Exiting a forcefield
-    Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
-    Vector2 velocitySaveWhenSleeping;
-
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
 
+    PlayerInput controls;
+    ForceField currentForcefield;
+    Vector2 jddVelocity;                        //Velocity of jump/dash/drop in one 
+    Vector2 forcefieldVelocity;
+    Vector2 leftStickDir;                       //Direction of the left gamepadstick or WASD input of keyboard
+    Vector2 dashDirection;
+    Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
+    Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
+    Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to aplly it back on after camera finished rotating
+
+
     float turnability = 1;                      
-    float walkVelocityX;                        //horizontal Movement from Input (Gamepad, Keyboard)
+    float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
     float timeSinceStartedJumping;
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
     float forcefieldEnterMagnitude;             //Strength of Velocity when entering a forcefield
-    float lerpToRotation = 0;
+    float lerpToRotation = 0;                   //Needed when exiting or entering forcefield
     float rotationLerpT =0;
 
     bool isGrounded;
     bool canDash = true;
+    bool isLerpingRotation;
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;                            
@@ -54,7 +55,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform rightSideCheckTransform;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] GravityHandler gravityHandler;
-    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on
+    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
     [SerializeField] Sprite bloodSplash;
     [SerializeField] Collider2D pCollider;
 
@@ -203,6 +204,30 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = velocitySaveWhenSleeping;
     }
 
+    IEnumerator RotateOverTime(float rotationSpeed, bool linearRotation)
+    {
+        float startRotation = rb.rotation;
+        if (startRotation == lerpToRotation)
+            yield break;
+
+        isLerpingRotation = true;
+        rotationLerpT = 0;
+
+        while(rotationLerpT < 1)
+        {
+            rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
+
+            float lerpA = linearRotation ? startRotation : rb.rotation;
+            float currentRotation = Mathf.LerpAngle(lerpA, lerpToRotation, rotationLerpT);
+            rb.rotation = currentRotation;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        isLerpingRotation = false;
+        rb.rotation = lerpToRotation;
+    }
+
     //Handling States
     //---------------------------------------------------------
     void Drop()
@@ -215,10 +240,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jddVelocity = dropVelocity / jumpLength  * gravityDirection;
 
         timeSinceStartedDropping += Time.fixedDeltaTime;
-
-        rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
-        float exitRotation = Vector2.SignedAngle(Vector2.down, forcefieldExitDirection);
-        rb.rotation = Mathf.LerpAngle(exitRotation, lerpToRotation, rotationLerpT);
     }
 
     void Jump()
@@ -252,11 +273,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position);
 
-        rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
+        if (isLerpingRotation)
+            lerpToRotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
+        else
+            rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
+
 
         if(forcefieldEnterMagnitude > 0)
         {
-            forcefieldEnterMagnitude -= Time.deltaTime * forcefieldVelocityLoss;
+            forcefieldEnterMagnitude -= Time.fixedDeltaTime * forcefieldVelocityLoss;
             forcefieldEnterMagnitude = Mathf.Max(0, forcefieldEnterMagnitude);
             jddVelocity = forcefieldEnterDirection * forcefieldEnterMagnitude;
         }
@@ -367,6 +392,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 forcefieldEnterDirection = velocity.normalized;
 
                 walkVelocityX = 0;
+
+                lerpToRotation = Vector2.SignedAngle(Vector2.down, currentForcefield.position - transform.position);
+                StartCoroutine(RotateOverTime(.4f, false));
                 break;
             case "Spikes":
                 Die();
@@ -389,6 +417,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             turnability = inAirMovementCap;
             rotationLerpT = 0;
+
+            lerpToRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
+
+            StartCoroutine(RotateOverTime(rotateToGroundSpeed, true));
         }
 
         

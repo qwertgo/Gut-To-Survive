@@ -37,7 +37,7 @@ public class FallingBox : GravityObject
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.velocity = gravityDirection;
         }
     }
 
@@ -67,7 +67,7 @@ public class FallingBox : GravityObject
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.velocity = gravityDirection;
             currentState = State.idle;
         }
     }
