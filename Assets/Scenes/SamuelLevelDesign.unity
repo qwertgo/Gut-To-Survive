@@ -147,10 +147,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e7fffb55504249b4793d4704591a803c, type: 3}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: dashDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: gravityHandler
       value: 
       objectReference: {fileID: 190181586}
@@ -158,10 +154,6 @@ PrefabInstance:
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 131545247}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: groundCheckradius
-      value: 0.48
-      objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToGroundSpeed
       value: 1
@@ -732,8 +724,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220179702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0513, y: -5, z: 0}
-  m_LocalScale: {x: 17.897598, y: 8, z: 1}
+  m_LocalPosition: {x: 2.2133, y: -5, z: 0}
+  m_LocalScale: {x: 19.572815, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
