@@ -16,7 +16,9 @@ public class GravityHandler : MonoBehaviour
     public void StartGravityChange(PlayerController player, float gravityAngle, UnityEvent gravityChangedEvent, Rigidbody2D playerRb)
     {
         float cameraRotation = camTransform.eulerAngles.z;
+        
 
+        //
         if (cameraRotation < 0)
             cameraRotation = -(-cameraRotation % 360 - 360);
         else
