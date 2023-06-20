@@ -19,6 +19,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
     [SerializeField] float forcefieldVelocityLoss;                          //How much jddVelocity player looses per frame when inside forcefield
+    [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
@@ -292,7 +293,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (forcefieldExitMagnitude > 0)
         {
             //Loose Velocity Faster if entered another forcfield
-            float velocityLossMultiplier = currentForcefield == null ? 20 : forcefieldVelocityLoss;
+            float velocityLossMultiplier;
+
+            if (currentForcefield != null)
+                velocityLossMultiplier = forcefieldVelocityLoss;
+            else if (isGrounded)
+                velocityLossMultiplier = groundFriciton + 1;
+            else
+                velocityLossMultiplier = 20;
 
             forcefieldExitMagnitude -= Time.fixedDeltaTime * velocityLossMultiplier;
             forcefieldExitMagnitude = Mathf.Max(0, forcefieldExitMagnitude);
