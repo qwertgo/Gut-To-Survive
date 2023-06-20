@@ -13,13 +13,26 @@ public class GravityHandler : MonoBehaviour
     PlayerController player;
 
 
-    public void StartGravityChange(PlayerController player, float camRotation, UnityEvent gravityChangedEvent, Rigidbody2D playerRb )
+    public void StartGravityChange(PlayerController player, float gravityAngle, UnityEvent gravityChangedEvent, Rigidbody2D playerRb)
     {
-        if (camRotation == camTransform.eulerAngles.z)
+        float cameraRotation = camTransform.eulerAngles.z;
+
+        if (cameraRotation < 0)
+            cameraRotation = -(-cameraRotation % 360 - 360);
+        else
+            cameraRotation %= 360;
+
+        if (gravityAngle < 0)
+            gravityAngle = -(-gravityAngle % 360 - 360);
+        else
+            gravityAngle %= 360;
+
+
+        if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
             return;
 
 
-        GravityObject.gravityAngle = camRotation;
+        GravityObject.gravityAngle = gravityAngle;
 
         if (!motionSicknessSafeMode)
         {
@@ -30,7 +43,7 @@ public class GravityHandler : MonoBehaviour
             this.gravityChangedEvent = gravityChangedEvent;
             this.player = player;
 
-            StartCoroutine(cam.ChangeRotationOverTime(camRotation));
+            StartCoroutine(cam.ChangeRotationOverTime(gravityAngle));
         }
         else
         {
