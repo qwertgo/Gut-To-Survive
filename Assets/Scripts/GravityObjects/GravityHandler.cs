@@ -19,7 +19,7 @@ public class GravityHandler : MonoBehaviour
             return;
 
 
-       
+        GravityObject.gravityAngle = camRotation;
 
         if (!motionSicknessSafeMode)
         {

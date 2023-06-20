@@ -363,6 +363,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             else
                 dashDirection = leftStickDir;                                   //else dash right
 
+            //Rotate dashdirection according to Gravity
+            dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
         }
     }
 
