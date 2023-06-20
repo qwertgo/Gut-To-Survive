@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class GravityHandler : MonoBehaviour
 {
+    public bool motionSicknessSafeMode = false;
     [SerializeField] CameraController cam;
     [SerializeField] Transform camTransform;
 
@@ -17,14 +18,24 @@ public class GravityHandler : MonoBehaviour
         if (camRotation == camTransform.eulerAngles.z)
             return;
 
-        player.enabled = false;
-        player.isSleeping = true;
-        playerRb.velocity = Vector2.zero;
 
-        this.gravityChangedEvent = gravityChangedEvent;
-        this.player = player;
+       
 
-        StartCoroutine(cam.ChangeRotationOverTime(camRotation));
+        if (!motionSicknessSafeMode)
+        {
+            player.enabled = false;
+            player.isSleeping = true;
+            playerRb.velocity = Vector2.zero;
+
+            this.gravityChangedEvent = gravityChangedEvent;
+            this.player = player;
+
+            StartCoroutine(cam.ChangeRotationOverTime(camRotation));
+        }
+        else
+        {
+            gravityChangedEvent.Invoke();
+        }
     }
 
     public void CameraFinishedRotating()

@@ -37,13 +37,14 @@ public class FallingBox : GravityObject
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.velocity = gravityDirection;
         }
     }
 
     void ChangeGravity()
     {
         currentState = State.drop;
+        timeSinceStartedDropping = 0;
 
         float rotationZ = Vector2.SignedAngle(Vector2.down, gravityDirection);
         Vector3 rot = groundCheckTransform.eulerAngles;
@@ -58,25 +59,6 @@ public class FallingBox : GravityObject
         timeSinceStartedDropping += Time.fixedDeltaTime;
     }
 
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Vector2 pos = transform.position;
-    //    Vector2 downwards = pos + gravityDirection * width;
-
-    //    Vector2 boxWidth = new Vector2(width - .1f, .5f);
-    //    float angle = Vector2.SignedAngle(Vector2.down, gravityDirection);
-
-    //    bool hasWallBelow = Physics2D.OverlapBox(downwards, boxWidth, angle, groundLayer); 
-    //    if (hasWallBelow) 
-    //    {
-    //        Debug.Log("collided with Wall");
-    //        rb.velocity = Vector2.zero;
-    //        currentState = State.idle;
-    //        timeSinceStartedDropping = 0;
-    //    }
-    //}
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
@@ -85,9 +67,8 @@ public class FallingBox : GravityObject
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.velocity = gravityDirection;
             currentState = State.idle;
-            timeSinceStartedDropping = 0;
         }
     }
 }
