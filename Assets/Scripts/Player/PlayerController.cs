@@ -205,6 +205,30 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = velocitySaveWhenSleeping;
     }
 
+    //IEnumerator RotateOverTime(float rotationSpeed, bool linearRotation)
+    //{
+    //    float startRotation = rb.rotation;
+    //    if (startRotation == lerpToRotation)
+    //        yield break;
+
+    //    isLerpingRotation = true;
+    //    rotationLerpT = 0;
+
+    //    while(rotationLerpT < 1)
+    //    {
+    //        rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
+
+    //        float lerpA = linearRotation ? startRotation : rb.rotation;
+    //        float currentRotation = Mathf.LerpAngle(lerpA, lerpToRotation, rotationLerpT);
+    //        rb.rotation = currentRotation;
+
+    //        yield return new WaitForFixedUpdate();
+    //    }
+
+    //    isLerpingRotation = false;
+    //    rb.rotation = lerpToRotation;
+    //}
+
     IEnumerator RotateOverTime(float rotationSpeed, bool linearRotation)
     {
         float startRotation = rb.rotation;
@@ -214,7 +238,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isLerpingRotation = true;
         rotationLerpT = 0;
 
-        while(rotationLerpT < 1)
+        float rotationLength;
+
+        if (lerpToRotation > startRotation)
+            rotationLength = lerpToRotation - startRotation;
+        else
+            rotationLength = startRotation - lerpToRotation;
+
+        rotationSpeed = rotationSpeed / rotationLength * 90;
+
+        while (rotationLerpT < 1)
         {
             rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
 
