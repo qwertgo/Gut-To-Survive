@@ -5,19 +5,11 @@ using UnityEngine.Events;
 public class CameraController : MonoBehaviour
 {
 
+    [SerializeField] float yOffset;
+
     [SerializeField] Transform player;
     [SerializeField] GravityHandler gravityhandler;
 
-    //public void StartGravityChange(Vector2 gravityDirection, UnityEvent gravityChangedEvent, PlayerController pController)
-    //{
-    //    float rotationZ = Vector2.SignedAngle(Vector2.down, gravityDirection);
-    //    pController.enabled = false;
-    //    if(rotationZ != transform.eulerAngles.z)
-    //    {
-    //        StartCoroutine(ChangeRotationOverTime(transform.eulerAngles.z, rotationZ, gravityChangedEvent));
-    //        pController.enabled = false;
-    //    }
-    //}
 
     public IEnumerator ChangeRotationOverTime( float rotateTowards)
     {
@@ -43,6 +35,6 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         Vector3 playerPos = player.position;
-        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
+        transform.position = new Vector3(playerPos.x, playerPos.y + yOffset, transform.position.z);
     }
 }
