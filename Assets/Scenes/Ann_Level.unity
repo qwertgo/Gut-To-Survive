@@ -581,6 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da275b9c2fcc80459432b64d4381f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yOffset: 0
   player: {fileID: 50389603}
   gravityhandler: {fileID: 190181586}
 --- !u!1 &190181585
@@ -1258,7 +1259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293126897}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.6538, y: -3.3321, z: 0}
+  m_LocalPosition: {x: -20.31, y: -3.52, z: 0}
   m_LocalScale: {x: 14.2194395, y: 1.1462069, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
