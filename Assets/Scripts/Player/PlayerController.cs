@@ -7,7 +7,6 @@ using static PolarityHandler;
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
     [Header("Parameters")]
-    [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [SerializeField] Polarity polarity;
     [SerializeField] float walkSpeed;
     [SerializeField] float jumpHeight;
@@ -15,14 +14,17 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float maxFallingSpeed;
     [SerializeField, Range(1, 10)] float dropMultiplier;
     [SerializeField, Range(0f, 1f)] float inAirMovementCap;                 //How much can player turn when in air
+    [SerializeField] float rotateToForcefieldSpeed;                              //Speed at wich player rotates towards Forcefield when entering it
     [SerializeField] float rotateToGroundSpeed;                             //Speed at wich player rotates towards Ground after exiting forcefield
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
-    [SerializeField] float forcefieldVelocityLoss;                          //How much jddVelocity player looses per frame when inside forcefield
+    [SerializeField] float dropVelocityLossInForcefield;                          //How much jddVelocity player looses per frame when inside forcefield
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
+
+    [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
 
     PlayerInput controls;
     ForceField currentForcefield;
@@ -41,12 +43,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
     float forcefieldEnterMagnitude;             //Strength of Velocity when entering a forcefield
-    float lerpToRotation = 0;                   //Needed when exiting or entering forcefield
+    float rotationGoal = 0;                   //Needed when exiting or entering forcefield
     float rotationLerpT =0;
+    float rotationStart;
 
     bool isGrounded;
     bool canDash = true;
-    bool isLerpingRotation;
+    bool isRotating;
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;                            
@@ -185,81 +188,67 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void PrepareGravityChange()
     {
+        //Get point where player and ground collided
         Vector2 pos = transform.position;
         Collider2D groundCollider = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckradius, groundLayer);
         Vector2 collsionPoint = groundCollider.ClosestPoint(pos);
 
         gravityDirection = collsionPoint - pos;
-        float playerRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
-        rotationLerpT = 1;
-        rb.rotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
-        lerpToRotation = rb.rotation;
+
+        float newPlayerRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
+        rotationGoal = newPlayerRotation;
+        StopCoroutine(RotateOverTime(rotateToGroundSpeed));
+        isRotating = false;
 
         velocitySaveWhenSleeping = rb.velocity;
-        gravityHandler.StartGravityChange(this, playerRotation, gravityChangedEvent, rb);
+        gravityHandler.StartGravityChange(this, newPlayerRotation, gravityChangedEvent, rb);
     }
 
     void EndedgravityChange()
     {
+        
         isSleeping = false;
+        StartCoroutine(RotateOverTime(rotateToGroundSpeed));
         rb.velocity = velocitySaveWhenSleeping;
     }
 
-    //IEnumerator RotateOverTime(float rotationSpeed, bool linearRotation)
-    //{
-    //    float startRotation = rb.rotation;
-    //    if (startRotation == lerpToRotation)
-    //        yield break;
-
-    //    isLerpingRotation = true;
-    //    rotationLerpT = 0;
-
-    //    while(rotationLerpT < 1)
-    //    {
-    //        rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
-
-    //        float lerpA = linearRotation ? startRotation : rb.rotation;
-    //        float currentRotation = Mathf.LerpAngle(lerpA, lerpToRotation, rotationLerpT);
-    //        rb.rotation = currentRotation;
-
-    //        yield return new WaitForFixedUpdate();
-    //    }
-
-    //    isLerpingRotation = false;
-    //    rb.rotation = lerpToRotation;
-    //}
-
-    IEnumerator RotateOverTime(float rotationSpeed, bool linearRotation)
+    IEnumerator RotateOverTime(float rotationSpeed)
     {
-        float startRotation = rb.rotation;
-        if (startRotation == lerpToRotation)
+        rotationStart = rb.rotation;
+        if (rotationStart == rotationGoal)
             yield break;
 
-        isLerpingRotation = true;
-        rotationLerpT = 0;
-
-        float rotationLength;
-
-        if (lerpToRotation > startRotation)
-            rotationLength = lerpToRotation - startRotation;
-        else
-            rotationLength = startRotation - lerpToRotation;
-
-        rotationSpeed = rotationSpeed / rotationLength * 90;
-
-        while (rotationLerpT < 1)
+        int rotationDir = rotationStart < rotationGoal ? 1: -1;
+        rotationSpeed *= rotationDir;
+        isRotating = true;
+        
+        while(IsInbetween(rotationStart, rotationGoal, rb.rotation))
         {
-            rotationLerpT += Time.fixedDeltaTime * rotationSpeed;
+            rb.rotation += Time.fixedDeltaTime * rotationSpeed;
 
-            float lerpA = linearRotation ? startRotation : rb.rotation;
-            float currentRotation = Mathf.LerpAngle(lerpA, lerpToRotation, rotationLerpT);
-            rb.rotation = currentRotation;
-
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        isLerpingRotation = false;
-        rb.rotation = lerpToRotation;
+        isRotating = false;
+        rb.rotation = rotationGoal;
+    }
+
+    bool IsInbetween(float a, float b, float t)
+    {
+        if(b < a)
+        {
+            float tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+        //Debug.Log($"a: {a}, b: {b}, t: {t}");
+        //Debug.Log((t >= a && t <= b) + ",  insgesamt");
+        ////Debug.Log((t >= a) + ", erster Teil");
+        ////Debug.Log((t <= b) + ", zweiter Teil");
+        //Debug.Log("-------------------------------------");
+
+        return t >= a && t <= b;
     }
 
     //Handling States
@@ -307,15 +296,27 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position);
 
-        if (isLerpingRotation)
-            lerpToRotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
+        if (isRotating)
+        {
+            float tmpRotGoal = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
+            float t = Mathf.Abs(rotationGoal - tmpRotGoal);
+            if (t >= 350)
+            {
+                rotationStart = tmpRotGoal < 0 ? -180 : 180;
+                rotationGoal = tmpRotGoal;
+                Debug.Log("changed RotationStart");
+                Debug.Log($"start: {rotationStart}, end: {rotationGoal}, rbRotation: {rb.rotation} ");
+            }
+
+            rotationGoal = tmpRotGoal;
+        }
         else
             rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
 
 
         if(forcefieldEnterMagnitude > 0)
         {
-            forcefieldEnterMagnitude -= Time.fixedDeltaTime * forcefieldVelocityLoss;
+            forcefieldEnterMagnitude -= Time.fixedDeltaTime * dropVelocityLossInForcefield;
             forcefieldEnterMagnitude = Mathf.Max(0, forcefieldEnterMagnitude);
             jddVelocity = forcefieldEnterDirection * forcefieldEnterMagnitude;
         }
@@ -329,7 +330,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             float velocityLossMultiplier;
 
             if (currentForcefield != null)
-                velocityLossMultiplier = forcefieldVelocityLoss;
+                velocityLossMultiplier = dropVelocityLossInForcefield;
             else if (isGrounded)
                 velocityLossMultiplier = groundFriciton + 1;
             else
@@ -390,7 +391,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (context.started && canDash )
+        if (context.started && canDash && currentForcefield == null)
         {
             currentState = State.dash;
             canDash = false;
@@ -436,8 +437,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
                 walkVelocityX = 0;
 
-                lerpToRotation = Vector2.SignedAngle(Vector2.down, currentForcefield.position - transform.position);
-                StartCoroutine(RotateOverTime(.4f, false));
+                isRotating = true;
+                ForceFieldInteraction();
+                StartCoroutine(RotateOverTime(rotateToForcefieldSpeed));
                 break;
             case "Spikes":
                 Die();
@@ -461,11 +463,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = inAirMovementCap;
             rotationLerpT = 0;
 
-            lerpToRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
+            rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
-            StartCoroutine(RotateOverTime(rotateToGroundSpeed, true));
-        }
-
-        
+            StartCoroutine(RotateOverTime(rotateToGroundSpeed));
+        } 
     }
 }
