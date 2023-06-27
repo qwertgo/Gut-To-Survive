@@ -236,7 +236,7 @@ MonoBehaviour:
   dashDuration: 0.5
   dashSpeed: 50
   forcefieldVelocityLoss: 80
-  groundFriciton: 100
+  groundFriciton: 200
   groundCheckradius: 0.48
   negativeColor: {r: 0.42352945, g: 0.7254902, b: 0.8235295, a: 1}
   positiveColor: {r: 0.67058825, g: 0.28235295, b: 0.3803922, a: 1}
