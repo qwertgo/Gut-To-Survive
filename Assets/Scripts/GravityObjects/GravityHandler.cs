@@ -16,18 +16,21 @@ public class GravityHandler : MonoBehaviour
     public void StartGravityChange(PlayerController player, float gravityAngle, UnityEvent gravityChangedEvent, Rigidbody2D playerRb)
     {
         float cameraRotation = camTransform.eulerAngles.z;
-        
+
+
+        cameraRotation = Modulo(cameraRotation, 360);
+        gravityAngle = Modulo(gravityAngle, 360);
 
         //
-        if (cameraRotation < 0)
-            cameraRotation = -(-cameraRotation % 360 - 360);
-        else
-            cameraRotation %= 360;
+        //if (cameraRotation < 0)
+        //    cameraRotation = -(-cameraRotation % 360 - 360);
+        //else
+        //    cameraRotation %= 360;
 
-        if (gravityAngle < 0)
-            gravityAngle = -(-gravityAngle % 360 - 360);
-        else
-            gravityAngle %= 360;
+        //if (gravityAngle < 0)
+        //    gravityAngle = -(-gravityAngle % 360 - 360);
+        //else
+        //    gravityAngle %= 360;
 
 
         if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
@@ -57,5 +60,15 @@ public class GravityHandler : MonoBehaviour
     {
         player.enabled = true;
         gravityChangedEvent.Invoke();
+    }
+
+    int Modulo(int a, int n)
+    {
+        return ((a % n) + n) % n;
+    }
+
+    float Modulo(float a, float n)
+    {
+        return ((a % n) + n) % n;
     }
 }

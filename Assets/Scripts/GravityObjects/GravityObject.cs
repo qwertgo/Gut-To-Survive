@@ -21,5 +21,7 @@ public class GravityObject : MonoBehaviour
         return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
     }
 
+    
+
 
 }
