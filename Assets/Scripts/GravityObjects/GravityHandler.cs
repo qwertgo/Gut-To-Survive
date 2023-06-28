@@ -10,7 +10,6 @@ public class GravityHandler : MonoBehaviour
     [SerializeField] Transform camTransform;
 
     UnityEvent gravityChangedEvent;
-    PlayerController player;
 
 
     public void StartGravityChange(PlayerController player, float gravityAngle, UnityEvent gravityChangedEvent, Rigidbody2D playerRb)
@@ -34,7 +33,6 @@ public class GravityHandler : MonoBehaviour
             playerRb.velocity = Vector2.zero;
 
             this.gravityChangedEvent = gravityChangedEvent;
-            this.player = player;
 
             StartCoroutine(cam.ChangeRotationOverTime(gravityAngle));
         }
