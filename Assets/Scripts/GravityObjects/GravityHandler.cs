@@ -25,12 +25,11 @@ public class GravityHandler : MonoBehaviour
         if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
             return;
 
-
+        player.StopAllCoroutines();
         GravityObject.gravityAngle = gravityAngle;
 
         if (!motionSicknessSafeMode)
         {
-            //player.enabled = false;
             player.isSleeping = true;
             playerRb.velocity = Vector2.zero;
 
@@ -47,7 +46,6 @@ public class GravityHandler : MonoBehaviour
 
     public void CameraFinishedRotating()
     {
-        player.enabled = true;
         gravityChangedEvent.Invoke();
     }
 

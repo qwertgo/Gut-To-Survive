@@ -14,11 +14,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float maxFallingSpeed;
     [SerializeField, Range(1, 10)] float dropMultiplier;
     [SerializeField, Range(0f, 1f)] float inAirMovementCap;                 //How much can player turn when in air
-    [SerializeField] float rotateToForcefieldSpeed;                              //Speed at wich player rotates towards Forcefield when entering it
+    [SerializeField] float rotateToForcefieldSpeed;                         //Speed at wich player rotates towards Forcefield when entering it
     [SerializeField] float rotateToGroundSpeed;                             //Speed at wich player rotates towards Ground after exiting forcefield
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
-    [SerializeField] float dropVelocityLossInForcefield;                          //How much jddVelocity player looses per frame when inside forcefield
+    [SerializeField] float dropVelocityLossInForcefield;                    //How much jddVelocity player looses per frame when inside forcefield
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
@@ -34,8 +34,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
-    Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to aplly it back on after camera finished rotating
-
+    Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
+    //Vector2 rotationReference;
 
     float turnability = 1;                      
     float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
@@ -43,9 +43,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
     float forcefieldEnterMagnitude;             //Strength of Velocity when entering a forcefield
-    float rotationGoal = 0;                   //Needed when exiting or entering forcefield
-    float rotationLerpT =0;
-    float rotationStart;
+    float rotationGoal;                         //When rotating over Time determines goal to rotate to
+    float rotationStart;                        //When rotating over Time determines start to rotate from
 
     bool isGrounded;
     bool canDash = true;
@@ -77,11 +76,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             gravityChangedEvent = new UnityEngine.Events.UnityEvent();
 
         gravityDirection = Vector2.down;
-
         gravityChangedEvent.AddListener(EndedgravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
-        inAirMovementCap = -inAirMovementCap + 1;
+        inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
     }
     private void OnDrawGizmos()
@@ -195,42 +193,50 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         gravityDirection = collsionPoint - pos;
 
-        float newPlayerRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
-        rotationGoal = newPlayerRotation;
-        StopCoroutine(RotateOverTime(rotateToGroundSpeed));
-        isRotating = false;
+        float gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
         velocitySaveWhenSleeping = rb.velocity;
-        gravityHandler.StartGravityChange(this, newPlayerRotation, gravityChangedEvent, rb);
+        gravityHandler.StartGravityChange(this, gravityAngle, gravityChangedEvent, rb);
     }
 
     void EndedgravityChange()
     {
         
         isSleeping = false;
-        StartCoroutine(RotateOverTime(rotateToGroundSpeed));
+        StartCoroutine(RotateOverTime(rotateToGroundSpeed, gravityDirection));
         rb.velocity = velocitySaveWhenSleeping;
     }
 
-    IEnumerator RotateOverTime(float rotationSpeed)
+    IEnumerator RotateOverTime(float rotationSpeed,Vector2 rotationReference)
     {
         rotationStart = rb.rotation;
+        rotationStart += Vector2.SignedAngle(rotationReference, Vector2.down);
+        rotationGoal = 0;
+
+        Debug.Log($"startRot: {rotationStart}, rotationGoal: {rotationGoal}");
         if (rotationStart == rotationGoal)
             yield break;
 
         int rotationDir = rotationStart < rotationGoal ? 1: -1;
         rotationSpeed *= rotationDir;
+
         isRotating = true;
-        
-        while(IsInbetween(rotationStart, rotationGoal, rb.rotation))
+        float rotationAdded = 0;
+
+        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded))
         {
-            rb.rotation += Time.fixedDeltaTime * rotationSpeed;
+            if(currentForcefield != null)
+                rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
+
+            float currentRotAddition = Time.fixedDeltaTime * rotationSpeed;
+            rotationAdded += currentRotAddition;
+            rb.rotation += currentRotAddition;
 
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-
+        
         isRotating = false;
-        rb.rotation = rotationGoal;
+        rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
     }
 
     bool IsInbetween(float a, float b, float t)
@@ -244,8 +250,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         //Debug.Log($"a: {a}, b: {b}, t: {t}");
         //Debug.Log((t >= a && t <= b) + ",  insgesamt");
-        ////Debug.Log((t >= a) + ", erster Teil");
-        ////Debug.Log((t <= b) + ", zweiter Teil");
+        //Debug.Log((t >= a) + ", erster Teil");
+        //Debug.Log((t <= b) + ", zweiter Teil");
         //Debug.Log("-------------------------------------");
 
         return t >= a && t <= b;
@@ -296,21 +302,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position);
 
-        if (isRotating)
-        {
-            float tmpRotGoal = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
-            float t = Mathf.Abs(rotationGoal - tmpRotGoal);
-            if (t >= 350)
-            {
-                rotationStart = tmpRotGoal < 0 ? -180 : 180;
-                rotationGoal = tmpRotGoal;
-                Debug.Log("changed RotationStart");
-                Debug.Log($"start: {rotationStart}, end: {rotationGoal}, rbRotation: {rb.rotation} ");
-            }
-
-            rotationGoal = tmpRotGoal;
-        }
-        else
+        if (!isRotating)
             rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
 
 
@@ -439,7 +431,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
                 isRotating = true;
                 ForceFieldInteraction();
-                StartCoroutine(RotateOverTime(rotateToForcefieldSpeed));
+                StartCoroutine(RotateOverTime(rotateToForcefieldSpeed, forcefieldVelocity));
                 break;
             case "Spikes":
                 Die();
@@ -461,11 +453,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentForcefield = null;
             currentState = State.drop;
             turnability = inAirMovementCap;
-            rotationLerpT = 0;
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
-            StartCoroutine(RotateOverTime(rotateToGroundSpeed));
+            StartCoroutine(RotateOverTime(rotateToGroundSpeed, gravityDirection));
         } 
     }
 }
