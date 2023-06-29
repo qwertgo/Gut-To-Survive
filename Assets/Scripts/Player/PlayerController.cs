@@ -227,7 +227,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isRotating = true;
         float rotationAdded = 0;
 
-        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded))
+        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
         {
             if(currentForcefield != null)
                 rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
@@ -437,13 +437,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 ForceFieldInteraction();
                 StartCoroutine(RotateOverTime(rotateToForcefieldSpeed, forcefieldVelocity));
                 break;
-            case "Spikes":
-                Die();
-                break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");
                 break;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Spikes")
+            Die();
     }
 
     private void OnTriggerExit2D(Collider2D collision)

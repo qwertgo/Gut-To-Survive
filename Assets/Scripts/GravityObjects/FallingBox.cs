@@ -59,14 +59,14 @@ public class FallingBox : GravityObject
         timeSinceStartedDropping += Time.fixedDeltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject obj = collision.gameObject;
-        if(obj.tag == "Player")
+        if (obj.tag == "Player")
         {
             obj.GetComponent<PlayerController>().Die();
         }
-        else if(obj.tag != "Spikes")
+        else if (obj.tag != "Spikes")
         {
             rb.velocity = gravityDirection;
             currentState = State.idle;
