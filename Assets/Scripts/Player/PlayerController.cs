@@ -209,11 +209,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     IEnumerator RotateOverTime(float rotationSpeed,Vector2 rotationReference)
     {
+        rb.rotation = Modulo(rb.rotation, 360);
         rotationStart = rb.rotation;
         rotationStart += Vector2.SignedAngle(rotationReference, Vector2.down);
+        if (Mathf.Abs(rotationStart) > 180)
+            rotationStart -= 360;
+
         rotationGoal = 0;
 
-        //Debug.Log($"startRot: {rotationStart}, rotationGoal: {rotationGoal}");
+        //Debug.Log($"startRot: {rotationStart}, mod: {rotationStart % 180}, mod2 : {Modulo(rotationStart, 180)}, rb: {rb.rotation}");
         if (rotationStart == rotationGoal)
             yield break;
 
