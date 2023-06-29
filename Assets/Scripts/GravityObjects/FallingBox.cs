@@ -43,8 +43,8 @@ public class FallingBox : GravityObject
 
     void ChangeGravity()
     {
-        currentState = State.drop;
         timeSinceStartedDropping = 0;
+        currentState = State.drop;
 
         float rotationZ = Vector2.SignedAngle(Vector2.down, gravityDirection);
         Vector3 rot = groundCheckTransform.eulerAngles;

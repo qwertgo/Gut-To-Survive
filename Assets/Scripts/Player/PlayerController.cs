@@ -76,6 +76,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             gravityChangedEvent = new UnityEngine.Events.UnityEvent();
 
         gravityDirection = Vector2.down;
+        gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
         gravityChangedEvent.AddListener(EndedgravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
@@ -243,6 +244,43 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
     }
 
+    IEnumerator RotateOverTimeExponatially(float rotationExponent, Vector2 rotationReference)
+    {
+        rb.rotation = Modulo(rb.rotation, 360);
+        rotationStart = rb.rotation;
+        rotationStart += Vector2.SignedAngle(rotationReference, Vector2.down);
+        if (Mathf.Abs(rotationStart) > 180)
+            rotationStart -= 360;
+
+        rotationGoal = 0;
+
+        //Debug.Log($"startRot: {rotationStart}, mod: {rotationStart % 180}, mod2 : {Modulo(rotationStart, 180)}, rb: {rb.rotation}");
+        if (rotationStart == rotationGoal)
+            yield break;
+
+        int rotationDir = rotationStart < rotationGoal ? 1 : -1;
+        rotationExponent *= rotationDir;
+
+        isRotating = true;
+        float rotationAdded = Time.fixedDeltaTime ;
+
+        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
+        {
+            if (currentForcefield != null)
+                rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
+
+            float currentRotAddition = rotationExponent * rotationAdded;
+            rotationAdded = currentRotAddition;
+            Debug.Log(rotationAdded);
+            rb.rotation += currentRotAddition * Time.fixedDeltaTime;
+
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        isRotating = false;
+        rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
+    }
+
     bool IsInbetween(float a, float b, float t)
     {
         if(b < a)
@@ -397,7 +435,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             forcefieldVelocity = Vector2.zero;
 
             if (leftStickDir.magnitude == 0)                                    //if there is input from left stick dash
-                dashDirection = transform.right;
+                dashDirection = Vector2.right;
             else
                 dashDirection = leftStickDir;                                   //else dash right
 
