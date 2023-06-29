@@ -232,7 +232,7 @@ MonoBehaviour:
   maxFallingSpeed: 10
   dropMultiplier: 2
   inAirMovementCap: 0
-  rotateToGroundSpeed: 0
+  rotateToGroundSpeed: 2
   dashDuration: 0.5
   dashSpeed: 50
   forcefieldVelocityLoss: 80
