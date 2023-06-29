@@ -24,4 +24,9 @@ public static class PolarityHandler
         int pol2 = PolarityToInt(polarity2);
         return DirectionFromPolaritys(pol1, pol2);
     }
+
+    public static float Modulo(float a, float n)
+    {
+        return ((a % n) + n) % n;
+    }
 }
