@@ -213,7 +213,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rotationStart += Vector2.SignedAngle(rotationReference, Vector2.down);
         rotationGoal = 0;
 
-        Debug.Log($"startRot: {rotationStart}, rotationGoal: {rotationGoal}");
+        //Debug.Log($"startRot: {rotationStart}, rotationGoal: {rotationGoal}");
         if (rotationStart == rotationGoal)
             yield break;
 
