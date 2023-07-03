@@ -164,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToForcefieldSpeed
-      value: 300
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: dropVelocityLossInForcefield
@@ -176,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.3
+      value: 1.01
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -270,7 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807b4e6c8efc0494481814920f41f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionSicknessSafeMode: 0
   cam: {fileID: 131545247}
   camTransform: {fileID: 131545245}
 --- !u!4 &190181587
@@ -305,7 +304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5338467589190182860, guid: 5f36314848d40af4492b4959e7184952, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5338467589190182860, guid: 5f36314848d40af4492b4959e7184952, type: 3}
       propertyPath: m_LocalScale.x
@@ -684,8 +683,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220179702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.6519, y: -5, z: 0}
-  m_LocalScale: {x: 54.844463, y: 8, z: 1}
+  m_LocalPosition: {x: 3.1777, y: -5, z: 0}
+  m_LocalScale: {x: 35.182724, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -698,6 +697,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2351776840097549984, guid: f2803404c6ce8374099218290f558d0a, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 392
+      objectReference: {fileID: 0}
     - target: {fileID: 2351776840097549985, guid: f2803404c6ce8374099218290f558d0a, type: 3}
       propertyPath: m_Name
       value: FallingBox
@@ -1176,6 +1179,14 @@ PrefabInstance:
       propertyPath: polarity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: outerPullStrength
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: innterPullStrength
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608741, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_Name
       value: Kraftfeld (2)
@@ -1194,7 +1205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608745, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.5
+      value: 8.03
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608745, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_LocalPosition.z

@@ -217,11 +217,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         
         isSleeping = false;
-        StartCoroutine(RotateOverTimeConstant(rotateToGroundSpeed, gravityDirection));
+        StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, gravityDirection));
         rb.velocity = velocitySaveWhenSleeping;
     }
 
-    IEnumerator RotateOverTimeConstant(float rotationSpeed,Vector2 rotationReference)
+    void RotateOverTimePreparation(Vector2 rotationReference)
     {
         rb.rotation = Modulo(rb.rotation, 360);
         rotationStart = rb.rotation;
@@ -230,8 +230,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rotationStart -= 360;
 
         rotationGoal = 0;
+    }
 
-        //Debug.Log($"startRot: {rotationStart}, mod: {rotationStart % 180}, mod2 : {Modulo(rotationStart, 180)}, rb: {rb.rotation}");
+    IEnumerator RotateOverTimeConstant(float rotationSpeed,Vector2 rotationReference)
+    {
+        RotateOverTimePreparation(rotationReference);
         if (rotationStart == rotationGoal)
             yield break;
 
@@ -257,35 +260,29 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
     }
 
-    IEnumerator RotateOverTimeLinear(float rotationExponent, Vector2 rotationReference)
+    IEnumerator RotateOverTimeLinear(float rotationAcceleration, Vector2 rotationReference)
     {
-        rb.rotation = Modulo(rb.rotation, 360);
-        rotationStart = rb.rotation;
-        rotationStart += Vector2.SignedAngle(rotationReference, Vector2.down);
-        if (Mathf.Abs(rotationStart) > 180)
-            rotationStart -= 360;
-
-        rotationGoal = 0;
-
-        //Debug.Log($"startRot: {rotationStart}, mod: {rotationStart % 180}, mod2 : {Modulo(rotationStart, 180)}, rb: {rb.rotation}");
+        RotateOverTimePreparation(rotationReference);
         if (rotationStart == rotationGoal)
             yield break;
 
         int rotationDir = rotationStart < rotationGoal ? 1 : -1;
-        rotationExponent *= rotationDir;
+        rotationAcceleration *= rotationDir;
+        float rotationSpeed = rotationAcceleration;
 
         isRotating = true;
-        float rotationAdded = Time.fixedDeltaTime ;
+        float rotationAdded = 0;
 
         while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
         {
             if (currentForcefield != null)
                 rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
 
-            float currentRotAddition = rotationExponent * rotationAdded;
-            rotationAdded = currentRotAddition;
-            Debug.Log(rotationAdded);
-            rb.rotation += currentRotAddition * Time.fixedDeltaTime;
+
+            rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
+            rotationAdded += rotationSpeed;
+            rb.rotation += rotationSpeed;
+            rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
 
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
@@ -486,7 +483,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
                 isRotating = true;
                 ForceFieldInteraction();
-                StartCoroutine(RotateOverTimeConstant(rotateToForcefieldSpeed, forcefieldVelocity));
+                StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, forcefieldVelocity));
                 break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");
@@ -496,7 +493,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Spikes")
+        if (collision.gameObject.layer  == 8)
             Die();
     }
 
@@ -514,7 +511,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
-            StartCoroutine(RotateOverTimeConstant(rotateToGroundSpeed, gravityDirection));
+            StartCoroutine(RotateOverTimeLinear(rotateToGroundSpeed, gravityDirection));
         } 
     }
 }
