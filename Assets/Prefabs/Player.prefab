@@ -224,7 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ed18ffe7f7d1d43a7cd22ac5cac8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSleeping: 0
   polarity: 0
   walkSpeed: 10
   jumpHeight: 15
@@ -232,14 +231,16 @@ MonoBehaviour:
   maxFallingSpeed: 10
   dropMultiplier: 2
   inAirMovementCap: 0
-  rotateToGroundSpeed: 2
+  rotateToForcefieldSpeed: 300
+  rotateToGroundSpeed: 50
   dashDuration: 0.5
   dashSpeed: 50
-  forcefieldVelocityLoss: 80
-  groundFriciton: 200
+  dropVelocityLossInForcefield: 80
+  groundFriciton: 300
   groundCheckradius: 0.48
   negativeColor: {r: 0.42352945, g: 0.7254902, b: 0.8235295, a: 1}
   positiveColor: {r: 0.67058825, g: 0.28235295, b: 0.3803922, a: 1}
+  isSleeping: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
   headCheckTransform: {fileID: 2421048445925974519}
@@ -250,8 +251,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 136
-  bloodSplash: {fileID: 0}
-  pCollider: {fileID: 0}
+  bloodSplash: {fileID: 21300000, guid: e7fffb55504249b4793d4704591a803c, type: 3}
+  pCollider: {fileID: 2421048444573215168}
 --- !u!1 &2421048445925974518
 GameObject:
   m_ObjectHideFlags: 0
