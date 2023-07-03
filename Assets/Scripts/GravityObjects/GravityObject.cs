@@ -8,6 +8,7 @@ public class GravityObject : MonoBehaviour
     protected State currentState = State.idle;
     protected static Vector2 gravityDirection = Vector2.down;
     protected static UnityEvent gravityChangedEvent;
+    protected static UnityEvent prepareGravityChangeEvent;
     protected float timeSinceStartedDropping;
 
     protected float standartJumpLength = .5f;
@@ -21,7 +22,10 @@ public class GravityObject : MonoBehaviour
         return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
     }
 
-    
+    protected bool LayerIsInMask(int layer, LayerMask mask)
+    {
+        return (mask & (1 << layer)) != 0;
+    }
 
 
 }
