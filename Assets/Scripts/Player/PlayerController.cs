@@ -232,33 +232,33 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rotationGoal = 0;
     }
 
-    IEnumerator RotateOverTimeConstant(float rotationSpeed,Vector2 rotationReference)
-    {
-        RotateOverTimePreparation(rotationReference);
-        if (rotationStart == rotationGoal)
-            yield break;
+    //IEnumerator RotateOverTimeConstant(float rotationSpeed,Vector2 rotationReference)
+    //{
+    //    RotateOverTimePreparation(rotationReference);
+    //    if (rotationStart == rotationGoal)
+    //        yield break;
 
-        int rotationDir = rotationStart < rotationGoal ? 1: -1;
-        rotationSpeed *= rotationDir;
+    //    int rotationDir = rotationStart < rotationGoal ? 1: -1;
+    //    rotationSpeed *= rotationDir;
 
-        isRotating = true;
-        float rotationAdded = 0;
+    //    isRotating = true;
+    //    float rotationAdded = 0;
 
-        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
-        {
-            if(currentForcefield != null)
-                rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
+    //    while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
+    //    {
+    //        if(currentForcefield != null)
+    //            rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
 
-            float currentRotAddition = Time.fixedDeltaTime * rotationSpeed;
-            rotationAdded += currentRotAddition;
-            rb.rotation += currentRotAddition;
+    //        float currentRotAddition = Time.fixedDeltaTime * rotationSpeed;
+    //        rotationAdded += currentRotAddition;
+    //        rb.rotation += currentRotAddition;
 
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-        }
+    //        yield return new WaitForSeconds(Time.fixedDeltaTime);
+    //    }
         
-        isRotating = false;
-        rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
-    }
+    //    isRotating = false;
+    //    rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
+    //}
 
     IEnumerator RotateOverTimeLinear(float rotationAcceleration, Vector2 rotationReference)
     {
@@ -299,12 +299,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             a = b;
             b = tmp;
         }
-
-        //Debug.Log($"a: {a}, b: {b}, t: {t}");
-        //Debug.Log((t >= a && t <= b) + ",  insgesamt");
-        //Debug.Log((t >= a) + ", erster Teil");
-        //Debug.Log((t <= b) + ", zweiter Teil");
-        //Debug.Log("-------------------------------------");
 
         return t >= a && t <= b;
     }

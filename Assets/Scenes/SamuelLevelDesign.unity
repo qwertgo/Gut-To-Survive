@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToGroundSpeed
-      value: 50
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToForcefieldSpeed
@@ -705,6 +705,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallingBox
       objectReference: {fileID: 0}
+    - target: {fileID: 2351776840097549986, guid: f2803404c6ce8374099218290f558d0a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2351776840097550012, guid: f2803404c6ce8374099218290f558d0a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1180,6 +1184,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: pushStrength
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: outerPullStrength
       value: 7
       objectReference: {fileID: 0}
@@ -1205,7 +1213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608745, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.03
+      value: 11.12
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608745, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_LocalPosition.z
