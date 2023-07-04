@@ -8,45 +8,47 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
     [Header("Parameters")]
     [SerializeField] Polarity polarity;
-    [SerializeField] float walkSpeed;
+    [SerializeField, Tooltip("shows if the Player is Grounded")] float walkSpeed;
     [SerializeField] float jumpHeight;
     [SerializeField] float jumpLength;
     [SerializeField] float maxFallingSpeed;
-    [SerializeField, Range(1, 10)] float dropMultiplier;
-    [SerializeField, Range(0f, 1f)] float inAirMovementCap;                 //How much can player turn when in air
-    [SerializeField] float rotateToForcefieldSpeed;                         //Speed at wich player rotates towards Forcefield when entering it
+    [SerializeField, Range(1, 10), Tooltip("multiply gravity when dropping")]           float dropMultiplier;
+    [SerializeField, Range(0f, 1f), Tooltip("How much can player turn when in air")]    float inAirMovementCap;
+    [SerializeField, Tooltip("Speed at wich player rotates towards Forcefield when entering it")] float rotateToForcefieldSpeed;                         
     [SerializeField] float rotateToGroundSpeed;                             //Speed at wich player rotates towards Ground after exiting forcefield
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
-    [SerializeField] float dropVelocityLossInForcefield;                    //How much jddVelocity player looses per frame when inside forcefield
+    [SerializeField] float velocityLossInForcefield;                    //How much jddVelocity player looses per frame when inside forcefield
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
 
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
+    [HideInInspector] public bool isGrounded;
 
     PlayerInput controls;
     ForceField currentForcefield;
-    Vector2 jddVelocity;                        //Velocity of jump/dash/drop in one 
+    Vector2 gravityVelocity;                        //Velocity of jump/dash/drop in one 
+    Vector2 dashVelocity;
     Vector2 forcefieldVelocity;
     Vector2 leftStickDir;                       //Direction of the left gamepadstick or WASD input of keyboard
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
     Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
-    //Vector2 rotationReference;
 
     float turnability = 1;                      
     float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
     float timeSinceStartedJumping;
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
-    float forcefieldEnterMagnitude;             //Strength of Velocity when entering a forcefield
+    float dropMagnitudeSaver;                   //Strength of Velocity when entering a forcefield
+    float dashMagnitudeSaver;               
     float rotationGoal;                         //When rotating over Time determines goal to rotate to
     float rotationStart;                        //When rotating over Time determines start to rotate from
 
-    bool isGrounded;
+    
     bool canDash = true;
     bool isRotating;
 
@@ -75,8 +77,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (gravityChangedEvent == null)
             gravityChangedEvent = new UnityEngine.Events.UnityEvent();
 
+        if (prepareGravityChangeEvent == null)
+            prepareGravityChangeEvent = new UnityEngine.Events.UnityEvent();
+
         gravityDirection = Vector2.down;
+        gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
+
         gravityChangedEvent.AddListener(EndedgravityChange);
+        prepareGravityChangeEvent.AddListener(PrepareGravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
@@ -98,7 +106,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         controls.Disable();
     }
 
-
     private void FixedUpdate()
     {
         CheckIfPlayerEnteredNewState();
@@ -108,7 +115,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
-        rb.velocity = walkVelocity + forcefieldVelocity + jddVelocity;
+        rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity;
     }
 
     void CheckIfPlayerEnteredNewState()
@@ -127,9 +134,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             walkVelocityX = leftStickDir.x;
             canDash = true;
             turnability = 1;
-            jddVelocity = Vector2.zero;
+            gravityVelocity = Vector2.zero;
 
-            PrepareGravityChange();
+            LandedOnPlattform();
         }
 
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking      
@@ -184,7 +191,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         return left || right;
     }
 
-    void PrepareGravityChange()
+    void LandedOnPlattform()
     {
         //Get point where player and ground collided
         Vector2 pos = transform.position;
@@ -194,20 +201,27 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gravityDirection = collsionPoint - pos;
 
         float gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
+        
+        gravityHandler.StartGravityChange(gravityAngle,prepareGravityChangeEvent, gravityChangedEvent);
+    }
 
+    void PrepareGravityChange()
+    {
+        StopAllCoroutines();
+        isSleeping = true;
         velocitySaveWhenSleeping = rb.velocity;
-        gravityHandler.StartGravityChange(this, gravityAngle, gravityChangedEvent, rb);
+        rb.velocity = Vector2.zero;
     }
 
     void EndedgravityChange()
     {
         
         isSleeping = false;
-        StartCoroutine(RotateOverTime(rotateToGroundSpeed, gravityDirection));
+        StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, gravityDirection));
         rb.velocity = velocitySaveWhenSleeping;
     }
 
-    IEnumerator RotateOverTime(float rotationSpeed,Vector2 rotationReference)
+    void RotateOverTimePreparation(Vector2 rotationReference)
     {
         rb.rotation = Modulo(rb.rotation, 360);
         rotationStart = rb.rotation;
@@ -216,31 +230,65 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rotationStart -= 360;
 
         rotationGoal = 0;
+    }
 
-        //Debug.Log($"startRot: {rotationStart}, mod: {rotationStart % 180}, mod2 : {Modulo(rotationStart, 180)}, rb: {rb.rotation}");
+    //IEnumerator RotateOverTimeConstant(float rotationSpeed,Vector2 rotationReference)
+    //{
+    //    RotateOverTimePreparation(rotationReference);
+    //    if (rotationStart == rotationGoal)
+    //        yield break;
+
+    //    int rotationDir = rotationStart < rotationGoal ? 1: -1;
+    //    rotationSpeed *= rotationDir;
+
+    //    isRotating = true;
+    //    float rotationAdded = 0;
+
+    //    while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
+    //    {
+    //        if(currentForcefield != null)
+    //            rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
+
+    //        float currentRotAddition = Time.fixedDeltaTime * rotationSpeed;
+    //        rotationAdded += currentRotAddition;
+    //        rb.rotation += currentRotAddition;
+
+    //        yield return new WaitForSeconds(Time.fixedDeltaTime);
+    //    }
+        
+    //    isRotating = false;
+    //    rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
+    //}
+
+    IEnumerator RotateOverTimeLinear(float rotationAcceleration, Vector2 rotationReference)
+    {
+        RotateOverTimePreparation(rotationReference);
         if (rotationStart == rotationGoal)
             yield break;
 
-        int rotationDir = rotationStart < rotationGoal ? 1: -1;
-        rotationSpeed *= rotationDir;
+        int rotationDir = rotationStart < rotationGoal ? 1 : -1;
+        rotationAcceleration *= rotationDir;
+        float rotationSpeed = rotationAcceleration;
 
         isRotating = true;
         float rotationAdded = 0;
 
-        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded))
+        while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
         {
-            if(currentForcefield != null)
+            if (currentForcefield != null)
                 rotationGoal = Vector2.SignedAngle(rotationReference, forcefieldVelocity);
 
-            float currentRotAddition = Time.fixedDeltaTime * rotationSpeed;
-            rotationAdded += currentRotAddition;
-            rb.rotation += currentRotAddition;
+
+            rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
+            rotationAdded += rotationSpeed;
+            rb.rotation += rotationSpeed;
+            rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
 
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-        
+
         isRotating = false;
-        rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference);
+        rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference) + rotationGoal;
     }
 
     bool IsInbetween(float a, float b, float t)
@@ -251,12 +299,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             a = b;
             b = tmp;
         }
-
-        //Debug.Log($"a: {a}, b: {b}, t: {t}");
-        //Debug.Log((t >= a && t <= b) + ",  insgesamt");
-        //Debug.Log((t >= a) + ", erster Teil");
-        //Debug.Log((t <= b) + ", zweiter Teil");
-        //Debug.Log("-------------------------------------");
 
         return t >= a && t <= b;
     }
@@ -270,7 +312,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         float dropVelocity = CalculateVelocityGraph(t, jumpHeight, jumpLength) * currentDropMultiplier;
         dropVelocity = Mathf.Min(dropVelocity, maxFallingSpeed);
 
-        jddVelocity = dropVelocity / jumpLength  * gravityDirection;
+        gravityVelocity = dropVelocity / jumpLength  * gravityDirection;
 
         timeSinceStartedDropping += Time.fixedDeltaTime;
     }
@@ -278,26 +320,26 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     void Jump()
     {
         float jumpVelocity = CalculateVelocityGraph(timeSinceStartedJumping, jumpHeight, jumpLength);
-        jddVelocity = jumpVelocity / jumpLength * -gravityDirection;
+        gravityVelocity = jumpVelocity / jumpLength * -gravityDirection;
         timeSinceStartedJumping += Time.fixedDeltaTime;
 
         if (timeSinceStartedJumping > jumpLength || BumpedHead())
         {
             currentState = State.drop;
-            jddVelocity = Vector2.zero;
+            gravityVelocity = Vector2.zero;
         }
     }
 
     void Dash()
     {
-        float dashVelocity = CalculateVelocityGraph(timeSinceStartedDashing, dashSpeed, dashDuration);
-        jddVelocity = dashVelocity * dashDirection;
+        float currentDashSpeed = CalculateVelocityGraph(timeSinceStartedDashing, dashSpeed, dashDuration);
+        dashVelocity = currentDashSpeed * dashDirection;
         timeSinceStartedDashing += Time.fixedDeltaTime;
 
         if(timeSinceStartedDashing > dashDuration)
         {
             currentState = State.drop;
-            jddVelocity = Vector2.zero;
+            dashVelocity = Vector2.zero;
             turnability = inAirMovementCap;
         }
     }
@@ -310,11 +352,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
 
 
-        if(forcefieldEnterMagnitude > 0)
+        if(dropMagnitudeSaver > 0 || dashMagnitudeSaver > 0)
         {
-            forcefieldEnterMagnitude -= Time.fixedDeltaTime * dropVelocityLossInForcefield;
-            forcefieldEnterMagnitude = Mathf.Max(0, forcefieldEnterMagnitude);
-            jddVelocity = forcefieldEnterDirection * forcefieldEnterMagnitude;
+            dropMagnitudeSaver -= Time.fixedDeltaTime * velocityLossInForcefield;
+            dropMagnitudeSaver = Mathf.Max(0, dropMagnitudeSaver);
+            gravityVelocity = forcefieldEnterDirection * dropMagnitudeSaver;
+
+            dashMagnitudeSaver -= Time.fixedDeltaTime * velocityLossInForcefield * 2;
+            dashMagnitudeSaver = Mathf.Max(0, dashMagnitudeSaver);
+            dashVelocity = dashDirection * dashMagnitudeSaver;
         }
     }
 
@@ -326,7 +372,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             float velocityLossMultiplier;
 
             if (currentForcefield != null)
-                velocityLossMultiplier = dropVelocityLossInForcefield;
+                velocityLossMultiplier = velocityLossInForcefield;
             else if (isGrounded)
                 velocityLossMultiplier = groundFriciton + 1;
             else
@@ -397,7 +443,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             forcefieldVelocity = Vector2.zero;
 
             if (leftStickDir.magnitude == 0)                                    //if there is input from left stick dash
-                dashDirection = transform.right;
+                dashDirection = Vector2.right;
             else
                 dashDirection = leftStickDir;                                   //else dash right
 
@@ -427,23 +473,28 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 turnability = 0;
                 canDash = true;
 
-                Vector2 velocity = jddVelocity + new Vector2(walkVelocityX * walkSpeed, 0);
-                forcefieldEnterMagnitude = velocity.magnitude;
-                forcefieldEnterDirection = velocity.normalized;
+                Vector2 dropVelocity = gravityVelocity + new Vector2(walkVelocityX * walkSpeed, 0);
+                dropMagnitudeSaver = dropVelocity.magnitude;
+                forcefieldEnterDirection = dropVelocity.normalized;
+
+                dashMagnitudeSaver = dashVelocity.magnitude;
 
                 walkVelocityX = 0;
 
                 isRotating = true;
                 ForceFieldInteraction();
-                StartCoroutine(RotateOverTime(rotateToForcefieldSpeed, forcefieldVelocity));
-                break;
-            case "Spikes":
-                Die();
+                StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, forcefieldVelocity));
                 break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");
                 break;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer  == 8)
+            Die();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -458,9 +509,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             turnability = inAirMovementCap;
 
+            dashVelocity = Vector2.zero;
+
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
-            StartCoroutine(RotateOverTime(rotateToGroundSpeed, gravityDirection));
+            StopAllCoroutines();
+            StartCoroutine(RotateOverTimeLinear(rotateToGroundSpeed, gravityDirection));
         } 
     }
 }

@@ -6,18 +6,19 @@ public class ForceField : MonoBehaviour
 {
     public Polarity polarity = Polarity.negativ;
 
-    public float outerPullStrength;
-    public float innterPullStrength;
-    public float pushStrength;
-    public float rotationStrength;
+    [SerializeField] float radius;
+    [SerializeField] float outerPullStrength;
+    [SerializeField] float innterPullStrength;
+    [SerializeField] float pushStrength;
+    [SerializeField] float rotationStrength;
     [HideInInspector] public Vector3 position;
 
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] CircleCollider2D coll;
 
     bool clockwiseRotation;
 
 
-    public float radius;
     private void OnDrawGizmos()
     {
         switch (polarity)
@@ -34,6 +35,16 @@ public class ForceField : MonoBehaviour
         }
 
         Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    private void Start()
+    {
+        float doubleRadius = radius * 2;
+        transform.localScale = new Vector3(doubleRadius, doubleRadius, doubleRadius);
+
+        position = transform.position;
+
+        spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
     }
 
     public Vector2 CalculatePlayerVelocity(Vector2 forcefieldVelocity, Polarity playerPolarity, Vector3 playerPosition)
@@ -64,22 +75,14 @@ public class ForceField : MonoBehaviour
         return forcefieldVelocity;
     }
 
-    private void Start()
-    {
-        float doubleRadius = radius * 2;
-        transform.localScale = new Vector3(doubleRadius, doubleRadius, doubleRadius);
-
-        position = transform.position;
-
-        spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject obj = collision.gameObject;
 
         if (!obj.tag.Equals("Player"))
             return;
+
+        coll.radius = .56f;
 
         Vector2 playerToForcefieldVector = position - obj.transform.position;
         float forcefieldAngle = Vector2.Angle(Vector2.up, playerToForcefieldVector);
@@ -97,6 +100,12 @@ public class ForceField : MonoBehaviour
         {
             clockwiseRotation = forcefieldAngle < playerAngle;
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Player"))
+            coll.radius = .5f;
     }
 
     Vector2 Rotate90Deg(Vector2 v, bool clockwise)
