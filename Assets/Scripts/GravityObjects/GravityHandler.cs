@@ -5,14 +5,13 @@ using UnityEngine.Events;
 
 public class GravityHandler : MonoBehaviour
 {
-    public bool motionSicknessSafeMode = false;
     [SerializeField] CameraController cam;
     [SerializeField] Transform camTransform;
 
     UnityEvent gravityChangedEvent;
 
 
-    public void StartGravityChange(PlayerController player, float gravityAngle, UnityEvent gravityChangedEvent, Rigidbody2D playerRb)
+    public void StartGravityChange(float gravityAngle,UnityEvent prepareGravityChangeEvent, UnityEvent gravityChangedEvent)
     {
         float cameraRotation = camTransform.eulerAngles.z;
 
@@ -24,22 +23,12 @@ public class GravityHandler : MonoBehaviour
         if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
             return;
 
-        player.StopAllCoroutines();
+        prepareGravityChangeEvent.Invoke();
         GravityObject.gravityAngle = gravityAngle;
 
-        if (!motionSicknessSafeMode)
-        {
-            player.isSleeping = true;
-            playerRb.velocity = Vector2.zero;
+        this.gravityChangedEvent = gravityChangedEvent;
 
-            this.gravityChangedEvent = gravityChangedEvent;
-
-            StartCoroutine(cam.ChangeRotationOverTime(gravityAngle));
-        }
-        else
-        {
-            gravityChangedEvent.Invoke();
-        }
+        StartCoroutine(cam.ChangeRotationOverTime(gravityAngle, this));
     }
 
     public void CameraFinishedRotating()
