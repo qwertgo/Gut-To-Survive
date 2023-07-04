@@ -9,9 +9,6 @@ public class FallingBox : GravityObject
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform groundCheckTransform;
 
-
-
-
     private void Start()
     {
         if (gravityChangedEvent == null)
@@ -87,6 +84,4 @@ public class FallingBox : GravityObject
             currentState = State.idle;
         }
     }
-
-    
 }

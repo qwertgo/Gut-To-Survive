@@ -159,10 +159,6 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: rotateToGroundSpeed
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToForcefieldSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -697,10 +693,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2351776840097549984, guid: f2803404c6ce8374099218290f558d0a, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 392
-      objectReference: {fileID: 0}
     - target: {fileID: 2351776840097549985, guid: f2803404c6ce8374099218290f558d0a, type: 3}
       propertyPath: m_Name
       value: FallingBox
@@ -970,8 +962,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829408587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.3, y: 12.5304, z: 0}
-  m_LocalScale: {x: 2, y: 34.63688, z: 1}
+  m_LocalPosition: {x: -14.3, y: 22.4434, z: 0}
+  m_LocalScale: {x: 2, y: 14.810729, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1188,12 +1180,16 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: rotationStrength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: outerPullStrength
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608740, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: innterPullStrength
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608741, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_Name
@@ -1202,6 +1198,22 @@ PrefabInstance:
     - target: {fileID: 3857786645106608741, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608742, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608742, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8524965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608742, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6650944
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857786645106608743, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3857786645106608745, guid: f45c46fae04dd364484c01e2cd638a8b, type: 3}
       propertyPath: m_RootOrder

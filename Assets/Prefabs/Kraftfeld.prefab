@@ -217,10 +217,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   polarity: 0
-  outerPullStrength: 1
-  innterPullStrength: 7
+  outerPullStrength: 2
+  innterPullStrength: 6
   pushStrength: 4.5
   rotationStrength: 10
   position: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 3857786645106608742}
+  coll: {fileID: 3857786645106608743}
   radius: 5

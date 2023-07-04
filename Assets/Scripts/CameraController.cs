@@ -8,10 +8,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] float yOffset;
 
     [SerializeField] Transform player;
-    [SerializeField] GravityHandler gravityhandler;
 
 
-    public IEnumerator ChangeRotationOverTime( float rotateTowards)
+    public IEnumerator ChangeRotationOverTime( float rotateTowards, GravityHandler gravityhandler)
     {
         
         float rotationStart = transform.eulerAngles.z;

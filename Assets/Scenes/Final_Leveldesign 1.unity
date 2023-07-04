@@ -873,12 +873,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2083270966}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: groundFriciton
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: rotateToForcefieldSpeed
-      value: 80
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215173, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_Name
@@ -5970,12 +5966,12 @@ Transform:
   - {fileID: 1206277492}
   - {fileID: 114481432}
   - {fileID: 136260228}
-  - {fileID: 1056500748}
   - {fileID: 481528816}
   - {fileID: 1358656315}
   - {fileID: 722712664}
   - {fileID: 826434928}
   - {fileID: 1076991677}
+  - {fileID: 1056500748}
   - {fileID: 368958915}
   - {fileID: 1112215553}
   - {fileID: 768317741}
@@ -6687,7 +6683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807b4e6c8efc0494481814920f41f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionSicknessSafeMode: 0
   cam: {fileID: 64695110}
   camTransform: {fileID: 64695109}
 --- !u!4 &2083270967

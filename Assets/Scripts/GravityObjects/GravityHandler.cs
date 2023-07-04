@@ -28,7 +28,7 @@ public class GravityHandler : MonoBehaviour
 
         this.gravityChangedEvent = gravityChangedEvent;
 
-        StartCoroutine(cam.ChangeRotationOverTime(gravityAngle));
+        StartCoroutine(cam.ChangeRotationOverTime(gravityAngle, this));
     }
 
     public void CameraFinishedRotating()

@@ -231,16 +231,17 @@ MonoBehaviour:
   maxFallingSpeed: 10
   dropMultiplier: 2
   inAirMovementCap: 0
-  rotateToForcefieldSpeed: 300
-  rotateToGroundSpeed: 50
+  rotateToForcefieldSpeed: 6
+  rotateToGroundSpeed: 0.8
   dashDuration: 0.5
   dashSpeed: 50
-  dropVelocityLossInForcefield: 80
+  velocityLossInForcefield: 80
   groundFriciton: 300
   groundCheckradius: 0.48
   negativeColor: {r: 0.42352945, g: 0.7254902, b: 0.8235295, a: 1}
   positiveColor: {r: 0.67058825, g: 0.28235295, b: 0.3803922, a: 1}
   isSleeping: 0
+  isGrounded: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
   headCheckTransform: {fileID: 2421048445925974519}

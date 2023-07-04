@@ -206,8 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 2351776840097549986}
-  width: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 392
   groundCheckTransform: {fileID: 2351776838340031251}
