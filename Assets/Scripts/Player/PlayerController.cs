@@ -241,6 +241,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     void PrepareGravityChange()
     {
         StopAllCoroutines();
+        jumpBufferCounter = jumpBuffer + 1;
+        coyoteTimeCounter = coyoteTime + 1;
         isSleeping = true;
         velocitySaveWhenSleeping = rb.velocity;
         rb.velocity = Vector2.zero;
@@ -559,6 +561,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
             StopAllCoroutines();
+            jumpBufferCounter = jumpBuffer + 1;
+            coyoteTimeCounter = coyoteTime + 1;
             StartCoroutine(RotateOverTimeLinear(rotateToGroundSpeed, gravityDirection));
         } 
     }
