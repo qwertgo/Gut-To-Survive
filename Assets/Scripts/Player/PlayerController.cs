@@ -13,6 +13,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float jumpLength;
     [SerializeField] float maxFallingSpeed;
     [SerializeField] float coyoteTime;
+    [SerializeField] float jumpBuffer;
     [SerializeField, Range(1, 10), Tooltip("multiply gravity when dropping")] float dropMultiplier;
     [SerializeField, Range(0f, 1f), Tooltip("How much can player turn when in air")] float inAirMovementCap;
     [SerializeField, Tooltip("Speed at wich player rotates towards Forcefield when entering it")] float rotateToForcefieldSpeed;
@@ -49,6 +50,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float rotationGoal;                         //When rotating over Time determines goal to rotate to
     float rotationStart;                        //When rotating over Time determines start to rotate from
     float coyoteTimeCounter;
+    float jumpBufferCounter;
 
 
     bool canDash = true;
@@ -93,6 +95,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
         coyoteTimeCounter = coyoteTime + 1;
+        jumpBufferCounter = jumpBuffer + 1;
     }
     private void OnDrawGizmos()
     {
@@ -140,6 +143,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             canDash = true;
             turnability = 1;
             gravityVelocity = Vector2.zero;
+
+            if (jumpBufferCounter <= jumpBuffer)
+                StartJumping();
 
             LandedOnPlattform();
         }
@@ -219,6 +225,17 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             yield return new WaitForSeconds(Time.deltaTime);
         }
         coyoteTimeCounter = coyoteTime + 1;
+    }
+
+    IEnumerator CountJumpBuffer()
+    {
+        jumpBufferCounter = 0;
+        while(jumpBufferCounter < jumpBuffer)
+        {
+            jumpBufferCounter += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        jumpBufferCounter = jumpBuffer + 1;
     }
 
     void PrepareGravityChange()
@@ -439,14 +456,24 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (context.started && (isGrounded || coyoteTimeCounter <= coyoteTime))
-        {
-            currentState = State.jump;
-            timeSinceStartedJumping = 0;
-            turnability = inAirMovementCap;
+        if (!context.started)
+            return;
 
-            
+        if (isGrounded || coyoteTimeCounter <= coyoteTime)
+        {
+            StartJumping();
         }
+        else
+        {
+            StartCoroutine(CountJumpBuffer());
+        }
+    }
+
+    void StartJumping()
+    {
+        currentState = State.jump;
+        timeSinceStartedJumping = 0;
+        turnability = inAirMovementCap;
     }
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)

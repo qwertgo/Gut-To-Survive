@@ -229,7 +229,7 @@ MonoBehaviour:
   jumpHeight: 15
   jumpLength: 0.5
   maxFallingSpeed: 10
-  coyoteTime: 0.15
+  coyoteTime: 0.1
   dropMultiplier: 2
   inAirMovementCap: 0
   rotateToForcefieldSpeed: 6
