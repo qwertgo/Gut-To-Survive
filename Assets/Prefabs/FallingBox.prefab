@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.83, y: 0.1}
+  m_Size: {x: 0.99, y: 0.02}
   m_EdgeRadius: 0
 --- !u!1 &2351776840097549985
 GameObject:
@@ -165,7 +165,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &2351776840097549987
 BoxCollider2D:
@@ -210,3 +210,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 392
   groundCheckTransform: {fileID: 2351776838340031251}
+  mainCollider: {fileID: 2351776840097549987}
+  groundCollider: {fileID: 2351776838340031250}

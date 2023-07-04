@@ -282,7 +282,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
             rotationAdded += rotationSpeed;
             rb.rotation += rotationSpeed;
-            Debug.Log(Time.fixedDeltaTime);
             rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
 
             yield return new WaitForSeconds(Time.fixedDeltaTime);

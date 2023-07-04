@@ -8,6 +8,10 @@ public class FallingBox : GravityObject
     [SerializeField] Rigidbody2D rb;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform groundCheckTransform;
+    [SerializeField] BoxCollider2D mainCollider;
+    [SerializeField] BoxCollider2D groundCollider;
+
+    bool isSleeping = false;
 
     private void Start()
     {
@@ -21,20 +25,26 @@ public class FallingBox : GravityObject
         prepareGravityChangeEvent.AddListener(PrepareGravityChange);
 
         rb.mass = transform.localScale.x;
-        currentState = State.drop;
     }
 
     private void FixedUpdate()
     {
-        if(currentState == State.drop)
+        if (IsGrounded())
         {
-            Drop();
+            rb.velocity = Vector2.zero;
+            timeSinceStartedDropping = 0;
         }
+
+        if (isSleeping)
+            return;
+
+        Drop();
+
     }
 
     void PrepareGravityChange()
     {
-        rb.velocity = Vector2.zero;
+        isSleeping = true;
     }
 
     void ChangeGravity()
@@ -42,16 +52,9 @@ public class FallingBox : GravityObject
         timeSinceStartedDropping = 0;
         float newRotation = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
-        Vector2 colliderPos = (Vector2)transform.position + gravityDirection * (transform.localScale.x / 2 + .3f);
-        Collider2D collidedWith = Physics2D.OverlapBox(colliderPos, new Vector2(transform.lossyScale.x - .1f, .25f), newRotation);
-
-        if (collidedWith != null && LayerIsInMask(collidedWith.gameObject.layer, groundLayer) && !LayerIsInMask(collidedWith.gameObject.layer, 8))
-            currentState = State.idle;
-        else
-            currentState = State.drop;
-
         Vector3 rot = groundCheckTransform.eulerAngles;
         groundCheckTransform.eulerAngles = new Vector3(rot.x, rot.y, newRotation);
+        isSleeping = false;
     }
 
     void Drop()
@@ -61,6 +64,12 @@ public class FallingBox : GravityObject
         rb.velocity = dropVelocity * gravityDirection;
 
         timeSinceStartedDropping += Time.fixedDeltaTime;
+    }
+
+    bool IsGrounded()
+    {
+        return mainCollider.IsTouchingLayers(groundLayer) && groundCollider.IsTouchingLayers(groundLayer);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,7 +86,6 @@ public class FallingBox : GravityObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if(LayerIsInMask(collision.gameObject.layer, groundLayer))
         {
             rb.velocity = Vector2.zero;
