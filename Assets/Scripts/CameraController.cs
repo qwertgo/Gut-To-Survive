@@ -4,10 +4,8 @@ using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour
 {
-
-    [SerializeField] float yOffset;
-
-    [SerializeField] Transform player;
+    [SerializeField] Transform playerTransform;
+    [SerializeField] Transform playerPivotTransform;
 
 
     public IEnumerator ChangeRotationOverTime( float rotateTowards, GravityHandler gravityhandler)
@@ -21,6 +19,7 @@ public class CameraController : MonoBehaviour
         {
             float rotationZ = Mathf.LerpAngle(rotationStart, rotateTowards, t);
             transform.eulerAngles = new Vector3(rot.x, rot.y, rotationZ);
+            playerPivotTransform.eulerAngles = new Vector3(0, 0, rotationZ);
 
             t += Time.fixedDeltaTime;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
@@ -33,7 +32,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPos = player.position;
-        transform.position = new Vector3(playerPos.x, playerPos.y + yOffset, transform.position.z);
+        Vector3 playerPos = playerTransform.position;
+        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
     }
 }

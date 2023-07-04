@@ -63,11 +63,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform headCheckTransform;
     [SerializeField] Transform leftSideCheckTransform;
     [SerializeField] Transform rightSideCheckTransform;
+    [SerializeField] Sprite bloodSplash;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] GravityHandler gravityHandler;
-    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
-    [SerializeField] Sprite bloodSplash;
     [SerializeField] Collider2D pCollider;
+    [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
 
     private void Start()
