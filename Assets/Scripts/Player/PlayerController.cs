@@ -116,7 +116,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
         rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity;
-        //Debug.Log(rb.rotation + ", " + currentState);
     }
 
     void CheckIfPlayerEnteredNewState()
@@ -209,7 +208,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     void PrepareGravityChange()
     {
         StopAllCoroutines();
-        //Debug.Log("stopped rotating \n ------------------------------- ");
         isSleeping = true;
         velocitySaveWhenSleeping = rb.velocity;
         rb.velocity = Vector2.zero;
@@ -273,7 +271,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         float rotationSpeed = rotationAcceleration;
 
         isRotating = true;
-        //Debug.Log($"started rotating, rotStart: {rotationStart}, rotGoal: {rotationGoal}, startSpeed: {rotationSpeed}, rot: {rb.rotation}");
         float rotationAdded = 0;
 
         while (IsInbetween(rotationStart, rotationGoal, rotationStart + rotationAdded) && !isSleeping)
@@ -285,7 +282,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
             rotationAdded += rotationSpeed;
             rb.rotation += rotationSpeed;
-            //Debug.Log($"is rotating at speed: {rotationSpeed}, addedRotation: {rotationAdded}, rotationNeeded: {rotationGoal - rotationStart}, rot: {rb.rotation}");
             Debug.Log(Time.fixedDeltaTime);
             rotationSpeed += rotationAcceleration * (Time.fixedDeltaTime / 2);
 
@@ -293,7 +289,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
 
         isRotating = false;
-        //Debug.Log("stopped rotating \n ------------------------------- ");
         rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference) + rotationGoal;
     }
 
@@ -355,10 +350,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position);
 
         if (!isRotating)
-        {
             rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
-            //Debug.Log(rb.rotation + "inside forcefieldinteraction");
-        }
 
 
         if(dropMagnitudeSaver > 0 || dashMagnitudeSaver > 0)
