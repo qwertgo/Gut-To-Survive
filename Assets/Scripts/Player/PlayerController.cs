@@ -71,7 +71,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Collider2D pCollider;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
-
     private void Start()
     {
         if (controls == null)
@@ -92,6 +91,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         walkVelocityX = 0;
         coyoteTimeCounter = coyoteTime + 1;
         jumpBufferCounter = jumpBuffer + 1;
+
+        rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
     }
 
     private void OnDrawGizmos()
@@ -184,7 +185,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     //Bools
     //---------------------------------------------------------
-
     bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckradius, groundLayer);
@@ -216,7 +216,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     //Various Methods
     //---------------------------------------------------------
-
     void LandedOnPlattform()
     {
         //Get point where player and ground collided
