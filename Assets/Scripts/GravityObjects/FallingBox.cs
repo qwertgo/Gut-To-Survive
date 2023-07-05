@@ -11,18 +11,17 @@ public class FallingBox : GravityObject
     [SerializeField] BoxCollider2D mainCollider;
     [SerializeField] BoxCollider2D groundCollider;
 
+    Vector2 savedPosition;
+
     bool isSleeping = false;
 
     private void Start()
     {
-        if (gravityChangedEvent == null)
-            gravityChangedEvent = new UnityEvent();
 
-        if (prepareGravityChangeEvent == null)
-            prepareGravityChangeEvent = new UnityEvent();
-
-        gravityChangedEvent.AddListener(ChangeGravity);
-        prepareGravityChangeEvent.AddListener(PrepareGravityChange);
+        GameEvents.gravityChangedEvent.AddListener(ChangeGravity);
+        GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
+        GameEvents.HitSavePoint.AddListener(SaveCurrentState);
+        GameEvents.Respawn.AddListener(Respawn);
 
         rb.mass = transform.localScale.x;
     }
@@ -70,6 +69,18 @@ public class FallingBox : GravityObject
     {
         return mainCollider.IsTouchingLayers(groundLayer) && groundCollider.IsTouchingLayers(groundLayer);
 
+    }
+
+    void SaveCurrentState()
+    {
+        savedPosition = transform.position;
+    }
+
+    void Respawn()
+    {
+        transform.position = savedPosition;
+        isSleeping = false;
+        timeSinceStartedDropping = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
