@@ -5,7 +5,9 @@ using UnityEngine.Events;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform playerTransform;
-    [SerializeField] Transform playerPivotTransform;
+    [SerializeField, Range(0,20)] float upwardOffset;
+
+    Vector2 gravityDirection = Vector2.down;
 
 
     public IEnumerator ChangeRotationOverTime( float rotateTowards, GravityHandler gravityhandler)
@@ -19,10 +21,11 @@ public class CameraController : MonoBehaviour
         {
             float rotationZ = Mathf.LerpAngle(rotationStart, rotateTowards, t);
             transform.eulerAngles = new Vector3(rot.x, rot.y, rotationZ);
-            playerPivotTransform.eulerAngles = new Vector3(0, 0, rotationZ);
 
-            t += Time.fixedDeltaTime;
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            gravityDirection = Quaternion.Euler(0f, 0f, rotationZ) * Vector2.down;
+
+            t += Time.deltaTime;
+            yield return 0;
         }
 
         transform.eulerAngles = new Vector3(rot.x, rot.y, rotateTowards);
@@ -32,7 +35,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 offset = -gravityDirection * upwardOffset;
+
         Vector3 playerPos = playerTransform.position;
-        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
+        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z) + offset;
     }
 }

@@ -131,6 +131,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da275b9c2fcc80459432b64d4381f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yOffset: 5
-  player: {fileID: 0}
-  gravityhandler: {fileID: 0}
+  playerTransform: {fileID: 0}
+  upwardOffset: 10
