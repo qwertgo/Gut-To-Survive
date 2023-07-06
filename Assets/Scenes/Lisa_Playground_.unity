@@ -481,6 +481,10 @@ PrefabInstance:
       propertyPath: gravityhandler
       value: 
       objectReference: {fileID: 2083270966}
+    - target: {fileID: 6033569791543595378, guid: 2b41da22fde7db34288db890f9527472, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 160398720}
     - target: {fileID: 6033569791543595383, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_Name
       value: 'Main Camera '
