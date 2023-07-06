@@ -4,10 +4,17 @@ using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] Transform playerTransform;
+    [Range(0,20)] public float upwardOffset;
 
-    [SerializeField] float yOffset;
+    Vector2 gravityDirection = Vector2.down;
+    float savedRotation;
 
-    [SerializeField] Transform player;
+    private void Start()
+    {
+        GameEvents.HitSavePoint.AddListener(SaveCurrentState);
+        GameEvents.Respawn.AddListener(Respawn);
+    }
 
 
     public IEnumerator ChangeRotationOverTime( float rotateTowards, GravityHandler gravityhandler)
@@ -22,8 +29,10 @@ public class CameraController : MonoBehaviour
             float rotationZ = Mathf.LerpAngle(rotationStart, rotateTowards, t);
             transform.eulerAngles = new Vector3(rot.x, rot.y, rotationZ);
 
-            t += Time.fixedDeltaTime;
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
+            gravityDirection = Quaternion.Euler(0f, 0f, rotationZ) * Vector2.down;
+
+            t += Time.deltaTime;
+            yield return 0;
         }
 
         transform.eulerAngles = new Vector3(rot.x, rot.y, rotateTowards);
@@ -33,7 +42,22 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPos = player.position;
-        transform.position = new Vector3(playerPos.x, playerPos.y + yOffset, transform.position.z);
+        Vector3 offset = -gravityDirection * upwardOffset;
+
+        Vector3 playerPos = playerTransform.position;
+        transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z) + offset;
+    }
+
+    void SaveCurrentState()
+    {
+        savedRotation = GravityObject.gravityAngle;
+    }
+
+    void Respawn()
+    {
+        transform.eulerAngles = new Vector3(0, 0, savedRotation);
+        gravityDirection = Quaternion.Euler(0,0, savedRotation) * Vector2.down;
+
+        Update();
     }
 }

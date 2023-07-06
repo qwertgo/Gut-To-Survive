@@ -7,8 +7,7 @@ public class GravityObject : MonoBehaviour
     protected enum State { idle, walk, jump, drop, dash, forcefield };
     protected State currentState = State.idle;
     protected static Vector2 gravityDirection = Vector2.down;
-    protected static UnityEvent gravityChangedEvent;
-    protected static UnityEvent prepareGravityChangeEvent;
+    
     protected float timeSinceStartedDropping;
 
     protected float standartJumpLength = .5f;
