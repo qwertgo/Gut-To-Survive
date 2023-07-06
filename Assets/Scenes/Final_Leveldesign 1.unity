@@ -429,17 +429,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4215879350562529400, guid: 2b41da22fde7db34288db890f9527472, type: 3}
+      propertyPath: m_LookaheadTime
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 18.1
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.z
@@ -488,6 +492,18 @@ PrefabInstance:
     - target: {fileID: 6033569791543595383, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_Name
       value: 'Main Camera '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233057138375268102, guid: 2b41da22fde7db34288db890f9527472, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 400921981}
+    - target: {fileID: 9026858571761279774, guid: 2b41da22fde7db34288db890f9527472, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026858571761279774, guid: 2b41da22fde7db34288db890f9527472, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b41da22fde7db34288db890f9527472, type: 3}
@@ -1662,6 +1678,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3111453956112746888, guid: 65105f6b1b89efa499552f5fc9d3ade4, type: 3}
   m_PrefabInstance: {fileID: 399000666}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &400921981 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8920979054459062717, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
+  m_PrefabInstance: {fileID: 160398719}
   m_PrefabAsset: {fileID: 0}
 --- !u!70 &406196478 stripped
 CapsuleCollider2D:
