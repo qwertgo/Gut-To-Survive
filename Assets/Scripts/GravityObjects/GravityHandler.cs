@@ -8,10 +8,8 @@ public class GravityHandler : MonoBehaviour
     [SerializeField] CameraController cam;
     [SerializeField] Transform camTransform;
 
-    UnityEvent gravityChangedEvent;
 
-
-    public void StartGravityChange(float gravityAngle,UnityEvent prepareGravityChangeEvent, UnityEvent gravityChangedEvent)
+    public void StartGravityChange(float gravityAngle)
     {
         float cameraRotation = camTransform.eulerAngles.z;
 
@@ -23,17 +21,15 @@ public class GravityHandler : MonoBehaviour
         if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
             return;
 
-        prepareGravityChangeEvent.Invoke();
+        GameEvents.prepareGravityChangeEvent.Invoke();
         GravityObject.gravityAngle = gravityAngle;
-
-        this.gravityChangedEvent = gravityChangedEvent;
 
         StartCoroutine(cam.ChangeRotationOverTime(gravityAngle, this));
     }
 
     public void CameraFinishedRotating()
     {
-        gravityChangedEvent.Invoke();
+        GameEvents.gravityChangedEvent.Invoke();
     }
 
     float Modulo(float a, float n)
