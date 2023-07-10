@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Water
+  m_Name: Shader Graphs_Water 1
   m_Shader: {fileID: -6465566751694194690, guid: 581abee4d193b1c429ec971e8667436d, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -38,26 +38,33 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Float: 2
     - _Length: 13
-    - _Movement: 4
-    - _Power: 4
+    - _Movement: 5
+    - _Power: 15
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RefractionAmount: 0.2
     - _RippleScale: 5
     - _RippleSpeed: 2
-    - _Scale: 4
+    - _Scale: -2
+    - _ShockWaveStrength: 0.1
+    - _Size: 0.01
+    - _Speed_1: 0.4
+    - _WaveDistanceFromCenter: 0.1
     m_Colors:
-    - _CapsticsColor: {r: 0.2962264, g: 0.8117899, b: 1, a: 0}
+    - _CapsticsColor: {r: 1, g: 0.6924528, b: 0.7189863, a: 1}
     - _Color: {r: 0, g: 0.5529412, b: 0.8039216, a: 0}
     - _ColorShore: {r: 1, g: 1, b: 1, a: 0}
-    - _RippleColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Color_1: {r: 1, g: 1, b: 1, a: 0.282353}
+    - _RingSpawnPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _RippleColor: {r: 0.5, g: 0.3698113, b: 0.3708324, a: 0}
     - _Speed: {r: 0, g: 0.2, b: 0, a: 0}
     - _Water: {r: 1, g: 1, b: 1, a: 0}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
     - _WaterTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4236554874449802470
+--- !u!114 &2865004253186426663
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
