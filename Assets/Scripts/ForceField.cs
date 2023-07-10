@@ -1,5 +1,5 @@
 using UnityEngine;
-using static PolarityHandler;
+using static PolarityExtention;
 
 
 public class ForceField : MonoBehaviour

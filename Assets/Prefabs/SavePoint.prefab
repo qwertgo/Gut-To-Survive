@@ -100,6 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivatedColor: {r: 0.31990921, g: 0.47150362, b: 0.8584906, a: 1}
   activatedColor: {r: 0.383277, g: 0.7065741, b: 0.9339623, a: 1}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  radius: 3
   spriteRenderer: {fileID: 4234282653293179027}
   savedGravityDir: {x: 0, y: 0}
   savedGravityAngle: 0

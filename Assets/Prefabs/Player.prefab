@@ -231,9 +231,10 @@ MonoBehaviour:
   jumpLength: 0.5
   maxFallingSpeed: 10
   coyoteTime: 0.1
-  jumpBuffer: 0
+  jumpBuffer: 0.2
   dropMultiplier: 2
   inAirMovementCap: 0
+  respawnTime: 0.5
   rotateToForcefieldSpeed: 6
   rotateToGroundSpeed: 0.8
   dashDuration: 0.5

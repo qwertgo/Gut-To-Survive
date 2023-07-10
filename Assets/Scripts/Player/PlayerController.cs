@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
-using static PolarityHandler;
+using static PolarityExtention;
+using static MathExtention;
 
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
@@ -16,6 +17,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float jumpBuffer;
     [SerializeField, Range(1, 10), Tooltip("multiply gravity when dropping")] float dropMultiplier;
     [SerializeField, Range(0f, 1f), Tooltip("How much can player turn when in air")] float inAirMovementCap;
+    [SerializeField] float respawnTime;
     [SerializeField, Tooltip("Speed at wich player rotates towards Forcefield when entering it")] float rotateToForcefieldSpeed;
     [SerializeField] float rotateToGroundSpeed;                             //Speed at wich player rotates towards Ground after exiting forcefield
     [SerializeField] float dashDuration;
@@ -223,14 +225,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Collider2D groundCollider = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckradius, groundLayer);
         Vector2 collsionPoint = groundCollider.ClosestPoint(pos);
 
-        gravityDirection = collsionPoint - pos;
+        Vector2 newGravityDirection = collsionPoint - pos;
 
-        float gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
+        float gravityAngle = Vector2.SignedAngle(Vector2.down, newGravityDirection);
 
-        gravityHandler.StartGravityChange(gravityAngle);
+        gravityHandler.StartGravityChange(gravityAngle, newGravityDirection);
     }
-
-    
 
     void PrepareGravityChange()
     {
@@ -354,7 +354,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(respawnTime);
         if(lastSavePoint == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -366,7 +366,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         transform.position = lastSavePoint.transform.position;
         gravityDirection = lastSavePoint.savedGravityDir;
         gravityAngle = lastSavePoint.savedGravityAngle;
-        rb.rotation = lastSavePoint.savedRotation;
+        rb.rotation = gravityAngle;
+        Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
 
         walkVelocityX = 0;
         dashVelocity = Vector2.zero;
