@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlbedoTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainText:
         m_Texture: {fileID: 2800000, guid: 498ba21816498f342bca688cad61e4b1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -39,6 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Float: 2
+    - _Float_1: 9
     - _Length: 13
     - _Movement: 5
     - _Opacity: 0
@@ -54,14 +59,16 @@ Material:
     - _Speed_1: 0.4
     - _WaveDistanceFromCenter: 0.1
     m_Colors:
+    - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _CapsticsColor: {r: 0.7264151, g: 0.61265576, b: 0.62146807, a: 1}
-    - _Color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0.22745098}
+    - _Color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
     - _ColorShore: {r: 1, g: 1, b: 1, a: 0}
     - _Color_1: {r: 1, g: 1, b: 1, a: 0.28235295}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _RingSpawnPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _RippleColor: {r: 1, g: 1, b: 1, a: 0}
     - _Speed: {r: 0, g: 0.2, b: 0, a: 0}
-    - _Water: {r: 0.9056604, g: 0.30066684, b: 0.14012098, a: 1}
+    - _Water: {r: 0.7075472, g: 0.16286935, b: 0.16286935, a: 0}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
     - _WaterTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
