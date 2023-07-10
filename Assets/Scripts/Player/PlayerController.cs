@@ -431,7 +431,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void ForceFieldInteraction()
     {
-        forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position);
+        forcefieldVelocity = currentForcefield.CalculatePlayerVelocity(forcefieldVelocity, polarity, transform.position, forcefieldExitMagnitude);
 
         if (!isRotating)
             rb.rotation = Vector2.SignedAngle(Vector2.down, forcefieldVelocity);
