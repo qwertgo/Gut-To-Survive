@@ -26,5 +26,10 @@ public class GravityObject : MonoBehaviour
         return (mask & (1 << layer)) != 0;
     }
 
+    public static void SetGravityDirection(Vector2 gravityDirection)
+    {
+        GravityObject.gravityDirection = gravityDirection.normalized;
+    }
+
 
 }

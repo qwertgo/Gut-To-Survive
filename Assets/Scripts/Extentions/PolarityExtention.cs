@@ -1,4 +1,4 @@
-public static class PolarityHandler
+public static class PolarityExtention
 {
     public enum Polarity { negativ, neutral, positiv };
 
@@ -23,10 +23,5 @@ public static class PolarityHandler
         int pol1 = PolarityToInt(polarity1);
         int pol2 = PolarityToInt(polarity2);
         return DirectionFromPolaritys(pol1, pol2);
-    }
-
-    public static float Modulo(float a, float n)
-    {
-        return ((a % n) + n) % n;
     }
 }
