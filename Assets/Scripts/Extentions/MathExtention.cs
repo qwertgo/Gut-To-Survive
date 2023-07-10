@@ -8,4 +8,16 @@ public static class MathExtention
     {
         return ((a % n) + n) % n;
     }
+
+    public static bool AreCloseTogether(float a, float b, float range)
+    {
+        if(b > a)
+        {
+            float tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+        return a - b < range;
+    }
 }

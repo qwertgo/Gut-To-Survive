@@ -19,7 +19,7 @@ public class GravityHandler : MonoBehaviour
         gravityAngle = Modulo(gravityAngle, 360);
 
 
-        if (Mathf.RoundToInt(gravityAngle) == Mathf.RoundToInt(cameraRotation))
+        if (AreCloseTogether(gravityAngle, cameraRotation, 1))
             return;
 
         GameEvents.prepareGravityChangeEvent.Invoke();
