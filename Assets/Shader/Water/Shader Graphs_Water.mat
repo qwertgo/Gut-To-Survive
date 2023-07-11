@@ -21,7 +21,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 67e94c2876757e8478dee85d9c956942, type: 3}
+        m_Texture: {fileID: 2800000, guid: 498ba21816498f342bca688cad61e4b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_04fa1ff0c7884ffcb69dcc5b4e6e5b25_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 498ba21816498f342bca688cad61e4b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_1b5e8c66addb40028b6f3c3abaff7c5c_Out_0:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -40,10 +52,9 @@ Material:
     m_Floats:
     - _Movement: 5
     - _Power: 5
-    - _QueueControl: 0
-    - _QueueOffset: 0
     - _RefractionAmount: 0.2
-    - _Scale: -2
+    - _Scale: 5
+    - _ShockWaveSpeed: 0.4
     - _ShockWaveStrength: 1
     - _Size: 0.01
     - _Speed_1: 0.4
@@ -51,21 +62,11 @@ Material:
     m_Colors:
     - _Color: {r: 0, g: 0.5529412, b: 0.8039216, a: 0}
     - _Color_1: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_2: {r: 0.4622642, g: 0, b: 0, a: 0}
+    - _Color_3: {r: 0.0145929, g: 0, b: 0.254902, a: 0}
     - _RingSpawnPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _Speed: {r: 0, g: 0.2, b: 0, a: 0}
+    - _WaterColor: {r: 1, g: 0.9386792, b: 0.9386792, a: 1}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
     - _WaterTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1470774760776559492
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
