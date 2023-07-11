@@ -23,6 +23,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float dashDuration;
     [SerializeField] float dashSpeed;
     [SerializeField] float velocityLossInForcefield;                    //How much jddVelocity player looses per frame when inside forcefield
+    [SerializeField] float forcefieldVelocityDrag;
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
@@ -37,6 +38,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 gravityVelocity;                        //Velocity of jump/dash/drop in one 
     Vector2 dashVelocity;
     Vector2 forcefieldVelocity;
+    Vector2 forcefieldExitVelocity;
     Vector2 leftStickDir;                       //Direction of the left gamepadstick or WASD input of keyboard
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
@@ -57,6 +59,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     bool canDash = true;
     bool isRotating;
+    bool isDying;
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
@@ -113,16 +116,21 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         controls.Disable();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         CheckIfPlayerEnteredNewState();
+    }
 
+    private void FixedUpdate()
+    {
         if (isSleeping)
             return;
 
         ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
-        rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity;
+        rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity + forcefieldExitVelocity;
+        //Debug.Log($"walk: {walkVelocity.magnitude}, force: {forcefieldVelocity.magnitude}, dash: {dashVelocity.magnitude}, exit: {forcefieldExitVelocity.magnitude}");
+        //Debug.Log($"exit: {forcefieldExitVelocity.magnitude}, magnitude: {forcefieldExitMagnitude}, direction {forcefieldExitDirection}");
     }
 
     void CheckIfPlayerEnteredNewState()
@@ -176,7 +184,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 break;
         }
 
-        CalculateForcefieldExitVelocity();
+        //CalculateForcefieldExitVelocity();
 
         if (BumpedSide())
         {
@@ -249,34 +257,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dashVelocity = Vector2.zero;
     }
 
-    //void ChangeRotationPivot(bool pivotAtFeet)
-    //{
-    //    if ((pivotAtFeet && visualsTransform.localPosition.y > 0) || (!pivotAtFeet && visualsTransform.localPosition.y < 0))
-    //        return;
-
-    //    float posAddition = pivotAtFeet ? -1f : 1f;
-
-    //    visualsTransform.localPosition += new Vector3(0, posAddition);
-    //    rightSideCheckTransform.localPosition += new Vector3(0, posAddition);
-    //    leftSideCheckTransform.localPosition += new Vector3(0, posAddition);
-    //    groundCheckTransform.localPosition += new Vector3(0, posAddition);
-    //    headCheckTransform.localPosition += new Vector3(0, posAddition);
-    //    transform.position -= new Vector3(0, posAddition);
-    //    camController.upwardOffset += posAddition;
-
-    //    if (pivotAtFeet)
-    //    {
-    //        walkSpeed /= 2;
-    //        jumpHeight /= 2;
-    //    }
-    //    else
-    //    {
-    //        walkSpeed *= 2;
-    //        jumpHeight *= 2;
-    //    }
-
-    //}
-
     void RotateOverTimePreparation(Vector2 rotationReference)
     {
         rb.rotation = Modulo(rb.rotation, 360);
@@ -293,10 +273,18 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void StopCoroutinesSafely()
     {
+        if (isDying)
+            return;
+
         StopAllCoroutines();
         jumpBufferCounter = jumpBuffer + 1;
         coyoteTimeCounter = coyoteTime + 1;
         isRotating = false;
+
+        if(forcefieldExitMagnitude > 0)
+        {
+            StartCoroutine(KillForcefieldExitVelocity());
+        }
     }
 
     IEnumerator CountCoyoteTime()
@@ -352,8 +340,39 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.rotation = Vector2.SignedAngle(Vector2.down, rotationReference) + rotationGoal;
     }
 
+    IEnumerator KillForcefieldExitVelocity()
+    {
+        while (forcefieldExitMagnitude > 0)
+        {
+
+            //Loose Velocity Faster if entered another forcfield
+            float velocityLossMultiplier;
+
+            if (isSleeping)
+                velocityLossMultiplier = 0;
+            else if (currentForcefield != null)
+                velocityLossMultiplier = velocityLossInForcefield * 4;
+            else if (isGrounded)
+                velocityLossMultiplier = groundFriciton + 1;
+            else
+                velocityLossMultiplier = forcefieldVelocityDrag;
+
+            //Debug.Log(velocityLossMultiplier * Time.deltaTime + ", " + forcefieldExitMagnitude);
+
+            forcefieldExitMagnitude -= Time.deltaTime * velocityLossMultiplier;
+            forcefieldExitMagnitude = Mathf.Max(0, forcefieldExitMagnitude);
+            forcefieldExitVelocity = forcefieldExitDirection * forcefieldExitMagnitude;
+
+            yield return 0;
+        }
+        //Debug.Log("Ended velocity");
+        forcefieldExitVelocity = Vector2.zero;
+    }
+
     IEnumerator Respawn()
     {
+
+        isDying = true;
         yield return new WaitForSeconds(respawnTime);
         if(lastSavePoint == null)
         {
@@ -385,6 +404,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         currentState = State.idle;
         canDash = true;
         isSleeping = false;
+        isDying = false;
 
         GameEvents.Respawn.Invoke();
     }
@@ -527,8 +547,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             canDash = false;
             timeSinceStartedDashing = 0;
             turnability = 0;
-            forcefieldExitMagnitude = 0;
+            forcefieldExitMagnitude = 0; 
             forcefieldVelocity = Vector2.zero;
+            forcefieldExitVelocity = Vector2.zero;
+            forcefieldExitMagnitude = 0;
+            walkVelocityX = 0;
 
             if (leftStickDir.magnitude == 0)                                    //if there is input from left stick dash
                 dashDirection = Vector2.right;
@@ -599,10 +622,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = inAirMovementCap;
 
             dashVelocity = Vector2.zero;
+            forcefieldVelocity = Vector2.zero;
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
             StopCoroutinesSafely();
+            StartCoroutine(KillForcefieldExitVelocity());
             StartCoroutine(RotateOverTimeLinear(rotateToGroundSpeed, gravityDirection));
         } 
     }

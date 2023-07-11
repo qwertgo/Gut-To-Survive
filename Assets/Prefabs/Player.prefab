@@ -229,7 +229,7 @@ MonoBehaviour:
   walkSpeed: 10
   jumpHeight: 15
   jumpLength: 0.5
-  maxFallingSpeed: 10
+  maxFallingSpeed: 18
   coyoteTime: 0.1
   jumpBuffer: 0.2
   dropMultiplier: 2
@@ -240,6 +240,7 @@ MonoBehaviour:
   dashDuration: 0.5
   dashSpeed: 50
   velocityLossInForcefield: 80
+  forcefieldVelocityDrag: 20
   groundFriciton: 300
   groundCheckradius: 0.48
   negativeColor: {r: 0.42352945, g: 0.7254902, b: 0.8235295, a: 1}
@@ -252,9 +253,9 @@ MonoBehaviour:
   headCheckTransform: {fileID: 2421048445925974519}
   leftSideCheckTransform: {fileID: 8008313694768922629}
   rightSideCheckTransform: {fileID: 8207008697910916395}
-  visualsTransform: {fileID: 0}
+  visualsTransform: {fileID: 2421048444573215182}
   bloodSplash: {fileID: 21300000, guid: e7fffb55504249b4793d4704591a803c, type: 3}
-  normalSprite: {fileID: 0}
+  normalSprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   spriteRenderer: {fileID: 2421048444573215169}
   gravityHandler: {fileID: 0}
   camController: {fileID: 0}
