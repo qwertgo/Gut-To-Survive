@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_faf12a6ade5c44c6beb2c18d31271651_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_5e451c6995a84a4e9e88c94df3ac77a8_Out_0:
         m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
@@ -42,8 +46,10 @@ Material:
     - _RefractionAmount: 0.2
     - _Scale: 1
     m_Colors:
+    - _Color: {r: 0.5175378, g: 0.4241367, b: 0.6981132, a: 0}
+    - _Color_1: {r: 0.6271885, g: 0.6039516, b: 0.8490566, a: 0}
     - _Speed: {r: 0, g: 0.2, b: 0, a: 0}
-    - _WaterColor: {r: 0.02595091, g: 0, b: 1, a: 1}
+    - _WaterColor: {r: 0.56037736, g: 0.56037736, b: 1, a: 1}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
     - _WaterTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
