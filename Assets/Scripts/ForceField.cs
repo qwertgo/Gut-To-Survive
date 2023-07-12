@@ -1,5 +1,5 @@
 using UnityEngine;
-using static PolarityHandler;
+using static PolarityExtention;
 
 
 public class ForceField : MonoBehaviour
@@ -47,15 +47,21 @@ public class ForceField : MonoBehaviour
         spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
     }
 
-    public Vector2 CalculatePlayerVelocity(Vector2 forcefieldVelocity, Polarity playerPolarity, Vector3 playerPosition)
+    public Vector2 CalculatePlayerVelocity(Vector2 forcefieldVelocity, Polarity playerPolarity, Vector3 playerPosition, float forcefieldExitMagnitude)
     {
         if (polarity == playerPolarity)
         {
-            //Vector from forcefield to player
-            Vector2 tmpVelocity = playerPosition - transform.position;
-            tmpVelocity.Normalize();
-
-            forcefieldVelocity += tmpVelocity * pushStrength;
+            if (forcefieldVelocity.magnitude == 0 || forcefieldExitMagnitude > 0)
+            {
+                //Vector from forcefield to player
+                Vector2 tmpVelocity = playerPosition - transform.position;
+                tmpVelocity.Normalize();
+                forcefieldVelocity += tmpVelocity * pushStrength;
+            }
+            else
+            {
+                forcefieldVelocity += forcefieldVelocity.normalized * pushStrength;
+            }
         }
         else
         {
