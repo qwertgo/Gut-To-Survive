@@ -58,9 +58,10 @@ Material:
     m_Colors:
     - _Color: {r: 0, g: 0.5529412, b: 0.8039216, a: 0}
     - _Color_1: {r: 1, g: 1, b: 1, a: 1}
-    - _Color_2: {r: 0, g: 0.06871319, b: 1, a: 1}
-    - _Color_3: {r: 0.023802705, g: 0, b: 0.38679248, a: 0}
+    - _Color_2: {r: 0, g: 0.07058859, b: 1, a: 1}
+    - _Color_3: {r: 0.2735849, g: 0, b: 0.042069793, a: 0}
     - _RingSpawnPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _SpawnPoint: {r: 0.4, g: 0.4, b: 0, a: 0}
     - _Speed: {r: 0, g: 0.2, b: 0, a: 0}
     - _WaterColor: {r: 1, g: 1, b: 1, a: 1}
     - _WaterOffset: {r: 0, g: 0, b: 0, a: 0}
