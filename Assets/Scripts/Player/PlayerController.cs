@@ -15,6 +15,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float maxFallingSpeed;
     [SerializeField] float coyoteTime;
     [SerializeField] float jumpBuffer;
+    [SerializeField] float gravityChangeBuffer;
     [SerializeField, Range(1, 10), Tooltip("multiply gravity when dropping")] float dropMultiplier;
     [SerializeField, Range(0f, 1f), Tooltip("How much can player turn when in air")] float inAirMovementCap;
     [SerializeField] float respawnTime;
@@ -54,8 +55,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float dashMagnitudeSaver;
     float rotationGoal;                         //When rotating over Time determines goal to rotate to
     float rotationStart;                        //When rotating over Time determines start to rotate from
-    float coyoteTimeCounter;
-    float jumpBufferCounter;
+    float coyoteTimer;
+    float jumpBufferTimer;
+    float gravityChangeBufferTimer;
 
     bool canDash = true;
     bool isRotating;
@@ -94,8 +96,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
-        coyoteTimeCounter = coyoteTime + 1;
-        jumpBufferCounter = jumpBuffer + 1;
+        coyoteTimer = coyoteTime + 1;
+        jumpBufferTimer = jumpBuffer + 1;
 
         rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
     }
@@ -129,8 +131,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
         rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity + forcefieldExitVelocity;
-        //Debug.Log($"walk: {walkVelocity.magnitude}, force: {forcefieldVelocity.magnitude}, dash: {dashVelocity.magnitude}, exit: {forcefieldExitVelocity.magnitude}");
-        //Debug.Log($"exit: {forcefieldExitVelocity.magnitude}, magnitude: {forcefieldExitMagnitude}, direction {forcefieldExitDirection}");
     }
 
     void CheckIfPlayerEnteredNewState()
@@ -141,7 +141,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.drop;
             turnability = inAirMovementCap;
-            StartCoroutine(CountCoyoteTime());
+            StartCoroutine(CoyoteTimer());
+            StartCoroutine(GravityChangeTimer());
         }
         else if (isGrounded && currentState == State.drop)               //player landed after falling
         {
@@ -152,7 +153,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
-            if (jumpBufferCounter <= jumpBuffer)
+            if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
 
             LandedOnPlattform();
@@ -228,6 +229,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     //---------------------------------------------------------
     void LandedOnPlattform()
     {
+        if (gravityChangeBufferTimer < gravityChangeBuffer)
+            return;
+
         //Get point where player and ground collided
         Vector2 pos = transform.position;
         Collider2D groundCollider = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckradius, groundLayer);
@@ -277,8 +281,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             return;
 
         StopAllCoroutines();
-        jumpBufferCounter = jumpBuffer + 1;
-        coyoteTimeCounter = coyoteTime + 1;
+        jumpBufferTimer = jumpBuffer + 1;
+        coyoteTimer = coyoteTime + 1;
         isRotating = false;
 
         if(forcefieldExitMagnitude > 0)
@@ -287,26 +291,37 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
     }
 
-    IEnumerator CountCoyoteTime()
+    IEnumerator CoyoteTimer()
     {
-        coyoteTimeCounter = 0;
-        while (coyoteTimeCounter < coyoteTime)
+        coyoteTimer = 0;
+        while (coyoteTimer < coyoteTime)
         {
-            coyoteTimeCounter += Time.deltaTime;
+            coyoteTimer += Time.deltaTime;
             yield return 0;
         }
-        coyoteTimeCounter = coyoteTime + 1;
+        coyoteTimer = coyoteTime + 1;
     }
 
-    IEnumerator CountJumpBuffer()
+    IEnumerator JumpBufferTimer()
     {
-        jumpBufferCounter = 0;
-        while (jumpBufferCounter < jumpBuffer)
+        jumpBufferTimer = 0;
+        while (jumpBufferTimer < jumpBuffer)
         {
-            jumpBufferCounter += Time.deltaTime;
+            jumpBufferTimer += Time.deltaTime;
             yield return 0;
         }
-        jumpBufferCounter = jumpBuffer + 1;
+        jumpBufferTimer = jumpBuffer + 1;
+    }
+
+    IEnumerator GravityChangeTimer()
+    {
+        gravityChangeBufferTimer = 0;
+        while(gravityChangeBufferTimer < gravityChangeBuffer)
+        {
+            gravityChangeBufferTimer += Time.deltaTime;
+            yield return 0;
+        }
+        gravityChangeBufferTimer = gravityChangeBuffer + 1;
     }
 
     IEnumerator RotateOverTimeLinear(float rotationAcceleration, Vector2 rotationReference)
@@ -351,7 +366,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             if (isSleeping)
                 velocityLossMultiplier = 0;
             else if (currentForcefield != null)
-                velocityLossMultiplier = velocityLossInForcefield * 4;
+                velocityLossMultiplier = velocityLossInForcefield * 2;
             else if (isGrounded)
                 velocityLossMultiplier = groundFriciton + 1;
             else
@@ -425,7 +440,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void Jump()
     {
-        float jumpVelocity = CalculateVelocityGraph(timeSinceStartedJumping, jumpHeight, jumpLength);
+        float jumpVelocity = CalculateVelocityGraph(timeSinceStartedJumping, jumpHeight, jumpLength + .4f);
         gravityVelocity = jumpVelocity / jumpLength * -gravityDirection;
         timeSinceStartedJumping += Time.fixedDeltaTime;
 
@@ -470,26 +485,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
     }
 
-    void CalculateForcefieldExitVelocity()
-    {
-        if (forcefieldExitMagnitude > 0)
-        {
-            //Loose Velocity Faster if entered another forcfield
-            float velocityLossMultiplier;
-
-            if (currentForcefield != null)
-                velocityLossMultiplier = velocityLossInForcefield;
-            else if (isGrounded)
-                velocityLossMultiplier = groundFriciton + 1;
-            else
-                velocityLossMultiplier = 20;
-
-            forcefieldExitMagnitude -= Time.fixedDeltaTime * velocityLossMultiplier;
-            forcefieldExitMagnitude = Mathf.Max(0, forcefieldExitMagnitude);
-            forcefieldVelocity = forcefieldExitDirection * forcefieldExitMagnitude;
-        }
-    }
-
     public void Die()
     {
         isSleeping = true;
@@ -522,13 +517,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (!context.started)
             return;
 
-        if (isGrounded || coyoteTimeCounter <= coyoteTime)
+        if (isGrounded || coyoteTimer <= coyoteTime)
         {
             StartJumping();
         }
         else
         {
-            StartCoroutine(CountJumpBuffer());
+            StartCoroutine(JumpBufferTimer());
         }
     }
 

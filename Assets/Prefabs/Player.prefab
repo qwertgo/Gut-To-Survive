@@ -227,21 +227,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   polarity: 0
   walkSpeed: 10
-  jumpHeight: 15
+  jumpHeight: 10
   jumpLength: 0.5
   maxFallingSpeed: 18
   coyoteTime: 0.1
   jumpBuffer: 0.2
-  dropMultiplier: 2
+  gravityChangeBuffer: 0.5
+  dropMultiplier: 1.75
   inAirMovementCap: 0
   respawnTime: 0.5
   rotateToForcefieldSpeed: 6
   rotateToGroundSpeed: 0.8
   dashDuration: 0.5
   dashSpeed: 50
-  velocityLossInForcefield: 80
+  velocityLossInForcefield: 140
   forcefieldVelocityDrag: 20
-  groundFriciton: 300
+  groundFriciton: 100
   groundCheckradius: 0.48
   negativeColor: {r: 0.42352945, g: 0.7254902, b: 0.8235295, a: 1}
   positiveColor: {r: 0.67058825, g: 0.28235295, b: 0.3803922, a: 1}

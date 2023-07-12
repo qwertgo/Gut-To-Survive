@@ -20,4 +20,9 @@ public static class MathExtention
 
         return a - b < range;
     }
+
+    public static bool LayerIsInMask(int layer, LayerMask mask)
+    {
+        return (mask & (1 << layer)) != 0;
+    }
 }
