@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using static PolarityExtention;
 using static MathExtention;
@@ -29,6 +30,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float groundCheckradius;
     [SerializeField] Color negativeColor = new Color(50, 50, 255);
     [SerializeField] Color positiveColor = new Color(171, 72, 97);
+    [SerializeField] Color dashUnavailable;
+    [SerializeField] Color dashAvailable;
 
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
@@ -73,6 +76,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Sprite bloodSplash;
     [SerializeField] Sprite normalSprite;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Image dashUi;
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] CameraController camController;
     [SerializeField] Collider2D pCollider;
@@ -94,6 +98,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
 
         spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
+        dashUi.color = dashAvailable;
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
         coyoteTimer = coyoteTime + 1;
@@ -150,6 +155,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             timeSinceStartedDropping = 0;
             walkVelocityX = leftStickDir.x;
             canDash = true;
+            dashUi.color = dashAvailable;
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
@@ -540,6 +546,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.dash;
             canDash = false;
+            dashUi.color = dashUnavailable;
             timeSinceStartedDashing = 0;
             turnability = 0;
             forcefieldExitMagnitude = 0; 
@@ -577,7 +584,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 currentForcefield = collision.gameObject.GetComponent<ForceField>();
                 currentState = State.forcefield;
                 turnability = 0;
-                canDash = true;
+                
 
                 Vector2 dropVelocity = gravityVelocity + new Vector2(walkVelocityX * walkSpeed, 0);
                 dropMagnitudeSaver = dropVelocity.magnitude;
@@ -615,6 +622,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentForcefield = null;
             currentState = State.drop;
             turnability = inAirMovementCap;
+
+            canDash = true;
+            dashUi.color = dashAvailable;
 
             dashVelocity = Vector2.zero;
             forcefieldVelocity = Vector2.zero;
