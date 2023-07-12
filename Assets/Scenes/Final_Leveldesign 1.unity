@@ -2988,22 +2988,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: pCollider
-      value: 
-      objectReference: {fileID: 406196478}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: jumpBuffer
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: bloodSplash
-      value: 
-      objectReference: {fileID: 21300000, guid: e7fffb55504249b4793d4704591a803c, type: 3}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: normalSprite
-      value: 
-      objectReference: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: camController
       value: 
       objectReference: {fileID: 64695110}
@@ -3011,14 +2995,6 @@ PrefabInstance:
       propertyPath: gravityHandler
       value: 
       objectReference: {fileID: 2083270966}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: groundFriciton
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 2421048444573215170, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-      propertyPath: visualsTransform
-      value: 
-      objectReference: {fileID: 160398720}
     - target: {fileID: 2421048444573215173, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_Name
       value: Player
@@ -6653,11 +6629,6 @@ Transform:
 --- !u!4 &400921981 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8920979054459062717, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-  m_PrefabInstance: {fileID: 160398719}
-  m_PrefabAsset: {fileID: 0}
---- !u!70 &406196478 stripped
-CapsuleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 2421048444573215168, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
   m_PrefabInstance: {fileID: 160398719}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &415206569
@@ -33586,23 +33557,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 730672718404897538, guid: 3fe8e82f9181ab8498a364d440601b42, type: 3}
   m_PrefabInstance: {fileID: 1880862482}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1880997970 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2421048444573215173, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
-  m_PrefabInstance: {fileID: 160398719}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1880997971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880997970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb9d71e96c364d4e94113f7c8b529fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1882133563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40268,7 +40222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807b4e6c8efc0494481814920f41f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 64695110}
   camTransform: {fileID: 64695109}
 --- !u!4 &2083270967
 Transform:
