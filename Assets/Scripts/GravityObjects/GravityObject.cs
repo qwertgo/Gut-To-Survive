@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GravityObject : MonoBehaviour
+public abstract class GravityObject : MonoBehaviour
 {
     public static float gravityAngle;
     protected enum State { idle, walk, jump, drop, dash, forcefield };
@@ -21,9 +21,11 @@ public class GravityObject : MonoBehaviour
         return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
     }
 
-    protected bool LayerIsInMask(int layer, LayerMask mask)
+    
+
+    public static void SetGravityDirection(Vector2 gravityDirection)
     {
-        return (mask & (1 << layer)) != 0;
+        GravityObject.gravityDirection = gravityDirection.normalized;
     }
 
 
