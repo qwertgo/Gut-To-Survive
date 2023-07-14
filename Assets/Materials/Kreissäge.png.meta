@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5f66e3e7b01f51e499ca33ea6b9db2da
+guid: bd047f807ac6d034f9344a5d53219839
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Kreissa\u0308ge (1)_0"
+      name: "Kreissa\u0308ge (2)_0"
       rect:
         serializedVersion: 2
-        x: 1217
+        x: 1216
         y: 782
-        width: 910
-        height: 515
+        width: 906
+        height: 513
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ae2ff153be578144ac175e8283f6974
-      internalID: -1334789859
+      spriteID: ffc85d01b31288645814b799e337f7fe
+      internalID: 1053025015
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "Kreissa\u0308ge (1)_1"
+      name: "Kreissa\u0308ge (2)_1"
       rect:
         serializedVersion: 2
         x: 1757
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6552c097267724346bf0fdffb15eb9ec
-      internalID: -116280215
+      spriteID: 46986356a00222d4fb382d1b51f9a11b
+      internalID: 245681776
       vertices: []
       indices: 
       edges: []
@@ -157,8 +157,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "Kreissa\u0308ge (1)_0": -1334789859
-      "Kreissa\u0308ge (1)_1": -116280215
+      "Kreissa\u0308ge (2)_0": 1053025015
+      "Kreissa\u0308ge (2)_1": 245681776
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
