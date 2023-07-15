@@ -1667,11 +1667,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.714575
+      value: -60.724575
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.77413
+      value: -12.035866
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7965,11 +7965,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.29
+      value: -61.3
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.05
+      value: -12.76
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -41412,7 +41412,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -66173,6 +66173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Game: {fileID: 1837410582}
   PauseMenu: {fileID: 2024053321}
+  pc: {fileID: 0}
 --- !u!1001 &1843907175
 PrefabInstance:
   m_ObjectHideFlags: 0
