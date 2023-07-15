@@ -38,7 +38,6 @@ public class PlatformSwitch : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D coll)
     { 
-      
       if(coll.gameObject.CompareTag("Player"))
       {
        time.StartTimer();       
