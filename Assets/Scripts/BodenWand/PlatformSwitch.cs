@@ -9,47 +9,55 @@ public class PlatformSwitch : MonoBehaviour
   public GameObject unbroken;
   public GameObject broken;
   public Timer time;
+  public Break breakable;
 
+void Start()
+{
 
-    bool GroundCheck()
+time.enabled = false;
+}
+
+  bool GroundCheck()
+  {
+    if(Physics2D.Raycast(transform.position, Vector2.down, 1.1f, ~LayerMask.GetMask("Player")))
     {
-      if(Physics2D.Raycast(transform.position, Vector2.down, 1.1f, ~LayerMask.GetMask("Player")))
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
+      return true;
     }
+
+    else
+    {
+      return false;
+    }
+  }
   	
   
-    public void OnCollisionExit2D(Collision2D collision)
+ public void OnCollisionExit2D(Collision2D collision)
+  {
+    if(collision.gameObject.CompareTag("Player"))
     {
-      if(collision.gameObject.CompareTag("Player"))
+      if(GroundCheck()==true)
       {
-        if(GroundCheck()==true)
-          {
-            timerEnded();      
-          }
+        unbroken.SetActive(false);
+        broken.SetActive(true);   
       }
     }
+  }
 
-    public void OnCollisionEnter2D(Collision2D coll)
-    { 
-      if(coll.gameObject.CompareTag("Player"))
-      {
-       time.StartTimer();       
-      }   
-    }
-
-    public void timerEnded()
+  public void OnCollisionEnter2D(Collision2D coll)
+  { 
+    if(coll.gameObject.CompareTag("Player"))
     {
-      unbroken.SetActive(false);
-      broken.SetActive(true);
-    }
+      time.enabled= true;
+      time.Update();
+    }   
+  }
 
+  public void timerEnded()
+  {
+    
+    unbroken.SetActive(false);
+    broken.SetActive(true);
+    breakable.Fade();
 
-
+  }
 }

@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-   public float time =10.0f;
-   public PlatformSwitch ps;    
-   public float TimeLeft;
+  public float time;
+  public PlatformSwitch ps;   
 
 
-    void Update()
+  public void Update()
+  {
+    time -= Time.deltaTime;
+    if (time <= 0.0f)
     {
-          time -= Time.deltaTime;
-      }
-
-    
-
-
-    public void StartTimer()
-    {
-        if (time <= 0.0f)
-        {
-          ps.timerEnded();
-        }
+      ps.timerEnded();
+      
     }
+  }
 }

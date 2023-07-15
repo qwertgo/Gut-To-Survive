@@ -8,7 +8,11 @@ public class Break : MonoBehaviour
     public GameObject unbroken;
     //public float Torque;
     public GameObject broken;
-     bool GroundCheck()
+    
+    public Rigidbody2D rb;
+    
+ 
+    bool GroundCheck()
     {
         if(Physics2D.Raycast(transform.position, Vector2.down, 0.86f, ~LayerMask.GetMask("Player")))
         {
@@ -22,12 +26,12 @@ public class Break : MonoBehaviour
         }
     }
     
-    private void OnCollisionExit2D( Collision2D collision)
+    void Start()
     {
-        StartCoroutine(FadeIn());
+        Fade();
     }
 
-     private IEnumerator FadeIn()
+     IEnumerator FadeIn()
     {
         float alphaVal = yourSpriteRenderer.color.a;
         Color tmp = yourSpriteRenderer.color;
@@ -38,7 +42,7 @@ public class Break : MonoBehaviour
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
-            yield return new WaitForSeconds(0.05f); // update interval
+            yield return new WaitForSeconds(0.05f); 
             
           
         }
@@ -47,5 +51,10 @@ public class Break : MonoBehaviour
         Destroy(gameObject);
       }
         
+    }
+    
+    public void Fade()
+    {
+        StartCoroutine(FadeIn());
     }
 }
