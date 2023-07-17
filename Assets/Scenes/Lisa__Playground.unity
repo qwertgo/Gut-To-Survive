@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5262155}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7862854, y: 2.5100098, z: -3.1826072}
+  m_LocalPosition: {x: 6.199997, y: -4.5, z: -3.1826072}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1704,11 +1704,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -60.724575
+      value: 21.365427
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.035866
+      value: -3.655866
       objectReference: {fileID: 0}
     - target: {fileID: 6033569791543595376, guid: 2b41da22fde7db34288db890f9527472, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8010,11 +8010,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -61.3
+      value: 20.79
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.76
+      value: -4.38
       objectReference: {fileID: 0}
     - target: {fileID: 2421048444573215182, guid: 8321461ebc2905e46b660bf4d09247c3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -25834,8 +25834,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0013123, y: -41}
-  m_SizeDelta: {x: 201.83, y: 240.63}
+  m_AnchoredPosition: {x: -0.0013123, y: -59.5858}
+  m_SizeDelta: {x: 201.83, y: 277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673638052
 MonoBehaviour:
@@ -28815,7 +28815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -620.6001, y: 194.79993}
+  m_AnchoredPosition: {x: -130.7, y: 76.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &892827845
@@ -28912,7 +28912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -523.8137, y: 182.50998}
+  m_AnchoredPosition: {x: -23.01361, y: 66.410065}
   m_SizeDelta: {x: 201.8274, y: 316.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &899960558
@@ -38536,7 +38536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 74.345985, y: 6.2899685}
+  m_AnchoredPosition: {x: 80.8002, y: 15.499908}
   m_SizeDelta: {x: 34.0947, y: 13.0433}
   m_Pivot: {x: 0.5, y: 0.9999988}
 --- !u!114 &1241514286
@@ -47263,7 +47263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 161.44614, y: 6.2899685}
+  m_AnchoredPosition: {x: 167.9003, y: 15.5000305}
   m_SizeDelta: {x: 15.8977, y: 13.0433}
   m_Pivot: {x: 0.5, y: 0.9999988}
 --- !u!114 &1475794824
@@ -55167,7 +55167,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24.345787, y: 6.2899837}
+  m_AnchoredPosition: {x: 30.8, y: 15.5000305}
   m_SizeDelta: {x: 22.5017, y: 13.0433}
   m_Pivot: {x: 0.5, y: 0.9999988}
 --- !u!114 &1643903511
@@ -80639,7 +80639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 124.34615, y: 6.2899685}
+  m_AnchoredPosition: {x: 130.80038, y: 15.5000305}
   m_SizeDelta: {x: 20.319, y: 13.0433}
   m_Pivot: {x: 0.5, y: 0.9999988}
 --- !u!114 &2048522597
