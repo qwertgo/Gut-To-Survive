@@ -9,6 +9,8 @@ TagManager:
   - Spikes
   - GameWon
   - Ground
+  - EntryContainer
+  - EntryTemplate
   layers:
   - Default
   - TransparentFX
