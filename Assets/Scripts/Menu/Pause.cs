@@ -13,12 +13,14 @@ public class Pause : MonoBehaviour
   
      void Update()
     {
+      pause = false;
       
       if(Input.GetKey(KeyCode.Escape) && pause != true) 
       {
         PauseMenu.SetActive(true);
         pause = true;
       }
+
     }
 }
 
