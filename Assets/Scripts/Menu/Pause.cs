@@ -7,23 +7,18 @@ public class Pause : MonoBehaviour
 {
 
   public GameObject PauseMenu;
+  public GameObject Game;
+  public bool pause;
 
-public GameObject Game;
-public bool pause;
   
      void Update()
     {
       
-      if(Input.GetKey(KeyCode.Escape)) 
+      if(Input.GetKey(KeyCode.Escape) && pause != true) 
       {
         PauseMenu.SetActive(true);
         pause = true;
-
-       
       }
-      while(pause == true)
-         if(Input.GetKey(KeyCode.Escape)) 
-        Game.SetActive(true);
     }
 }
 
