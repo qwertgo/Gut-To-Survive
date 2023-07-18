@@ -1,16 +1,12 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
 guid: f0cc45b3442cf744a920173ce149a457
-========
-guid: 8a87c8cc6fde5d14e84cc7d7377904ba
->>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -40,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
-  nPOTScale: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -55,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -66,15 +62,15 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 0
-  cookieLightType: 0
+  applyGammaDecoding: 1
+  cookieLightType: 2
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -86,7 +82,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -98,7 +94,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,92 +103,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
-    sprites:
-    - serializedVersion: 2
-      name: "Kreissa\u0308ge3Blut (1)_0"
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1189.6666
-        height: 2014
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8000425ad37d6db46ac5c0b0f3507721
-      internalID: -1698096204
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "Kreissa\u0308ge3Blut (1)_1"
-      rect:
-        serializedVersion: 2
-        x: 1189
-        y: 0
-        width: 1189.6666
-        height: 2014
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e875c6366379c574c9a73d98540db1a2
-      internalID: 2081063849
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "Kreissa\u0308ge3Blut (1)_2"
-      rect:
-        serializedVersion: 2
-        x: 2378
-        y: 0
-        width: 1189.6666
-        height: 2014
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: abe8067f84bc3834384f9165af3fe9fa
-      internalID: -1985646905
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-========
     sprites: []
->>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
-    nameFileIdTable:
-      "Kreissa\u0308ge3Blut (1)_0": -1698096204
-      "Kreissa\u0308ge3Blut (1)_1": 2081063849
-      "Kreissa\u0308ge3Blut (1)_2": -1985646905
-========
     nameFileIdTable: {}
->>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
