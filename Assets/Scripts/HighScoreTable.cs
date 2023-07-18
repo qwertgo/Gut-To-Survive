@@ -8,7 +8,7 @@ public class HighScoreTable : MonoBehaviour
 {
     public Transform entryContainer;
     public Transform entryTemplate;
-    private List<HighScoreEntry> highscoreEntryList;
+   private List<HighScoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
         
 
@@ -18,9 +18,9 @@ public class HighScoreTable : MonoBehaviour
     {
        
         entryTemplate.gameObject.SetActive(false);
-       // AddEntry(10,"CMK");
       
 
+  /*    //highScoreEntryList manuelle Eingabe
         highscoreEntryList = new List<HighScoreEntry>()
         {
             new HighScoreEntry{ score =9, name ="Samuel"},
@@ -34,14 +34,15 @@ public class HighScoreTable : MonoBehaviour
             new HighScoreEntry{ score =1, name ="Lena"},
 
 
-        };
+        };*/
+    
 
-      /*  string jsonString = PlayerPrefs.GetString("highscoreTable");
+       string jsonString = PlayerPrefs.GetString("highscoreTable");
         
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-
+   
         //Sort entry list by Score
-        for(int i=0; i< highscoreEntryList.Count; i++)
+     /*   for(int i=0; i< highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscoreEntryList.Count; j++)
             {
@@ -53,7 +54,9 @@ public class HighScoreTable : MonoBehaviour
                 }
             }
         }
-        /*for(int i=0; i< highscores.highscoreEntryList.Count; i++)
+*/
+        
+     for(int i=0; i< highscores.highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscores.highscoreEntryList.Count; j++)
             {
@@ -64,21 +67,22 @@ public class HighScoreTable : MonoBehaviour
                     highscores.highscoreEntryList[j] = tmp; 
                 }
             }
-        }*/
-
-        highscoreEntryTransformList = new List<Transform>();
-        foreach(HighScoreEntry highscoreEntry in highscoreEntryList){
-        newEntry(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
 
-        Highscores highscores = new Highscores{highscoreEntryList = highscoreEntryList};       
-        string json = JsonUtility.ToJson(highscoreEntryList);
+        highscoreEntryTransformList = new List<Transform>();
+        foreach(HighScoreEntry highscoreEntry in highscores.highscoreEntryList){
+        newEntry(highscoreEntry, entryContainer, highscoreEntryTransformList);
+        
+
+       /*Highscores highscores = new Highscores{highscoreEntryList = highscoreEntryList};       
+        string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
         Debug.Log(PlayerPrefs.GetString("highscoreTable"));
-
-     
+}*/
+    
       
+    }
     }
     private void newEntry(HighScoreEntry highscoreEntry, Transform container, List<Transform> transformList )
     {
@@ -113,7 +117,7 @@ public class HighScoreTable : MonoBehaviour
             entryTemplate.Find("NameTex").GetComponent<TextMeshProUGUI>().text =name;
 
 
-           transformList.Add(entryTransform);
+           transformList.Add(_entryTransform);
     }
     
    /* private void AddEntry (int score, string name)
@@ -155,7 +159,8 @@ public class HighScoreTable : MonoBehaviour
 
     }
 */
-   private class Highscores{
+    private class Highscores
+    {
         public List<HighScoreEntry> highscoreEntryList;
     }
 
@@ -165,4 +170,5 @@ public class HighScoreTable : MonoBehaviour
         public int score; 
         public string name;
     }
+
 }
