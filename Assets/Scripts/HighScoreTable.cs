@@ -14,7 +14,7 @@ public class HighScoreTable : MonoBehaviour
 
 
 
-     void Awake()
+    void Awake()
     {
        
         entryTemplate.gameObject.SetActive(false);
