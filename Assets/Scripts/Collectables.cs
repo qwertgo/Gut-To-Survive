@@ -13,10 +13,10 @@ public class Collectables : MonoBehaviour
         
         
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Collectable"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {  
             
-            Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
     }
 }
