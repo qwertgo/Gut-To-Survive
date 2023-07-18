@@ -19,11 +19,11 @@ public class HighScoreTable : MonoBehaviour
        
         entryTemplate.gameObject.SetActive(false);
       
-
+     
   /*    //highScoreEntryList manuelle Eingabe
         highscoreEntryList = new List<HighScoreEntry>()
         {
-            new HighScoreEntry{ score =9, name ="Samuel"},
+            new HighScoreEntry{ score =1, name ="Test"},
             new HighScoreEntry{ score =8, name ="Ann"},
             new HighScoreEntry{ score =7, name ="Samu"},
             new HighScoreEntry{ score =6, name ="Lisa"},
@@ -117,10 +117,10 @@ public class HighScoreTable : MonoBehaviour
             entryTemplate.Find("NameTex").GetComponent<TextMeshProUGUI>().text =name;
 
 
-           transformList.Add(_entryTransform);
+          transformList.Add(_entryTransform);
     }
     
-   /* private void AddEntry (int score, string name)
+   private void AddEntry (int score, string name)
     {
         // Create
         HighScoreEntry highscoreEntry = new HighScoreEntry {score = score, name=name};
@@ -133,7 +133,7 @@ public class HighScoreTable : MonoBehaviour
         highscores.highscoreEntryList.Add(highscoreEntry);
         
         //Save
-       /* for(int i=1; i< highscores.highscoreEntryList.Count; i++)
+        for(int i=1; i< highscores.highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscores.highscoreEntryList.Count; j++)
             {
@@ -156,10 +156,10 @@ public class HighScoreTable : MonoBehaviour
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
 
+}
+    
 
-    }
-*/
-    private class Highscores
+private class Highscores
     {
         public List<HighScoreEntry> highscoreEntryList;
     }
@@ -172,3 +172,4 @@ public class HighScoreTable : MonoBehaviour
     }
 
 }
+
