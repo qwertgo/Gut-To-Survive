@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2421048444175191825}
   - component: {fileID: 3274136042593621620}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1418576229
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 6
   m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   m_Color: {r: 0.4887095, g: 0.9433962, b: 0.4761481, a: 1}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2421048444573215168}
   - component: {fileID: 2421048444573215171}
   - component: {fileID: 2421048444573215170}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1418576229
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 3
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -234,7 +234,7 @@ MonoBehaviour:
   coyoteTime: 0.1
   jumpBuffer: 0.2
   gravityChangeBuffer: 0.5
-  dropMultiplier: 1.1
+  dropMultiplier: 1.5
   inAirMovementCap: 0
   respawnTime: 0.5
   rotateToForcefieldSpeed: 6
@@ -276,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2421048445925974519}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HeadCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,10 +347,10 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.693
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.11
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 674d98c20000000065c18d54
+  m_ApplyToSortingLayers: 674d98c200000000fbeaaf70
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -418,7 +418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8207008697910916395}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RightCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8920979054459062717}
   - component: {fileID: 3531936197009121630}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: camFiewFinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,7 +501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8008313694768922629}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
