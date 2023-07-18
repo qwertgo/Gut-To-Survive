@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 058c50afe04522b4c874606c8df42c4d
   - enabled: 1
-    path: Assets/Scenes/Final_Leveldesign.unity
+    path: Assets/Scenes/Lisa_Playground.unity
     guid: eecb3f6ff40e83c4b97ac50cffe43335
   - enabled: 1
     path: Assets/Scenes/Lisa__Playground.unity

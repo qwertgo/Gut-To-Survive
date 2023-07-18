@@ -8,7 +8,6 @@ public class Pause : MonoBehaviour
 
   public GameObject PauseMenu;
   public GameObject Game;
-  public Transform _Game;
   public bool pause;
   
 
