@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 9531398eb58394846809c34e20a93a04
+<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
+guid: 7f4c210d6c31c324e9cf302388cccf10
+========
+guid: 8a87c8cc6fde5d14e84cc7d7377904ba
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,6 +107,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
+<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
     sprites:
     - serializedVersion: 2
       name: "Kreissa\u0308ge3Blut (1)_0"
@@ -167,6 +172,9 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+========
+    sprites: []
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
     outline: []
     physicsShape: []
     bones: []
@@ -177,10 +185,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+<<<<<<<< HEAD:Assets/Materials/Kreissäge3Blut (1).png.meta
     nameFileIdTable:
       "Kreissa\u0308ge3Blut (1)_0": -1698096204
       "Kreissa\u0308ge3Blut (1)_1": 2081063849
       "Kreissa\u0308ge3Blut (1)_2": -1985646905
+========
+    nameFileIdTable: {}
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/Background_middle.png.meta
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -51,17 +51,17 @@ public class ForceField : MonoBehaviour
     {
         if (polarity == playerPolarity)
         {
-            if (forcefieldVelocity.magnitude == 0 || forcefieldExitMagnitude > 0)
+            if (forcefieldExitMagnitude > 0)
             {
                 //Vector from forcefield to player
                 Vector2 tmpVelocity = playerPosition - transform.position;
                 tmpVelocity.Normalize();
-                forcefieldVelocity += tmpVelocity * pushStrength;
+                forcefieldVelocity = tmpVelocity * pushStrength;
             }
-            else
-            {
+            else if (forcefieldVelocity.magnitude > 0)
                 forcefieldVelocity += forcefieldVelocity.normalized * pushStrength;
-            }
+            else
+                forcefieldVelocity = (playerPosition - position).normalized;
         }
         else
         {
@@ -70,8 +70,7 @@ public class ForceField : MonoBehaviour
             float forceFieldStrength = forcefieldVelocity.magnitude / radius;         //Get How Close player is to center
             forcefieldVelocity.Normalize();
 
-            //wich direction should player be rotated based on the forcefield polarity
-            //bool clockwiseRotation = PolarityToBool(polarity);
+
             Vector2 rotationVelocity = Rotate90Deg(forcefieldVelocity, clockwiseRotation) * rotationStrength;
 
             forcefieldVelocity *= Mathf.Lerp(innterPullStrength, outerPullStrength, forceFieldStrength);

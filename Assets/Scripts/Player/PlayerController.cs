@@ -78,7 +78,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Image dashUi;
     [SerializeField] GravityHandler gravityHandler;
-    [SerializeField] CameraController camController;
     [SerializeField] Collider2D pCollider;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
@@ -139,6 +138,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         ActOnCurrentStage();
         Vector2 walkVelocity = Rotate90Deg(gravityDirection, true) * (walkVelocityX * walkSpeed);
         rb.velocity = walkVelocity + forcefieldVelocity + gravityVelocity + dashVelocity + forcefieldExitVelocity;
+        //Debug.Log($"walk: {walkVelocity}, forcefield: {forcefieldVelocity}, gravity: {gravityVelocity}, forcefieldExit: {forcefieldExitVelocity}");
     }
 
     void CheckIfPlayerEnteredNewState()
@@ -172,12 +172,17 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.walk;
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
             currentState = State.idle;
+
+        if (BumpedSide())
+        {
+            forcefieldExitMagnitude = 0;
+            forcefieldExitVelocity = Vector2.zero;
+            timeSinceStartedDashing = dashDuration + 1;
+        }
     }
 
     void ActOnCurrentStage()
     {
-
-
         switch (currentState)                                            //react depending on playerState
         {
             case State.jump:
@@ -192,14 +197,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             case State.forcefield:
                 ForceFieldInteraction();
                 break;
-        }
-
-        //CalculateForcefieldExitVelocity();
-
-        if (BumpedSide())
-        {
-            forcefieldExitMagnitude = 0;
-            forcefieldVelocity = Vector2.zero;
         }
     }
 
@@ -247,6 +244,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Vector2 collsionPoint = groundCollider.ClosestPoint(pos);
 
         Vector2 newGravityDirection = collsionPoint - pos;
+        newGravityDirection = SnapVectorToOrthogonal(newGravityDirection);
 
         float gravityAngle = Vector2.SignedAngle(Vector2.down, newGravityDirection);
 
@@ -462,7 +460,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void Dash()
     {
-        float currentDashSpeed = CalculateVelocityGraph(timeSinceStartedDashing, dashSpeed, dashDuration);
+        float currentDashSpeed = CalculateVelocityGraph(timeSinceStartedDashing - .1f, dashSpeed, dashDuration);
         dashVelocity = currentDashSpeed * dashDirection;
         timeSinceStartedDashing += Time.fixedDeltaTime;
 
@@ -545,27 +543,35 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (context.started && canDash && currentForcefield == null)
+        if (!context.started || !canDash || currentForcefield != null)
+            return;
+
+        if (leftStickDir.magnitude == 0)
         {
-            currentState = State.dash;
-            canDash = false;
-            dashUi.color = dashUnavailable;
-            timeSinceStartedDashing = 0;
-            turnability = 0;
-            forcefieldExitMagnitude = 0; 
-            forcefieldVelocity = Vector2.zero;
-            forcefieldExitVelocity = Vector2.zero;
-            forcefieldExitMagnitude = 0;
-            walkVelocityX = 0;
-
-            if (leftStickDir.magnitude == 0)                                    //if there is input from left stick dash
-                dashDirection = Vector2.right;
+            if (rb.velocity.magnitude > 0)
+                dashDirection = rb.velocity.normalized;
             else
-                dashDirection = leftStickDir;                                   //else dash right
-
-            //Rotate dashdirection according to Gravity
-            dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
+                return;
         }
+        else
+        {
+            dashDirection = leftStickDir;
+        }
+
+        currentState = State.dash;
+        canDash = false;
+        dashUi.color = dashUnavailable;
+        timeSinceStartedDashing = 0;
+        timeSinceStartedDropping = 0;
+        turnability = 0;
+        forcefieldExitMagnitude = 0;
+        forcefieldExitVelocity = Vector2.zero;
+        forcefieldExitMagnitude = 0;
+        walkVelocityX = 0;
+        gravityVelocity = Vector2.zero;
+
+        //Rotate dashdirection according to Gravity
+        dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
     }
 
     public void OnSwitchPolarity(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -624,13 +630,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             currentForcefield = null;
             currentState = State.drop;
-            turnability = inAirMovementCap;
 
             canDash = true;
             dashUi.color = dashAvailable;
 
             dashVelocity = Vector2.zero;
             forcefieldVelocity = Vector2.zero;
+            timeSinceStartedDropping = 0;
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 

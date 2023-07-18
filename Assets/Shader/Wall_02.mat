@@ -41,5 +41,5 @@ Material:
     - _Grayscale: 1
     - _scale: 50
     m_Colors:
-    - _GrayscaleColor: {r: 0.9254902, g: 0.61960787, b: 0.44705883, a: 1}
+    - _GrayscaleColor: {r: 0.7647059, g: 0.44841447, b: 0.37254906, a: 1}
   m_BuildTextureStacks: []

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: fec6cabc13bc6b9469e0c1452c9b9c4f
+<<<<<<<< HEAD:Assets/Materials/Bones.png.meta
+guid: 3e05f1996d292c548be5c2ba58f87369
+========
+guid: d310f361d1ff08041ac25892c5978368
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/MaskMap.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,6 +107,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
+<<<<<<<< HEAD:Assets/Materials/Bones.png.meta
     sprites:
     - serializedVersion: 2
       name: Bones_0
@@ -167,6 +172,9 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+========
+    sprites: []
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/MaskMap.png.meta
     outline: []
     physicsShape: []
     bones: []
@@ -177,10 +185,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+<<<<<<<< HEAD:Assets/Materials/Bones.png.meta
     nameFileIdTable:
       Bones_0: -600863406
       Bones_1: 1298281175
       Bones_2: 565037000
+========
+    nameFileIdTable: {}
+>>>>>>>> Samu_coded_crispy_coolen_Code:Assets/Textures/MaskMap.png.meta
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
