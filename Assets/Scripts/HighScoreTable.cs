@@ -154,7 +154,6 @@ public class HighScoreTable : MonoBehaviour
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
-
 }
     
 

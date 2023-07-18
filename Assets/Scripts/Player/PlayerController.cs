@@ -66,6 +66,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
 
+    public GameObject Indicator;
+
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform groundCheckTransform;
@@ -588,13 +590,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
-        {
+        {   
             case "ForceField":
                 currentForcefield = collision.gameObject.GetComponent<ForceField>();
                 currentState = State.forcefield;
                 turnability = 0;
                 
-
+                Indicator.SetActive(true);
+               
                 Vector2 dropVelocity = gravityVelocity + new Vector2(walkVelocityX * walkSpeed, 0);
                 dropMagnitudeSaver = dropVelocity.magnitude;
                 forcefieldEnterDirection = dropVelocity.normalized;
@@ -639,6 +642,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             timeSinceStartedDropping = 0;
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
+
+            Indicator.SetActive(false);
 
             StopCoroutinesSafely();
             StartCoroutine(KillForcefieldExitVelocity());
