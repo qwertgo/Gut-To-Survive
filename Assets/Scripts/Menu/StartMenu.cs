@@ -8,7 +8,7 @@ public class StartMenu : MonoBehaviour
     // Start is called before the first frame update
     public void Play()
     {
-        SceneManager.LoadScene("Lisa__Playground");
+        SceneManager.LoadScene("Lisa_Playground");
     }
     
     public void Settings()
