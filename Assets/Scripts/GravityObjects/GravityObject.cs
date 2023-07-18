@@ -21,8 +21,6 @@ public abstract class GravityObject : MonoBehaviour
         return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
     }
 
-    
-
     public static void SetGravityDirection(Vector2 gravityDirection)
     {
         GravityObject.gravityDirection = gravityDirection.normalized;
