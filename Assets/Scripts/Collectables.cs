@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Collectables : MonoBehaviour
 {
-
+    public PlayerController pc;
     
         
 
@@ -17,6 +17,7 @@ public class Collectables : MonoBehaviour
         {  
             
             Destroy(gameObject);
+          
         }
     }
 }
