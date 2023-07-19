@@ -19,6 +19,7 @@ public class HighScoreTable : MonoBehaviour
     public string myString;
     public end End;
     public PlayerController pc;
+    public int remove;
     
 
   
@@ -29,11 +30,12 @@ public class HighScoreTable : MonoBehaviour
         {
             myString += glyphs[Random.Range(0, glyphs.Length)];
          }
-            if(End.HA == true)
-                {
-                Debug.Log(myString);
-                AddEntry(pc.DeathCount, myString);
-                }
+          
+              
+                
+
+        AddEntry(pc.DeathCount, myString);
+        
 
         entryTemplate.gameObject.SetActive(false);
 
@@ -77,7 +79,7 @@ public class HighScoreTable : MonoBehaviour
         {
             for(int j = i+1; j< highscores.highscoreEntryList.Count; j++)
             {
-                if(highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+                if(highscores.highscoreEntryList[j].score < highscores.highscoreEntryList[i].score)
                 {
                     HighScoreEntry tmp = highscores.highscoreEntryList[i];
                     highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
@@ -155,11 +157,11 @@ public class HighScoreTable : MonoBehaviour
                 }
             }
         }
-         if (highscores.highscoreEntryList.Count > 10)
+         if (highscores.highscoreEntryList.Count > remove)
         {
-            for (int h = highscores.highscoreEntryList.Count; h>10; h--)
+            for (int h = highscores.highscoreEntryList.Count; h>remove; h--)
             {
-                highscores.highscoreEntryList.RemoveAt(10);
+                highscores.highscoreEntryList.RemoveAt(remove);
             }
         }
         string json = JsonUtility.ToJson(highscores);
