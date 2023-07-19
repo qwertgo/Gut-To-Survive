@@ -4,48 +4,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public class HighScoreTable : MonoBehaviour
 {
     public Transform entryContainer;
     public Transform entryTemplate;
-   //private List<HighScoreEntry> highscoreEntryList;
+    //private List<HighScoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
-        
+    private string adjectives;
+    private int minCharAmount = 3;
+    private int maxCharAmount = 6;
+    public const string glyphs= "0123456789";
+    public string myString;
+    public end End;
+    public PlayerController pc;
+    
 
-
-
+  
     void Awake()
-    {
-       
-        entryTemplate.gameObject.SetActive(false);
-      
-
-     AddEntry(10,"Test");
-      //highScoreEntryList manuelle Eingabe
-      /*  highscoreEntryList = new List<HighScoreEntry>()
+    {   
+       int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
+        for(int i=0; i<charAmount; i++)
         {
-            new HighScoreEntry{ score =1, name ="Test"},
-            new HighScoreEntry{ score =8, name ="Ann"},
-            new HighScoreEntry{ score =7, name ="Samu"},
-            new HighScoreEntry{ score =6, name ="Lisa"},
-            new HighScoreEntry{ score =5, name ="Lena"},
-            new HighScoreEntry{ score =4, name ="Ann"},
-            new HighScoreEntry{ score =3, name ="Samu"},
-            new HighScoreEntry{ score =2, name ="Lisa"},
-            new HighScoreEntry{ score =1, name ="Lena"},
+            myString += glyphs[Random.Range(0, glyphs.Length)];
+         }
+            if(End.HA == true)
+                {
+                Debug.Log(myString);
+                AddEntry(pc.DeathCount, myString);
+                }
 
+        entryTemplate.gameObject.SetActive(false);
+
+
+     //highScoreEntryList manuelle Eingabe
+   /*    highscoreEntryList = new List<HighScoreEntry>()
+        {
+            new HighScoreEntry{ score =3, name ="1234"},
+            new HighScoreEntry{ score =1, name ="1234"},
 
         };
+        
         Highscores highscores = new Highscores{highscoreEntryList = highscoreEntryList};       
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
-        Debug.Log(PlayerPrefs.GetString("highscoreTable"));
+        Debug.Log(PlayerPrefs.GetString("highscoreTable"));*/
 
 
    
-        //Sort entry list by Score
-        for(int i=0; i< highscoreEntryList.Count; i++)
+      /*  //Sort entry list by Score
+       for(int i=0; i< highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscoreEntryList.Count; j++)
             {
@@ -63,7 +73,7 @@ public class HighScoreTable : MonoBehaviour
         
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
         
-        for(int i=0; i< highscores.highscoreEntryList.Count; i++)
+          for(int i=0; i< highscores.highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscores.highscoreEntryList.Count; j++)
             {
@@ -75,7 +85,7 @@ public class HighScoreTable : MonoBehaviour
                 }
             }
         }
-
+        
         highscoreEntryTransformList = new List<Transform>();
         foreach(HighScoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
@@ -112,14 +122,15 @@ public class HighScoreTable : MonoBehaviour
             entryTemplate.Find("DeathsTex").GetComponent<TextMeshProUGUI>().text =score.ToString();
         
           
-            string name =highscoreEntry.name;
+            string name = highscoreEntry.name;
             entryTemplate.Find("NameTex").GetComponent<TextMeshProUGUI>().text =name;
 
 
-          transformList.Add(_entryTransform);
+        transformList.Add(_entryTransform);
+        
     }
     
-   private void AddEntry (int score, string name)
+   public void AddEntry (int score, string name)
     {
         // Create
         HighScoreEntry highscoreEntry = new HighScoreEntry {score = score, name=name};
@@ -132,11 +143,11 @@ public class HighScoreTable : MonoBehaviour
         highscores.highscoreEntryList.Add(highscoreEntry);
         
         //Save
-        for(int i=1; i< highscores.highscoreEntryList.Count; i++)
+        for(int i=1; i> highscores.highscoreEntryList.Count; i++)
         {
-            for(int j = i+1; j< highscores.highscoreEntryList.Count; j++)
+            for(int j = i+1; j> highscores.highscoreEntryList.Count; j++)
             {
-                if(highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+                if(highscores.highscoreEntryList[j].score < highscores.highscoreEntryList[i].score)
                 {
                     HighScoreEntry tmp = highscores.highscoreEntryList[i];
                     highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];

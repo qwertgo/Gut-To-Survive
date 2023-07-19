@@ -9,6 +9,7 @@ public class Pause : MonoBehaviour
   public GameObject PauseMenu;
   public GameObject Game;
   public bool pause;
+  public PlayerController pc;
   
 
   
@@ -16,12 +17,12 @@ public class Pause : MonoBehaviour
     {
       
       pause = false;
-      
+     
       if(Input.GetKey(KeyCode.Escape) && pause != true) 
       {
         PauseMenu.SetActive(true);
-       //_Game.Find("Player").GetComponent<GameObject>().time.timeScale = 0;
         pause = true;
+        
 
     
       }
