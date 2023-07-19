@@ -44,7 +44,7 @@ public class ForceField : MonoBehaviour
 
         position = transform.position;
 
-        spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
+        //spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
     }
 
     public Vector2 CalculatePlayerVelocity(Vector2 forcefieldVelocity, Polarity playerPolarity, Vector3 playerPosition, float forcefieldExitMagnitude)
