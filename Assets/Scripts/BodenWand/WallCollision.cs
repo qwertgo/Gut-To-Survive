@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallCollision : MonoBehaviour
 {
-  public SpriteRenderer yourSpriteRenderer;
+  public SpriteShapeRenderer yourSpriteRenderer;
 
  
 
