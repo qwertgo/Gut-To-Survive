@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a362966cb028cd148be388add994d761
+guid: 2499268b70e441743b077c6b608a1393
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FakeScreenshot-v04_0
+      name: FakeScreenshot-v04 (3)_0
       rect:
         serializedVersion: 2
         x: 2540
@@ -119,20 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb369ae1077aa874fb2365c296aba954
-      internalID: 1125028158
+      spriteID: 198dbb12434f2bc46878a65628614a01
+      internalID: 1280382901
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FakeScreenshot-v04_1
+      name: FakeScreenshot-v04 (3)_1
       rect:
         serializedVersion: 2
-        x: 2620
+        x: 2615
         y: 535
-        width: 210
-        height: 793
+        width: 217
+        height: 795
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee9716c9340c5184fb55022bf9bf35ca
-      internalID: 762819849
+      spriteID: 73f0a7cda6380974aa8b467fe36e9e97
+      internalID: 557749605
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FakeScreenshot-v04_2
+      name: FakeScreenshot-v04 (3)_2
       rect:
         serializedVersion: 2
-        x: 3068
+        x: 3067
         y: 533
-        width: 229
-        height: 790
+        width: 233
+        height: 794
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,8 +161,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e202973f55e0c1e49b2d7203a749c6d2
-      internalID: 446638588
+      spriteID: d62b234ccd0c8e243afb4e7a4858533b
+      internalID: -415926066
       vertices: []
       indices: 
       edges: []
@@ -178,9 +178,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FakeScreenshot-v04_0: 1125028158
-      FakeScreenshot-v04_1: 762819849
-      FakeScreenshot-v04_2: 446638588
+      FakeScreenshot-v04 (3)_0: 1280382901
+      FakeScreenshot-v04 (3)_1: 557749605
+      FakeScreenshot-v04 (3)_2: -415926066
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
