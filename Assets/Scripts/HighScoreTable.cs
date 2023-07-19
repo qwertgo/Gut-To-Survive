@@ -33,7 +33,7 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
-
+        Debug.Log(pc.DeathCount);
         AddEntry(pc.DeathCount, myString);
         
 
@@ -41,7 +41,7 @@ public class HighScoreTable : MonoBehaviour
 
 
      //highScoreEntryList manuelle Eingabe
-   /*    highscoreEntryList = new List<HighScoreEntry>()
+     /* highscoreEntryList = new List<HighScoreEntry>()
         {
             new HighScoreEntry{ score =3, name ="1234"},
             new HighScoreEntry{ score =1, name ="1234"},
@@ -56,8 +56,8 @@ public class HighScoreTable : MonoBehaviour
 
 
    
-      /*  //Sort entry list by Score
-       for(int i=0; i< highscoreEntryList.Count; i++)
+       //Sort entry list by Score
+     /*  for(int i=0; i< highscoreEntryList.Count; i++)
         {
             for(int j = i+1; j< highscoreEntryList.Count; j++)
             {
@@ -132,7 +132,7 @@ public class HighScoreTable : MonoBehaviour
         
     }
     
-   public void AddEntry (int score, string name)
+  public void AddEntry (int score, string name)
     {
         // Create
         HighScoreEntry highscoreEntry = new HighScoreEntry {score = score, name=name};
