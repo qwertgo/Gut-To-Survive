@@ -66,7 +66,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
 
-    public GameObject Indicator;
+    
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
@@ -83,7 +83,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Collider2D pCollider;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
-    
+    public GameObject Indicator;
+    public int DeathCount = 0;
 
 
     private void Start()
@@ -270,7 +271,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dashVelocity = Vector2.zero;
     }
 
-    void RotateOverTimePreparation(Vector2 rotationReference)
+    public void RotateOverTimePreparation(Vector2 rotationReference)
     {
         rb.rotation = Modulo(rb.rotation, 360);
         rotationStart = rb.rotation;
@@ -398,6 +399,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         isDying = true;
         yield return new WaitForSeconds(respawnTime);
+        DeathCount ++;
+        Debug.Log(DeathCount);
         if(lastSavePoint == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -500,6 +503,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = Vector2.zero;
         spriteRenderer.sprite = bloodSplash;
         spriteRenderer.color = Color.white;
+        
 
         StartCoroutine(Respawn());
     }
