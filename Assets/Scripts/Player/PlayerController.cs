@@ -59,6 +59,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float coyoteTimer;
     float jumpBufferTimer;
     float gravityChangeBufferTimer;
+    float visualsScale = 1.13f;
 
     bool canDash = true;
     bool isRotating;
@@ -181,7 +182,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
         {
             currentState = State.idle;
-            if(!isSleeping)
+            if (!isSleeping && !isDying)
                 CrossFade("Idle");
         }
 
@@ -324,6 +325,20 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         yield return new WaitForSeconds(.25f);
         CrossFade("Idle");
+    }
+
+    IEnumerator PlayerScalexInForcefield()
+    {
+        yield return new WaitForEndOfFrame();
+
+        bool clockwiseRotation = currentForcefield.GetClockwiseRotation();
+
+        if (clockwiseRotation)
+            visualsTransform.localScale = new Vector3(-1, 1, 1) * visualsScale;
+        else
+            visualsTransform.localScale = new Vector3(1, 1, 1) * visualsScale;
+
+        Debug.Log(clockwiseRotation);
     }
 
     IEnumerator CoyoteTimer()
@@ -533,14 +548,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public void OnMovement(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         leftStickDir = context.ReadValue<Vector2>();
+        float tmpWalkVelocity = leftStickDir.x * turnability;
 
-        if(leftStickDir.x != 0)
+        if (tmpWalkVelocity != 0)
         {
             walkVelocityX += leftStickDir.x * turnability;
             walkVelocityX = Mathf.Clamp(walkVelocityX, -1, 1);
 
             if(!isSleeping)
-                visualsTransform.localScale = walkVelocityX > 0 ? new Vector3(1.13f, 1.13f, 1) : new Vector3(-1.13f, 1.13f, 1);
+                visualsTransform.localScale = walkVelocityX > 0 ? new Vector3(1, 1, 1) * visualsScale : new Vector3(-1, 1, 1) * visualsScale;
         }
         else
         {
@@ -640,6 +656,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 isRotating = true;
                 ForceFieldInteraction();
                 StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, forcefieldVelocity));
+                StartCoroutine(PlayerScalexInForcefield());
                 break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");

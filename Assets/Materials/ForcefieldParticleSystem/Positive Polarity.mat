@@ -69,8 +69,8 @@ Material:
     - _lengthScale: -1.21
     - _radialScale: 2.02
     m_Colors:
-    - _Color_1: {r: 0.5377358, g: 0.20038268, b: 0.34385467, a: 0}
-    - _Color_2: {r: 1, g: 0.63441646, b: 0.45882356, a: 0}
+    - _Color_1: {r: 0.10893556, g: 0.4528302, b: 0.3687497, a: 0}
+    - _Color_2: {r: 0.4669811, g: 1, b: 0.7038784, a: 0}
     - _Speed: {r: 0.2, g: 0.1, b: 0, a: 0}
     - _Vector2: {r: 0, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []

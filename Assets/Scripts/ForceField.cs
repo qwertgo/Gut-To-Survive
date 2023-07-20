@@ -76,7 +76,7 @@ public class ForceField : MonoBehaviour
             forcefieldVelocity.Normalize();
 
 
-            Vector2 rotationVelocity = Rotate90Deg(forcefieldVelocity, clockwiseRotation) * rotationStrength;
+            Vector2 rotationVelocity = MathExtention.Rotate90Deg(forcefieldVelocity, clockwiseRotation) * rotationStrength;
 
             forcefieldVelocity *= Mathf.Lerp(innterPullStrength, outerPullStrength, forceFieldStrength);
             forcefieldVelocity += rotationVelocity;
@@ -118,8 +118,10 @@ public class ForceField : MonoBehaviour
             coll.radius = .5f;
     }
 
-    Vector2 Rotate90Deg(Vector2 v, bool clockwise)
+    public bool GetClockwiseRotation()
     {
-        return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
+        return clockwiseRotation;
     }
+
+
 }

@@ -65,11 +65,12 @@ Material:
     - _Scale: 0.53
     - _Speed: 0.25
     - _Spots_Scale: 0.8
+    - _TimeOffset: 0
     - _lengthScale: -1.21
     - _radialScale: 2.02
     m_Colors:
-    - _Color_1: {r: 0.23616058, g: 0.2565883, b: 0.5754717, a: 0}
-    - _Color_2: {r: 0.4575472, g: 0.8815772, b: 1, a: 0}
+    - _Color_1: {r: 0.6509434, g: 0.39149594, b: 0.16273585, a: 0}
+    - _Color_2: {r: 1, g: 0.90349615, b: 0.4764151, a: 0}
     - _Speed: {r: 0.2, g: 0.1, b: 0, a: 0}
     - _Vector2: {r: 0, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
