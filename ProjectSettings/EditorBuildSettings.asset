@@ -5,25 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: 058c50afe04522b4c874606c8df42c4d
   - enabled: 1
-    path: Assets/Scenes/Lisa_Playground.unity
-    guid: eecb3f6ff40e83c4b97ac50cffe43335
-  - enabled: 1
-    path: Assets/Scenes/Lisa__Playground.unity
-    guid: 1a3f3e8178f35494fa4d77da509786be
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/Scenes/Final_Leveldesign.unity
+    guid: c13d88a3c1f0afd41b2b482d2283d731
   m_configObjects: {}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8157901748517422853}
   - component: {fileID: 8157901748517422850}
   - component: {fileID: 8891009947800518075}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "Kreissa\u0308ge (4)_0"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

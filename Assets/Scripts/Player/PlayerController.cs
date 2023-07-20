@@ -64,6 +64,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool canDash = true;
     bool isRotating;
     bool isDying;
+    public bool endedGame;
 
     
 
@@ -570,6 +571,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         if (!context.started)
             return;
+
+        if (endedGame)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         if (isGrounded || coyoteTimer <= coyoteTime)
         {
