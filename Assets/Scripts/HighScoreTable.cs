@@ -10,7 +10,7 @@ public class HighScoreTable : MonoBehaviour
 {
     public Transform entryContainer;
     public Transform entryTemplate;
-  //  private List<HighScoreEntry> highscoreEntryList;
+   // private List<HighScoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
     private string adjectives;
     private int minCharAmount = 3;
@@ -33,7 +33,8 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
-        Debug.Log(pc.DeathCount);
+        
+        AddEntry(pc.DeathCount, myString);
         
         
 
@@ -41,7 +42,7 @@ public class HighScoreTable : MonoBehaviour
 
 
      //highScoreEntryList manuelle Eingabe
-    /* highscoreEntryList = new List<HighScoreEntry>()
+   /* highscoreEntryList = new List<HighScoreEntry>()
         {
             new HighScoreEntry{ score =3, name ="1234"},
             new HighScoreEntry{ score =1, name ="1234"},
@@ -86,8 +87,8 @@ public class HighScoreTable : MonoBehaviour
                     highscoreEntryList[j] = tmp; 
                 }
             }
-        }*/
-
+        }
+*/
         
        string jsonString = PlayerPrefs.GetString("highscoreTable");
         
@@ -151,7 +152,7 @@ public class HighScoreTable : MonoBehaviour
         
     }
     
-  public void AddEntry (int score, string name)
+ public void AddEntry (int score, string name)
     {
         // Create
         HighScoreEntry highscoreEntry = new HighScoreEntry {score = score, name=name};
@@ -187,7 +188,7 @@ public class HighScoreTable : MonoBehaviour
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
 }
-    
+     
 
 private class Highscores
     {

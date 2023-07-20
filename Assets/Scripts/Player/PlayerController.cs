@@ -84,7 +84,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
     public GameObject Indicator;
-    public int DeathCount = 0;
+    public int DeathCount;
 
 
     private void Start()
@@ -398,8 +398,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
 
         isDying = true;
-        yield return new WaitForSeconds(respawnTime);
         DeathCount ++;
+        yield return new WaitForSeconds(respawnTime);
+        
         
    
         if(lastSavePoint == null)
