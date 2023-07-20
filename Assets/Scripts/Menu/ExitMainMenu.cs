@@ -14,6 +14,11 @@ public class ExitMainMenu : MonoBehaviour
         PauseMenu.SetActive(false);
         SceneManager.LoadScene("Menu");
     }
-    
-  
+
+
+  public void Restart()
+    {
+   SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
