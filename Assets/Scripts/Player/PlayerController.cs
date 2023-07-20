@@ -400,7 +400,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isDying = true;
         yield return new WaitForSeconds(respawnTime);
         DeathCount ++;
-        Debug.Log(DeathCount);
+        
    
         if(lastSavePoint == null)
         {
