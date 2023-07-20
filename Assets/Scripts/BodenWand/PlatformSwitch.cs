@@ -10,6 +10,7 @@ public class PlatformSwitch : MonoBehaviour
   public GameObject broken;
   public Timer time;
   public Break breakable;
+  public GameObject Ground;
 
 void Start()
 {
@@ -38,7 +39,8 @@ time.enabled = false;
       if(GroundCheck()==true)
       {
         unbroken.SetActive(false);
-        broken.SetActive(true);   
+        broken.SetActive(true);
+        Destroy(Ground);   
       }
     }
   }

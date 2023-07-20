@@ -14,7 +14,7 @@ public class Break : MonoBehaviour
  
     bool GroundCheck()
     {
-        if(Physics2D.Raycast(transform.position, Vector2.down, 0.86f, ~LayerMask.GetMask("Player")))
+        if(Physics2D.Raycast(transform.position, Vector2.down, 1.1f, ~LayerMask.GetMask("Player")))
         {
             return true;
            
