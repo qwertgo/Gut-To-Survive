@@ -287,6 +287,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (isDying)
             return;
 
+
         StopAllCoroutines();
         jumpBufferTimer = jumpBuffer + 1;
         coyoteTimer = coyoteTime + 1;
@@ -393,7 +394,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     IEnumerator Respawn()
     {
-
         isDying = true;
         yield return new WaitForSeconds(respawnTime);
         if(lastSavePoint == null)
@@ -403,12 +403,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
 
 
-        StopCoroutinesSafely();
         transform.position = lastSavePoint.transform.position;
         gravityDirection = lastSavePoint.savedGravityDir;
         gravityAngle = lastSavePoint.savedGravityAngle;
         rb.rotation = gravityAngle;
-        Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
 
         walkVelocityX = 0;
         dashVelocity = Vector2.zero;
@@ -429,6 +427,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isDying = false;
 
         GameEvents.Respawn.Invoke();
+        Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
     }
 
     //Handling States
@@ -498,6 +497,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = Vector2.zero;
         spriteRenderer.sprite = bloodSplash;
         spriteRenderer.color = Color.white;
+        StopCoroutinesSafely();
 
         StartCoroutine(Respawn());
     }
