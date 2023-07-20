@@ -157,7 +157,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1653a44af115f214e837fb6dda5d8744, type: 2}
+  - {fileID: 2100000, guid: 17b47710319a95f4ebc29eb28790eb9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -224,6 +224,8 @@ MonoBehaviour:
   pushStrength: 5
   rotationStrength: 10
   position: {x: 0, y: 0, z: 0}
+  positivePolarityMaterial: {fileID: 2100000, guid: 17b47710319a95f4ebc29eb28790eb9a, type: 2}
+  negativePolarityMaterial: {fileID: 2100000, guid: 1653a44af115f214e837fb6dda5d8744, type: 2}
   spriteRenderer: {fileID: 3857786645106608742}
   coll: {fileID: 3857786645106608743}
 --- !u!1 &7118797543904937681

@@ -32,4 +32,10 @@ public class cameraViewFinder : GravityObject
         Vector2 tmp = transform.position - startPos;
         lights.position = tmp * offsetAmountLights;
     }
+
+    private void OnDestroy()
+    {
+        materialFront.SetVector("_Offset", new Vector4(0, 0, 0, 0));
+        materialMiddle.SetVector("_Offset", new Vector4(0, 0, 0, 0));
+    }
 }
