@@ -13,6 +13,8 @@ public class ForceField : MonoBehaviour
     [SerializeField] float rotationStrength;
     [HideInInspector] public Vector3 position;
 
+    [SerializeField] Material positivePolarityMaterial;
+    [SerializeField] Material negativePolarityMaterial;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] CircleCollider2D coll;
 
@@ -44,7 +46,10 @@ public class ForceField : MonoBehaviour
 
         position = transform.position;
 
-        spriteRenderer.color = polarity == Polarity.negativ ? new Color(.5f, .5f, 1) : new Color(1, .5f, .5f);
+        spriteRenderer.material = polarity == Polarity.negativ ? negativePolarityMaterial : positivePolarityMaterial;
+        spriteRenderer.material.SetFloat("_TimeOffset", Random.Range(10f, 50f));
+
+        transform.eulerAngles = new Vector3(0,0, Random.Range(0f, 360f));
     }
 
     public Vector2 CalculatePlayerVelocity(Vector2 forcefieldVelocity, Polarity playerPolarity, Vector3 playerPosition, float forcefieldExitMagnitude)
@@ -71,7 +76,7 @@ public class ForceField : MonoBehaviour
             forcefieldVelocity.Normalize();
 
 
-            Vector2 rotationVelocity = Rotate90Deg(forcefieldVelocity, clockwiseRotation) * rotationStrength;
+            Vector2 rotationVelocity = MathExtention.Rotate90Deg(forcefieldVelocity, clockwiseRotation) * rotationStrength;
 
             forcefieldVelocity *= Mathf.Lerp(innterPullStrength, outerPullStrength, forceFieldStrength);
             forcefieldVelocity += rotationVelocity;
@@ -113,8 +118,10 @@ public class ForceField : MonoBehaviour
             coll.radius = .5f;
     }
 
-    Vector2 Rotate90Deg(Vector2 v, bool clockwise)
+    public bool GetClockwiseRotation()
     {
-        return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
+        return clockwiseRotation;
     }
+
+
 }

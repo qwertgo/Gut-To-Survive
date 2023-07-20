@@ -45,4 +45,9 @@ public static class MathExtention
         return orthogonalVectors[vectorIndex];
         
     }
+
+    public static Vector2 Rotate90Deg(Vector2 v, bool clockwise)
+    {
+        return clockwise ? new Vector2(-v.y, v.x) : new Vector2(v.y, -v.x);
+    }
 }

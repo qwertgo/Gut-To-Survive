@@ -51,12 +51,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 1418576229
+    locked: 0
   - name: Ground
     uniqueID: 1890577147
     locked: 0
   - name: Spikes
     uniqueID: 3869266855
-    locked: 0
-  - name: Player
-    uniqueID: 1418576229
     locked: 0
