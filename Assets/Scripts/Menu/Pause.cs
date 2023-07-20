@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class Pause : MonoBehaviour
 {
@@ -11,23 +11,31 @@ public class Pause : MonoBehaviour
   public bool pause;
   public PlayerController pc;
   
+  	PlayerInput controls;
+  void Awake()
+  { 
+    controls = new PlayerInput();
+    controls.Pause.PauseMenu.performed += ctx => Break(); 
+  }
+
 
   
-     void Update()
+      void Break()
     {
-      
-      pause = false;
-     
-      if(Input.GetKey(KeyCode.Escape) && pause != true) 
-      {
-        PauseMenu.SetActive(true);
-        pause = true;
         
-
-    
+      PauseMenu.SetActive(true);
+        
       }
-    
-     
+
+
+    void OnEnable()
+    {
+      controls.Pause.Enable();
+    }
+
+     void OnDisable()
+    {
+      controls.Pause.Disable();
     }
 }
 
