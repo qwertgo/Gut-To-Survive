@@ -39,8 +39,9 @@ time.enabled = false;
       if(GroundCheck()==true)
       {
         unbroken.SetActive(false);
+        Destroy(Ground);
         broken.SetActive(true);
-        Destroy(Ground);   
+           
       }
     }
   }

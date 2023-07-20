@@ -64,5 +64,5 @@ Material:
     m_Colors:
     - _Color_Bottom: {r: 0.16078432, g: 0.17254902, b: 0.3529412, a: 0}
     - _Color_Top: {r: 0.2901961, g: 0.21176472, b: 0.38431376, a: 0}
-    - _Offset: {r: -5.724688, g: -3.0792773, b: 0, a: 0}
+    - _Offset: {r: -69.814644, g: -58.411545, b: 0, a: 0}
   m_BuildTextureStacks: []
