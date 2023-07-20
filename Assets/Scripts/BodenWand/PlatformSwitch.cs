@@ -38,6 +38,8 @@ time.enabled = false;
     {
       if(GroundCheck()==true)
       {
+                
+        GetComponentInParent<AudioSource>().Play();
         unbroken.SetActive(false);
         Destroy(Ground);
         broken.SetActive(true);
