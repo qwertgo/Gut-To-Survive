@@ -333,12 +333,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         bool clockwiseRotation = currentForcefield.GetClockwiseRotation();
 
-        if (clockwiseRotation)
-            visualsTransform.localScale = new Vector3(-1, 1, 1) * visualsScale;
-        else
-            visualsTransform.localScale = new Vector3(1, 1, 1) * visualsScale;
-
-        Debug.Log(clockwiseRotation);
+        visualsTransform.localScale = clockwiseRotation ? new Vector3(-1, 1, 1) * visualsScale : new Vector3(1, 1, 1) * visualsScale;
     }
 
     IEnumerator CoyoteTimer()
