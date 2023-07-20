@@ -65,6 +65,7 @@ Material:
     - _Scale: 0.53
     - _Speed: 0.25
     - _Spots_Scale: 0.8
+    - _TimeOffset: 0
     - _lengthScale: -1.21
     - _radialScale: 2.02
     m_Colors:

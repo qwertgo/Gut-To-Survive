@@ -28,8 +28,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float forcefieldVelocityDrag;
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
-    [SerializeField] Color negativeColor = new Color(50, 50, 255);
-    [SerializeField] Color positiveColor = new Color(171, 72, 97);
     [SerializeField] Color dashUnavailable;
     [SerializeField] Color dashAvailable;
 
@@ -75,7 +73,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform visualsTransform;
     [SerializeField] Sprite bloodSplash;
     [SerializeField] Sprite normalSprite;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Animator animator;
     [SerializeField] Image dashUi;
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
@@ -99,7 +97,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         GameEvents.gravityChangedEvent.AddListener(EndedgravityChange);
         GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
 
-        spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
         dashUi.color = dashAvailable;
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
@@ -149,6 +146,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.drop;
             turnability = inAirMovementCap;
+
+            CrossFade("Drop");
+
             StartCoroutine(CoyoteTimer());
             StartCoroutine(GravityChangeTimer());
         }
@@ -162,16 +162,28 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
+            CrossFade("Drop Impact");
+            StartCoroutine(DropImpactTimer());
+
             if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
 
             LandedOnPlattform();
+
         }
 
-        if (currentState == State.idle && walkVelocityX != 0)            //player started walking      
+        if (currentState == State.idle && walkVelocityX != 0)            //player started walking
+        {
             currentState = State.walk;
+            if(!isSleeping)
+                CrossFade("Walk");
+        }
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
+        {
             currentState = State.idle;
+            if(!isSleeping)
+                CrossFade("Idle");
+        }
 
         if (BumpedSide())
         {
@@ -253,8 +265,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     void PrepareGravityChange()
     {
-        StopCoroutinesSafely();
         isSleeping = true;
+        StopCoroutinesSafely();
         velocitySaveWhenSleeping = rb.velocity;
         rb.velocity = Vector2.zero;
     }
@@ -279,6 +291,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rotationGoal = 0;
     }
 
+    void CrossFade(string name)
+    {
+        name = (polarity == Polarity.positiv ? "Positive " : "Negative ") + name;
+        animator.CrossFade(name, 0);
+    }
+
     //Coroutines
     //---------------------------------------------------------
 
@@ -297,6 +315,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             StartCoroutine(KillForcefieldExitVelocity());
         }
+
+        if (isSleeping)
+            StartCoroutine(DropImpactTimer());
+    }
+
+    IEnumerator DropImpactTimer()
+    {
+        yield return new WaitForSeconds(.25f);
+        CrossFade("Idle");
     }
 
     IEnumerator CoyoteTimer()
@@ -419,8 +446,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dashMagnitudeSaver = 0;
         dropMagnitudeSaver = 0;
 
-        spriteRenderer.sprite = normalSprite;
-        spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
         currentState = State.idle;
         canDash = true;
         isSleeping = false;
@@ -454,6 +479,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.drop;
             gravityVelocity = Vector2.zero;
+            CrossFade("Drop");
         }
     }
 
@@ -468,6 +494,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             dashVelocity = Vector2.zero;
             turnability = inAirMovementCap;
+            CrossFade("Drop");
         }
     }
 
@@ -495,9 +522,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         isSleeping = true;
         rb.velocity = Vector2.zero;
-        spriteRenderer.sprite = bloodSplash;
-        spriteRenderer.color = Color.white;
         StopCoroutinesSafely();
+        animator.CrossFade("Death", 0);
 
         StartCoroutine(Respawn());
     }
@@ -512,6 +538,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             walkVelocityX += leftStickDir.x * turnability;
             walkVelocityX = Mathf.Clamp(walkVelocityX, -1, 1);
+
+            if(!isSleeping)
+                visualsTransform.localScale = walkVelocityX > 0 ? new Vector3(1.13f, 1.13f, 1) : new Vector3(-1.13f, 1.13f, 1);
         }
         else
         {
@@ -539,6 +568,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         currentState = State.jump;
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
+        CrossFade("Jump");
     }
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -569,6 +599,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         forcefieldExitMagnitude = 0;
         walkVelocityX = 0;
         gravityVelocity = Vector2.zero;
+        CrossFade("Jump");
 
         //Rotate dashdirection according to Gravity
         dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
@@ -579,7 +610,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (context.started)
         {
             polarity = polarity == Polarity.positiv ? Polarity.negativ : Polarity.positiv;
-            spriteRenderer.color = polarity == Polarity.negativ ? negativeColor : positiveColor;
+
+            string animationName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            animationName = animationName.Substring(9);
+            CrossFade(animationName);
         }
     }
 
@@ -600,8 +634,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 forcefieldEnterDirection = dropVelocity.normalized;
 
                 dashMagnitudeSaver = dashVelocity.magnitude;
-
                 walkVelocityX = 0;
+                CrossFade("Forcefield");
 
                 isRotating = true;
                 ForceFieldInteraction();
@@ -637,6 +671,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             dashVelocity = Vector2.zero;
             forcefieldVelocity = Vector2.zero;
             timeSinceStartedDropping = 0;
+            CrossFade("Drop");
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 

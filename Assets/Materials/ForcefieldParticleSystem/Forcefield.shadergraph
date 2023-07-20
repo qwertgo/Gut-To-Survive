@@ -308,6 +308,9 @@
         },
         {
             "m_Id": "2693911f59094305bb77fa85fdc47d0c"
+        },
+        {
+            "m_Id": "d1d27ccc8ad04856a003decd08185ab7"
         }
     ],
     "m_GroupDatas": [
@@ -1314,6 +1317,20 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "69285a3d60ef47579f93ba2620fdb1b1"
+                },
+                "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "d1d27ccc8ad04856a003decd08185ab7"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "58c0e4a4dc6f47a492640e96681c2e24"
                 },
                 "m_SlotId": 1
             }
@@ -9726,6 +9743,41 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "d1d27ccc8ad04856a003decd08185ab7",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -6493.04345703125,
+            "y": -1029.565185546875,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "feb61bd783644fe586d7b2be6c141d5c"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "09309b4459814472af5ea59a292186fe"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "d255a8fe8bac4bc1813f3f3c64ed3f8c",
     "m_Id": 1,
@@ -11201,6 +11253,21 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "feb61bd783644fe586d7b2be6c141d5c",
+    "m_Id": 0,
+    "m_DisplayName": "TimeOffset",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
