@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5338467589190182860}
   - component: {fileID: 5338467589190182863}
-  - component: {fileID: 8875723400014739303}
   - component: {fileID: 166057833324799044}
+  - component: {fileID: 8875723400014739303}
   m_Layer: 8
   m_Name: SpikeColliderCircle
   m_TagString: Untagged
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8875723400014739303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338467589190182857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb55b9551470ca4980a2a2d1328de0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  r: {fileID: 5338467589190182863}
 --- !u!58 &166057833324799044
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,3 +102,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &8875723400014739303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338467589190182857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb55b9551470ca4980a2a2d1328de0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r: {fileID: 5338467589190182863}
