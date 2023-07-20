@@ -25,7 +25,7 @@ public class HighScoreTable : MonoBehaviour
   
     void Awake()
     {   
-     /*  int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
+      /*int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
         for(int i=0; i<charAmount; i++)
         {
             myString += glyphs[Random.Range(0, glyphs.Length)];
@@ -33,8 +33,8 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
-      /*  Debug.Log(pc.DeathCount);
-        AddEntry(pc.DeathCount, myString);
+        Debug.Log(pc.DeathCount);
+       // AddEntry(20, myString);
         */
 
         entryTemplate.gameObject.SetActive(false);
@@ -107,7 +107,7 @@ public class HighScoreTable : MonoBehaviour
         }*/
         
         highscoreEntryTransformList = new List<Transform>();
-        foreach(HighScoreEntry highscoreEntry in highscores.highscoreEntryList)
+        foreach(HighScoreEntry highscoreEntry in highscoreEntryList)
         {
         newEntry(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
@@ -147,6 +147,7 @@ public class HighScoreTable : MonoBehaviour
 
 
         transformList.Add(_entryTransform);
+                
         
     }
     
