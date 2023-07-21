@@ -15,6 +15,7 @@ public class WallCollision : MonoBehaviour
     {
 
     StartCoroutine(FadeIn());
+    Debug.Log("Fade out");
  }}
 
  private void OnTriggerExit2D(Collider2D collision)
@@ -22,6 +23,7 @@ public class WallCollision : MonoBehaviour
      if(collision.gameObject.CompareTag("Player"))
     {
     StartCoroutine(FadeOut());
+    Debug.Log("Fade in");
     }
  }
 
@@ -33,7 +35,7 @@ public class WallCollision : MonoBehaviour
 
         while (yourSpriteRenderer.color.a >0)
         {
-            alphaVal -= 0.4f;
+            alphaVal -= 0.1f;
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
