@@ -63,8 +63,6 @@ public class HighScoreTable : MonoBehaviour
             new HighScoreEntry{ score =63, name ="Ann"},
             new HighScoreEntry{ score = 164, name ="Lena"},
             new HighScoreEntry{score= 15, name = "Samu" },
-
-
         };
         
         Highscores highscores = new Highscores{highscoreEntryList = highscoreEntryList};       

@@ -438,7 +438,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         isDying = true;
         DeathCount ++;
-        death = true;
         yield return new WaitForSeconds(respawnTime);
         
         

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Collectables : MonoBehaviour
 {
     public PlayerController pc;
+    public int revive;
     
         
 
@@ -17,8 +18,10 @@ public class Collectables : MonoBehaviour
         {  
             
             Destroy(gameObject);
+            revive++;
           
         }
     }
 }
-   
+
+
