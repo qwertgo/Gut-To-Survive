@@ -10,8 +10,18 @@ public class Break : MonoBehaviour
     public GameObject broken;
     public PlayerController pc;
     public Rigidbody2D rb;
+
     
     
+    void Start()
+    {
+        Fade();
+        rb = GetComponent<Rigidbody2D>();
+       
+        
+    }    
+        
+        
     void Update()
     {
         if (pc.death == true)
@@ -32,17 +42,14 @@ public class Break : MonoBehaviour
             return false;
         }
     }
-    
-    void Start()
-    {
-        Fade();
-    }
+   
+   
 
      IEnumerator FadeIn()
     {
         float alphaVal = yourSpriteRenderer.color.a;
         Color tmp = yourSpriteRenderer.color;
-       
+        rb.AddTorque(200);
         while (yourSpriteRenderer.color.a > 0)
         {
             alphaVal -= 0.2f;
@@ -53,7 +60,7 @@ public class Break : MonoBehaviour
             
           
         }
-      if(yourSpriteRenderer.color.a <=0.05f)
+      if(yourSpriteRenderer.color.a <=0.05f )
       {
         Destroy(gameObject);
       }
@@ -64,4 +71,6 @@ public class Break : MonoBehaviour
     {
         StartCoroutine(FadeIn());
     }
+
+
 }
