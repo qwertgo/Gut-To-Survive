@@ -231,6 +231,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""e08d2111-64dd-4630-9ce2-8203eb919b5f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""67632e40-8839-4263-964f-da0f6a7e9364"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -255,6 +273,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""PauseMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb4cad47-8bc1-4507-a4ad-f5fc3901e2c7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48088a78-dd87-4bef-813e-1b56fcf1053a"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +311,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_Newaction = m_Pause.FindAction("New action", throwIfNotFound: true);
         m_Pause_PauseMenu = m_Pause.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Pause_ScrollUp = m_Pause.FindAction("ScrollUp", throwIfNotFound: true);
+        m_Pause_ScrollDown = m_Pause.FindAction("ScrollDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -404,12 +446,16 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IPauseActions> m_PauseActionsCallbackInterfaces = new List<IPauseActions>();
     private readonly InputAction m_Pause_Newaction;
     private readonly InputAction m_Pause_PauseMenu;
+    private readonly InputAction m_Pause_ScrollUp;
+    private readonly InputAction m_Pause_ScrollDown;
     public struct PauseActions
     {
         private @PlayerInput m_Wrapper;
         public PauseActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Newaction => m_Wrapper.m_Pause_Newaction;
         public InputAction @PauseMenu => m_Wrapper.m_Pause_PauseMenu;
+        public InputAction @ScrollUp => m_Wrapper.m_Pause_ScrollUp;
+        public InputAction @ScrollDown => m_Wrapper.m_Pause_ScrollDown;
         public InputActionMap Get() { return m_Wrapper.m_Pause; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -425,6 +471,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @ScrollUp.started += instance.OnScrollUp;
+            @ScrollUp.performed += instance.OnScrollUp;
+            @ScrollUp.canceled += instance.OnScrollUp;
+            @ScrollDown.started += instance.OnScrollDown;
+            @ScrollDown.performed += instance.OnScrollDown;
+            @ScrollDown.canceled += instance.OnScrollDown;
         }
 
         private void UnregisterCallbacks(IPauseActions instance)
@@ -435,6 +487,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @ScrollUp.started -= instance.OnScrollUp;
+            @ScrollUp.performed -= instance.OnScrollUp;
+            @ScrollUp.canceled -= instance.OnScrollUp;
+            @ScrollDown.started -= instance.OnScrollDown;
+            @ScrollDown.performed -= instance.OnScrollDown;
+            @ScrollDown.canceled -= instance.OnScrollDown;
         }
 
         public void RemoveCallbacks(IPauseActions instance)
@@ -463,5 +521,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnNewaction(InputAction.CallbackContext context);
         void OnPauseMenu(InputAction.CallbackContext context);
+        void OnScrollUp(InputAction.CallbackContext context);
+        void OnScrollDown(InputAction.CallbackContext context);
     }
 }

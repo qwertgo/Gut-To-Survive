@@ -21,8 +21,25 @@ public class HighScoreTable : MonoBehaviour
     public PlayerController pc;
     public int remove;
     
+    PlayerInput controls;
+    public ScrollRect scrollRect;
+     public Transform ScrollContent;
+
+    public float speed;
+
+    void Start()
+
+    {
+       
+        scrollRect = GetComponent<ScrollRect>();
+
+    }   
     void Awake()
     {   
+        controls = new PlayerInput();
+        controls.Pause.ScrollUp.performed += ctx => ScrollUp();  
+        controls.Pause.ScrollDown.performed += ctx => ScrollDown();
+      
       int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
         for(int i=0; i<charAmount; i++)
         {
@@ -32,6 +49,8 @@ public class HighScoreTable : MonoBehaviour
               
                 
         AddEntry(pc.DeathCount - pc.revive, myString);
+  
+    
         
       
 
@@ -199,6 +218,31 @@ private class Highscores
         public int score; 
         public string name;
     }
+ 
+    void ScrollUp()
+    {
+    Debug.Log("Input");
+    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *1.25f);
+
+    }
+
+     void ScrollDown()
+    {
+    Debug.Log("Input");
+    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *0.75f);
+
+    }
+
+
+     void OnEnable()
+     {
+       controls.Pause.Enable();
+     }
+
+      void OnDisable()
+     {
+       controls.Pause.Disable();
+     }
 
 }
 
