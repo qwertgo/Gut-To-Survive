@@ -19,7 +19,6 @@ public class HighScoreTable : MonoBehaviour
     public string myString;
     public end End;
     public PlayerController pc;
-    public Collectables collectables; 
     public int remove;
     
     void Awake()
@@ -32,8 +31,6 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
-        Debug.Log(collectables.revive);
-
         AddEntry(pc.DeathCount - pc.revive, myString);
         
       
