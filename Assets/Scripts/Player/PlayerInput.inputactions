@@ -225,7 +225,7 @@
                     "id": "67632e40-8839-4263-964f-da0f6a7e9364",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 }
             ],
@@ -255,7 +255,7 @@
                 {
                     "name": "",
                     "id": "bb4cad47-8bc1-4507-a4ad-f5fc3901e2c7",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -266,7 +266,7 @@
                 {
                     "name": "",
                     "id": "48088a78-dd87-4bef-813e-1b56fcf1053a",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

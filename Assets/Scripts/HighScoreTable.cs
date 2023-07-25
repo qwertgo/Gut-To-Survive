@@ -222,14 +222,14 @@ private class Highscores
     void ScrollUp()
     {
     Debug.Log("Input");
-    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *1.25f);
+    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *0.75f);
 
     }
 
      void ScrollDown()
     {
     Debug.Log("Input");
-    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *0.75f);
+    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y *1.25f);
 
     }
 
