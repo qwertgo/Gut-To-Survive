@@ -86,6 +86,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public GameObject Indicator;
     public int DeathCount;
     public bool death = false;
+    public int revive;
 
 
     private void Start()
@@ -670,6 +671,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 SceneManager.LoadScene("GameWon");
                 break;
         }
+        
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Collectable"))
+        {
+            revive++;
+            Debug.Log(revive);
+        }    
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -677,6 +684,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         
         if (collision.collider.gameObject.layer == 8)
             Die();
+
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)

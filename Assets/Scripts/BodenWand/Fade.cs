@@ -18,7 +18,7 @@ public class Fade : MonoBehaviour
         Color tmp = yourSpriteRenderer.color;
         while (yourSpriteRenderer.color.a > 0)
         {
-            alphaVal -= 0.1f;
+            alphaVal -= 0.08f;
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
