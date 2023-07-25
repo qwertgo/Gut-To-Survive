@@ -688,6 +688,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentForcefield = null;
             currentState = State.drop;
 
+            turnability = inAirMovementCap;
             canDash = true;
             dashUi.color = dashAvailable;
 
