@@ -664,7 +664,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
                 isRotating = true;
                 ForceFieldInteraction();
-                StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, forcefieldVelocity));
+                float rotationSpeed = currentState == State.dash ? rotateToForcefieldSpeed * 2 : rotateToForcefieldSpeed;
+                StartCoroutine(RotateOverTimeLinear(rotationSpeed, forcefieldVelocity));
                 StartCoroutine(PlayerScalexInForcefield());
                 break;
             case "GameWon":
