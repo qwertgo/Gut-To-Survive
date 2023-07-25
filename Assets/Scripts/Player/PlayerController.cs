@@ -45,7 +45,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
-    Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
+    //Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
 
     float turnability = 1;
     float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
@@ -273,16 +273,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         isSleeping = true;
         StopCoroutinesSafely();
-        velocitySaveWhenSleeping = rb.velocity;
         rb.velocity = Vector2.zero;
     }
 
     void EndedgravityChange()
     {
-
+        KillAllVelocities();
         isSleeping = false;
         StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, gravityDirection));
-        rb.velocity = velocitySaveWhenSleeping;
         dashVelocity = Vector2.zero;
     }
 
@@ -301,6 +299,19 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         name = (polarity == Polarity.positiv ? "Positive " : "Negative ") + name;
         animator.CrossFade(name, 0);
+    }
+
+    void KillAllVelocities()
+    {
+        walkVelocityX = 0;
+        dashVelocity = Vector2.zero;
+        gravityVelocity = Vector2.zero;
+        forcefieldVelocity = Vector2.zero;
+        timeSinceStartedJumping = 0;
+        timeSinceStartedDashing = 0;
+        forcefieldExitMagnitude = 0;
+        dashMagnitudeSaver = 0;
+        dropMagnitudeSaver = 0;
     }
 
     //Coroutines
@@ -452,16 +463,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gravityAngle = lastSavePoint.savedGravityAngle;
         rb.rotation = gravityAngle;
 
-        walkVelocityX = 0;
-        dashVelocity = Vector2.zero;
-        gravityVelocity = Vector2.zero;
-        forcefieldVelocity = Vector2.zero;
+        KillAllVelocities();
         turnability = 1;
-        timeSinceStartedJumping = 0;
-        timeSinceStartedDashing = 0;
-        forcefieldExitMagnitude = 0;
-        dashMagnitudeSaver = 0;
-        dropMagnitudeSaver = 0;
 
         currentState = State.idle;
         canDash = true;
