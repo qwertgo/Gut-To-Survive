@@ -9,7 +9,7 @@ public class WallCollision : MonoBehaviour
 
  
 
- private void OnTriggerStay2D(Collider2D coll)
+ private void OnTriggerEnter2D(Collider2D coll)
  {
     if(coll.gameObject.CompareTag("Player"))
     {
