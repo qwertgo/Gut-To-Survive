@@ -12,7 +12,7 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            string deathScore = "Deaths \n" + p.DeathCount;
+            string deathScore = "Deaths \n" + p.deathCount;
 
 
             deathSCoreText.text = deathScore;

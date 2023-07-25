@@ -84,7 +84,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
     public GameObject Indicator;
-    public int DeathCount;
+    public int deathCount;
     public bool death = false;
 
 
@@ -437,17 +437,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     IEnumerator Respawn()
     {
         isDying = true;
-        DeathCount ++;
+        deathCount++;
         yield return new WaitForSeconds(respawnTime);
-        
-        
    
         if(lastSavePoint == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             yield break;
         }
-
+        gravityHandler.StopAllCoroutines();
 
         transform.position = lastSavePoint.transform.position;
         gravityDirection = lastSavePoint.savedGravityDir;
