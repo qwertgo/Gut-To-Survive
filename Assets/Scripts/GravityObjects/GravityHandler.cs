@@ -34,6 +34,8 @@ public class GravityHandler : MonoBehaviour
         float rotationGoal = Vector2.SignedAngle(Vector2.down, newGravityDirection);
         float t = 0;
 
+        ControllerRumbleManager.StartRumble(.2f, .1f);
+
         while (t < 1)
         {
             float rotationZ = Mathf.LerpAngle(rotationStart, rotationGoal, t);
@@ -47,6 +49,7 @@ public class GravityHandler : MonoBehaviour
 
         camTransform.eulerAngles = new Vector3(0, 0, rotationGoal);
         GravityObject.SetGravityDirection(newGravityDirection);
+        ControllerRumbleManager.StopRumble();
 
         GameEvents.gravityChangedEvent.Invoke();
     }

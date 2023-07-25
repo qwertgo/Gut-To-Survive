@@ -169,12 +169,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             gravityVelocity = Vector2.zero;
 
             CrossFade("Drop Impact");
-            StartCoroutine(DropImpactTimer());
 
             if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
 
             LandedOnPlattform();
+            StartCoroutine(DropImpactTimer());
+            ControllerRumbleManager.StartTimedRumble(.2f, .1f, .2f);
 
         }
 
@@ -314,6 +315,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dropMagnitudeSaver = 0;
     }
 
+
     //Coroutines
     //---------------------------------------------------------
 
@@ -327,6 +329,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jumpBufferTimer = jumpBuffer + 1;
         coyoteTimer = coyoteTime + 1;
         isRotating = false;
+        //ControllerRumbleManager.StopRumble();
 
         if(forcefieldExitMagnitude > 0)
         {
@@ -343,7 +346,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         CrossFade("Idle");
     }
 
-    IEnumerator PlayerScalexInForcefield()
+    IEnumerator LookToForcefieldDirection()
     {
         yield return new WaitForEndOfFrame();
 
@@ -441,7 +444,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             yield return 0;
         }
-        //Debug.Log("Ended velocity");
         forcefieldExitVelocity = Vector2.zero;
     }
 
@@ -457,13 +459,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             yield break;
         }
         gravityHandler.StopAllCoroutines();
+        KillAllVelocities();
 
         transform.position = lastSavePoint.transform.position;
         gravityDirection = lastSavePoint.savedGravityDir;
         gravityAngle = lastSavePoint.savedGravityAngle;
         rb.rotation = gravityAngle;
 
-        KillAllVelocities();
         turnability = 1;
 
         currentState = State.idle;
@@ -593,6 +595,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
         CrossFade("Jump");
+        ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -666,7 +669,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 ForceFieldInteraction();
                 float rotationSpeed = currentState == State.dash ? rotateToForcefieldSpeed * 2 : rotateToForcefieldSpeed;
                 StartCoroutine(RotateOverTimeLinear(rotationSpeed, forcefieldVelocity));
-                StartCoroutine(PlayerScalexInForcefield());
+                StartCoroutine(LookToForcefieldDirection());
+                ControllerRumbleManager.StartRumble(.05f, .2f);
                 break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");
@@ -700,6 +704,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             forcefieldVelocity = Vector2.zero;
             timeSinceStartedDropping = 0;
             CrossFade("Drop");
+            ControllerRumbleManager.StopRumble();
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 
