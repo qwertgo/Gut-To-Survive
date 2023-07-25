@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform playerTransform;
     [Range(0,20)] public float upwardOffset;
+
 
     Vector2 gravityDirection = Vector2.down;
     float savedRotation;
@@ -37,4 +39,6 @@ public class CameraController : MonoBehaviour
 
         Update();
     }
+
+
 }

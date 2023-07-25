@@ -87,6 +87,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public int DeathCount;
     public bool death = false;
     public int revive;
+    
 
 
     private void Start()
@@ -676,7 +677,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             revive++;
             Debug.Log(revive);
-        }    
+        }  
+
+            
+        if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
+        {
+            maxFallingSpeed = 8f;
+        }      
+
+       
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
