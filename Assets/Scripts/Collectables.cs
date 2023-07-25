@@ -5,7 +5,7 @@ using UnityEngine;
 public class Collectables : MonoBehaviour
 {
     public PlayerController pc;
-    public int revive;
+    public int revive =0;
     
         
 
@@ -16,9 +16,8 @@ public class Collectables : MonoBehaviour
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {  
-            
             Destroy(gameObject);
-            revive++;
+            
           
         }
     }

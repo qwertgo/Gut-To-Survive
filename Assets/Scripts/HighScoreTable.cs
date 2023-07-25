@@ -19,10 +19,9 @@ public class HighScoreTable : MonoBehaviour
     public string myString;
     public end End;
     public PlayerController pc;
+    public Collectables collectables; 
     public int remove;
     
-
-  
     void Awake()
     {   
       int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
@@ -33,8 +32,12 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
+        Debug.Log(collectables.revive);
+
+        AddEntry(pc.DeathCount - pc.revive, myString);
         
-        AddEntry(pc.DeathCount, myString);
+      
+
         
         
 
