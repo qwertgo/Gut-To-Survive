@@ -546,7 +546,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isSleeping = true;
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
-        animator.CrossFade("Death", 0);
+        CrossFade("Death");
         ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
         StartCoroutine(Respawn());
