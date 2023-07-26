@@ -343,7 +343,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     IEnumerator DropImpactTimer()
     {
         yield return new WaitForSeconds(.25f);
-        CrossFade("Idle");
+        if(!isDying)
+            CrossFade("Idle");
     }
 
     IEnumerator LookToForcefieldDirection()
@@ -546,6 +547,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
         animator.CrossFade("Death", 0);
+        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
         StartCoroutine(Respawn());
     }

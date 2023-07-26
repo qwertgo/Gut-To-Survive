@@ -4,10 +4,6 @@ using UnityEngine.InputSystem;
 
 public class ControllerRumbleManager : MonoBehaviour
 {
-    static bool stopCurrentRumble = false;
-    static bool limitedRumble;
-    static bool unlimitedRumble;
-
     static ControllerRumbleManager rumbleManager;
 
     private void Start()
@@ -26,31 +22,31 @@ public class ControllerRumbleManager : MonoBehaviour
 
     public static void StartRumble(float lowFrequency, float highFrequency)
     {
+        rumbleManager.StopAllCoroutines();
+        
         if (Gamepad.current == null)
             return;
-
-        Gamepad.current.SetMotorSpeeds(lowFrequency, highFrequency);
-        stopCurrentRumble = true;
 
         rumbleManager.StartCoroutine(rumbleManager.UnTimedRumble(lowFrequency, highFrequency));
     }
 
     public static void StopRumble()
     {
+        rumbleManager.StopAllCoroutines();
+        
         if (Gamepad.current == null)
             return;
 
-        rumbleManager.StopAllCoroutines();
         Gamepad.current.SetMotorSpeeds(0, 0);
-        stopCurrentRumble = true;
     }
 
     public static void StartTimedRumble(float lowFrequency, float highFrequency, float duration)
     {
+        rumbleManager.StopAllCoroutines();
+
         if (Gamepad.current == null)
             return;
 
-        stopCurrentRumble = false;
         rumbleManager.StartCoroutine(rumbleManager.TimedRumble(lowFrequency, highFrequency, duration));
     }
 
@@ -60,11 +56,6 @@ public class ControllerRumbleManager : MonoBehaviour
         float elapsedTime = 0;
         while(elapsedTime < duration)
         {
-            if (stopCurrentRumble)
-            {
-                yield break;
-            }
-
             elapsedTime += Time.deltaTime;
             yield return 0;
         }
@@ -73,10 +64,7 @@ public class ControllerRumbleManager : MonoBehaviour
 
     IEnumerator UnTimedRumble(float lowFrequency,float highFrequency)
     {
-        yield return 0;
-        stopCurrentRumble = false;
-
-        while (!stopCurrentRumble)
+        while (true)
         {
             if (Gamepad.current == null)
                 yield break;
@@ -84,6 +72,5 @@ public class ControllerRumbleManager : MonoBehaviour
             Gamepad.current.SetMotorSpeeds(lowFrequency, highFrequency);
             yield return 0;
         }
-        Gamepad.current.SetMotorSpeeds(0, 0);
     }
 }
