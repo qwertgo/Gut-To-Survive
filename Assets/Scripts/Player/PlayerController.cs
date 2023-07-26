@@ -682,7 +682,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             
         if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
         {
-            maxFallingSpeed = 8f;
+            maxFallingSpeed = 9f;
         }      
 
        
