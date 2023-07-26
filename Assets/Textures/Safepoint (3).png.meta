@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 943
-        y: 864
+        y: 862
         width: 560
         height: 767
       alignment: 9
@@ -150,7 +150,7 @@ TextureImporter:
       name: Safepoint (3)_2
       rect:
         serializedVersion: 2
-        x: 1629
+        x: 1635
         y: 898
         width: 563
         height: 769
@@ -171,12 +171,12 @@ TextureImporter:
       name: Safepoint (3)_3
       rect:
         serializedVersion: 2
-        x: 2373
-        y: 898
+        x: 2367
+        y: 890
         width: 553
         height: 773
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5216274, y: 0.5103147}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -192,8 +192,8 @@ TextureImporter:
       name: Safepoint (3)_4
       rect:
         serializedVersion: 2
-        x: 2986
-        y: 940
+        x: 2994
+        y: 943
         width: 575
         height: 694
       alignment: 0
