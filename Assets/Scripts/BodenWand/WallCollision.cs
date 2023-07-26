@@ -14,7 +14,7 @@ public class WallCollision : MonoBehaviour
     if(coll.gameObject.CompareTag("Player"))
     {
 
-    StartCoroutine(FadeIn());
+    StartCoroutine(FadeOut());
     Debug.Log("Fade out");
  }}
 
@@ -22,20 +22,20 @@ public class WallCollision : MonoBehaviour
  {
      if(collision.gameObject.CompareTag("Player"))
     {
-    StartCoroutine(FadeOut());
+    StartCoroutine(FadeIn());
     Debug.Log("Fade in");
     }
  }
 
 
-    private IEnumerator FadeIn()
+    private IEnumerator FadeOut()
     {
         float alphaVal = yourSpriteRenderer.color.a;
         Color tmp = yourSpriteRenderer.color;
 
-        while (yourSpriteRenderer.color.a >0)
+        while (yourSpriteRenderer.color.a > 0.2f)
         {
-            alphaVal -= 0.1f;
+            alphaVal -= 0.2f;
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
@@ -43,14 +43,14 @@ public class WallCollision : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOut()
+    private IEnumerator FadeIn()
     {
         float alphaVal = yourSpriteRenderer.color.a;
         Color tmp = yourSpriteRenderer.color;
 
         while (yourSpriteRenderer.color.a != 1)
         {
-            alphaVal += 0.1f;
+            alphaVal += 0.2f;
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
