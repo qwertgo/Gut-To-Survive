@@ -183,7 +183,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.walk;
             if(!isSleeping)
-                CrossFade("Walk");
+                CrossFade("StartWalk");
         }
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
         {
