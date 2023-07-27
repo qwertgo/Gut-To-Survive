@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class cameraViewFinder : GravityObject
 {
-    [SerializeField] float upwardOffset;
+    public float upwardOffset;
     [SerializeField] Transform player;
 
     [SerializeField] Material materialFront;

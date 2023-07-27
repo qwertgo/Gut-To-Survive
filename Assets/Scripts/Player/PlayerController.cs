@@ -69,6 +69,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
     public bool endedGame;
+    bool camPosition = false;
    
 
     [Header("References")]
@@ -91,6 +92,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] GameObject Indicator;
     [SerializeField] GameObject Skip;
     [SerializeField] CinemachineVirtualCamera cam;
+    [SerializeField] cameraViewFinder camfind;
 
     
 
@@ -490,6 +492,29 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
     }
 
+    IEnumerator Zoom()
+    {
+        
+        while(cam.m_Lens.OrthographicSize > 5)
+        {   
+            float zoom = cam.m_Lens.OrthographicSize *0.98f;
+            cam.m_Lens.OrthographicSize = zoom;
+            yield return null;
+        }
+
+        
+    }
+
+    IEnumerator OffSet()
+    {
+        while(camfind.upwardOffset > 0)
+        {
+            float offsetViewFinder = camfind.upwardOffset *0.99f;
+            camfind.upwardOffset = offsetViewFinder;
+            yield return null;
+        } 
+    }
+
     //Handling States
     //---------------------------------------------------------
     void Drop()
@@ -709,10 +734,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
         {
-            while (cam.m_Lens.OrthographicSize > 8)
-            {
-                cam.m_Lens.OrthographicSize = cam.m_Lens.OrthographicSize *0.2f;
-            }
+            StartCoroutine(Zoom());
+        }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("OffSet"))
+        {
+            StartCoroutine(OffSet());
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Highscore"))
