@@ -39,7 +39,7 @@ public class WallCollision : MonoBehaviour
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
-            yield return new WaitForSeconds(0.05f); // update interval
+            yield return new WaitForSeconds(0.02f); // update interval
         }
     }
 
@@ -54,7 +54,7 @@ public class WallCollision : MonoBehaviour
             tmp.a = alphaVal;
             yourSpriteRenderer.color = tmp;
 
-            yield return new WaitForSeconds(0.05f); // update interval
+            yield return new WaitForSeconds(0.02f); // update interval
         }
     }
 }
