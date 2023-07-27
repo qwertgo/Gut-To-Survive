@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using static PolarityExtention;
 using static MathExtention;
+using Cinemachine;
 
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
@@ -35,6 +36,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public SavePoint lastSavePoint;
+    [HideInInspector] public int deathCount;
+    [HideInInspector] public int revive;
 
     PlayerInput controls;
     ForceField currentForcefield;
@@ -66,8 +69,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
     public bool endedGame;
-
-    
+   
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
@@ -83,12 +85,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
+    [SerializeField] GameObject Highscore;
+    [SerializeField] GameObject EndScreen;
+    [SerializeField] GameObject Indicator;
+    [SerializeField] GameObject Skip;
+    [SerializeField] CinemachineVirtualCamera cam;
 
-    public GameObject Indicator;
-    public GameObject Skip;
-    public int deathCount;
-    public int revive;
-    public Camera cam;
+    
 
    
     
@@ -698,12 +701,21 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             maxFallingSpeed = 9f;
             Skip.SetActive(true);
+            
         }      
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
         {
-        
-            cam.orthographicSize = 5f;
+            while (cam.m_Lens.OrthographicSize > 8)
+            {
+                cam.m_Lens.OrthographicSize = cam.m_Lens.OrthographicSize *0.2f;
+            }
+        }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Highscore"))
+        {
+            EndScreen.SetActive(true);
+            Highscore.SetActive(true);
         }
     }
 
@@ -748,4 +760,5 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     }
 
  
+ public float orthosize = 8f;
 }

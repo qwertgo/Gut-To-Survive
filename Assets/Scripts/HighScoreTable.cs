@@ -17,7 +17,6 @@ public class HighScoreTable : MonoBehaviour
     private int maxCharAmount = 6;
     public const string glyphs= "0123456789";
     public string myString;
-    public end End;
     public PlayerController pc;
     public int remove;
     
