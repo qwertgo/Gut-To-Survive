@@ -88,6 +88,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public GameObject Skip;
     public int deathCount;
     public int revive;
+    public Camera cam;
 
    
     
@@ -698,6 +699,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             maxFallingSpeed = 9f;
             Skip.SetActive(true);
         }      
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
+        {
+        
+            cam.orthographicSize = 5f;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
