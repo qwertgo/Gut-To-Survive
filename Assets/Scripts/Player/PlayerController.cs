@@ -86,9 +86,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public GameObject Indicator;
     public GameObject Skip;
     public int deathCount;
-    public bool death = false;
     public int revive;
-    public bool death = false;
+   
     
    
     

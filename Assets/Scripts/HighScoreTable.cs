@@ -48,7 +48,7 @@ public class HighScoreTable : MonoBehaviour
           
               
                 
-        AddEntry(pc.DeathCount - pc.revive, myString);
+        AddEntry(pc.deathCount - pc.revive, myString);
   
     
         
