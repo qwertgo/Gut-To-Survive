@@ -249,6 +249,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f85012d-a89e-47b1-9ee8-eb0d47da1839"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -295,6 +304,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ScrollDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""863e9fda-9ee4-4d4f-9c11-494daf6eacd5"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -313,6 +333,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Pause_PauseMenu = m_Pause.FindAction("PauseMenu", throwIfNotFound: true);
         m_Pause_ScrollUp = m_Pause.FindAction("ScrollUp", throwIfNotFound: true);
         m_Pause_ScrollDown = m_Pause.FindAction("ScrollDown", throwIfNotFound: true);
+        m_Pause_Select = m_Pause.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -448,6 +469,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Pause_PauseMenu;
     private readonly InputAction m_Pause_ScrollUp;
     private readonly InputAction m_Pause_ScrollDown;
+    private readonly InputAction m_Pause_Select;
     public struct PauseActions
     {
         private @PlayerInput m_Wrapper;
@@ -456,6 +478,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @PauseMenu => m_Wrapper.m_Pause_PauseMenu;
         public InputAction @ScrollUp => m_Wrapper.m_Pause_ScrollUp;
         public InputAction @ScrollDown => m_Wrapper.m_Pause_ScrollDown;
+        public InputAction @Select => m_Wrapper.m_Pause_Select;
         public InputActionMap Get() { return m_Wrapper.m_Pause; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -477,6 +500,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ScrollDown.started += instance.OnScrollDown;
             @ScrollDown.performed += instance.OnScrollDown;
             @ScrollDown.canceled += instance.OnScrollDown;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         private void UnregisterCallbacks(IPauseActions instance)
@@ -493,6 +519,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ScrollDown.started -= instance.OnScrollDown;
             @ScrollDown.performed -= instance.OnScrollDown;
             @ScrollDown.canceled -= instance.OnScrollDown;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         public void RemoveCallbacks(IPauseActions instance)
@@ -523,5 +552,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnPauseMenu(InputAction.CallbackContext context);
         void OnScrollUp(InputAction.CallbackContext context);
         void OnScrollDown(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

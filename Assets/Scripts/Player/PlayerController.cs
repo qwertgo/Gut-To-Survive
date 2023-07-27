@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using static PolarityExtention;
 using static MathExtention;
@@ -87,6 +88,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public GameObject Skip;
     public int deathCount;
     public int revive;
+
    
     
    
@@ -696,9 +698,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             maxFallingSpeed = 9f;
             Skip.SetActive(true);
         }      
-
-       
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

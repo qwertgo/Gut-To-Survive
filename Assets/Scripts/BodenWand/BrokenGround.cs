@@ -17,6 +17,7 @@ public class BrokenGround : MonoBehaviour
     for(int i = 0; i < bodyParts.Count; i++)
     {
       bodyParts[i].AddTorque(200);
+      
     }
     Debug.Log(bodyParts[0].angularVelocity);
 
