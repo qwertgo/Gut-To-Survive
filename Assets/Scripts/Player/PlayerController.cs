@@ -45,7 +45,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 dashDirection;
     Vector2 forcefieldExitDirection;            //Direction of velocity when player is exiting a forcefield
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
-    Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
+    //Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
 
     float turnability = 1;
     float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
@@ -85,7 +85,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public GameObject Indicator;
     public GameObject Skip;
-    public int DeathCount;
+    public int deathCount;
+    public bool death = false;
     public int revive;
     public bool death = false;
     
@@ -174,12 +175,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             gravityVelocity = Vector2.zero;
 
             CrossFade("Drop Impact");
-            StartCoroutine(DropImpactTimer());
 
             if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
 
             LandedOnPlattform();
+            StartCoroutine(DropImpactTimer());
+            ControllerRumbleManager.StartTimedRumble(.2f, .1f, .2f);
 
         }
 
@@ -187,7 +189,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             currentState = State.walk;
             if(!isSleeping)
-                CrossFade("Walk");
+                CrossFade("StartWalk");
         }
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
         {
@@ -278,16 +280,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     {
         isSleeping = true;
         StopCoroutinesSafely();
-        velocitySaveWhenSleeping = rb.velocity;
         rb.velocity = Vector2.zero;
     }
 
     void EndedgravityChange()
     {
-
+        KillAllVelocities();
         isSleeping = false;
         StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, gravityDirection));
-        rb.velocity = velocitySaveWhenSleeping;
         dashVelocity = Vector2.zero;
     }
 
@@ -308,6 +308,20 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         animator.CrossFade(name, 0);
     }
 
+    void KillAllVelocities()
+    {
+        walkVelocityX = 0;
+        dashVelocity = Vector2.zero;
+        gravityVelocity = Vector2.zero;
+        forcefieldVelocity = Vector2.zero;
+        timeSinceStartedJumping = 0;
+        timeSinceStartedDashing = 0;
+        forcefieldExitMagnitude = 0;
+        dashMagnitudeSaver = 0;
+        dropMagnitudeSaver = 0;
+    }
+
+
     //Coroutines
     //---------------------------------------------------------
 
@@ -321,6 +335,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jumpBufferTimer = jumpBuffer + 1;
         coyoteTimer = coyoteTime + 1;
         isRotating = false;
+        //ControllerRumbleManager.StopRumble();
 
         if(forcefieldExitMagnitude > 0)
         {
@@ -334,10 +349,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     IEnumerator DropImpactTimer()
     {
         yield return new WaitForSeconds(.25f);
-        CrossFade("Idle");
+        if(!isDying)
+            CrossFade("Idle");
     }
 
-    IEnumerator PlayerScalexInForcefield()
+    IEnumerator LookToForcefieldDirection()
     {
         yield return new WaitForEndOfFrame();
 
@@ -435,40 +451,29 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             yield return 0;
         }
-        //Debug.Log("Ended velocity");
         forcefieldExitVelocity = Vector2.zero;
     }
 
     IEnumerator Respawn()
     {
         isDying = true;
-        DeathCount ++;
+        deathCount++;
         yield return new WaitForSeconds(respawnTime);
-        
-        
    
         if(lastSavePoint == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             yield break;
         }
-
+        gravityHandler.StopAllCoroutines();
+        KillAllVelocities();
 
         transform.position = lastSavePoint.transform.position;
         gravityDirection = lastSavePoint.savedGravityDir;
         gravityAngle = lastSavePoint.savedGravityAngle;
         rb.rotation = gravityAngle;
 
-        walkVelocityX = 0;
-        dashVelocity = Vector2.zero;
-        gravityVelocity = Vector2.zero;
-        forcefieldVelocity = Vector2.zero;
         turnability = 1;
-        timeSinceStartedJumping = 0;
-        timeSinceStartedDashing = 0;
-        forcefieldExitMagnitude = 0;
-        dashMagnitudeSaver = 0;
-        dropMagnitudeSaver = 0;
 
         currentState = State.idle;
         canDash = true;
@@ -547,7 +552,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         isSleeping = true;
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
-        animator.CrossFade("Death", 0);
+        CrossFade("Death");
+        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
         StartCoroutine(Respawn());
     }
@@ -597,6 +603,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
         CrossFade("Jump");
+        ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -668,8 +675,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
                 isRotating = true;
                 ForceFieldInteraction();
-                StartCoroutine(RotateOverTimeLinear(rotateToForcefieldSpeed, forcefieldVelocity));
-                StartCoroutine(PlayerScalexInForcefield());
+                float rotationSpeed = currentState == State.dash ? rotateToForcefieldSpeed * 2 : rotateToForcefieldSpeed;
+                StartCoroutine(RotateOverTimeLinear(rotationSpeed, forcefieldVelocity));
+                StartCoroutine(LookToForcefieldDirection());
+                ControllerRumbleManager.StartRumble(.05f, .2f);
                 break;
             case "GameWon":
                 SceneManager.LoadScene("GameWon");
@@ -713,6 +722,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentForcefield = null;
             currentState = State.drop;
 
+            turnability = inAirMovementCap;
             canDash = true;
             dashUi.color = dashAvailable;
 
@@ -720,6 +730,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             forcefieldVelocity = Vector2.zero;
             timeSinceStartedDropping = 0;
             CrossFade("Drop");
+            ControllerRumbleManager.StopRumble();
 
             rotationGoal = Vector2.SignedAngle(Vector2.down, gravityDirection);
 

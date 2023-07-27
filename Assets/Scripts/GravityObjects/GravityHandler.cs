@@ -9,7 +9,6 @@ public class GravityHandler : MonoBehaviour
 
     Vector2 newGravityDirection;
 
-
     public void StartGravityChange(float gravityAngle, Vector2 newGravityDirection)
     {
         float cameraRotation = camTransform.eulerAngles.z;
@@ -26,14 +25,16 @@ public class GravityHandler : MonoBehaviour
         GravityObject.gravityAngle = gravityAngle;
         this.newGravityDirection = newGravityDirection;
 
-        StartCoroutine(rotateGravityOverTime());
+        StartCoroutine(RotateGravityOverTime());
     }
 
-    IEnumerator rotateGravityOverTime()
+    IEnumerator RotateGravityOverTime()
     {
         float rotationStart = camTransform.eulerAngles.z;
         float rotationGoal = Vector2.SignedAngle(Vector2.down, newGravityDirection);
         float t = 0;
+
+        ControllerRumbleManager.StartRumble(.2f, .1f);
 
         while (t < 1)
         {
@@ -48,6 +49,7 @@ public class GravityHandler : MonoBehaviour
 
         camTransform.eulerAngles = new Vector3(0, 0, rotationGoal);
         GravityObject.SetGravityDirection(newGravityDirection);
+        ControllerRumbleManager.StopRumble();
 
         GameEvents.gravityChangedEvent.Invoke();
     }
