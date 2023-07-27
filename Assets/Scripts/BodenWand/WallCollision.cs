@@ -5,56 +5,74 @@ using UnityEngine.U2D;
 
 public class WallCollision : MonoBehaviour
 {
-  public SpriteShapeRenderer yourSpriteRenderer;
+    [SerializeField] float fadeSpeed = .2f;
+    [SerializeField] List<SpriteShapeRenderer> spriteRendereres = new List<SpriteShapeRenderer>();
+
+    [SerializeField] List<Lights> lights;
 
  
 
- private void OnTriggerEnter2D(Collider2D coll)
- {
-    if(coll.gameObject.CompareTag("Player"))
+    private void OnTriggerEnter2D(Collider2D coll)
     {
-
-    StartCoroutine(FadeOut());
-    Debug.Log("Fade out");
- }}
-
- private void OnTriggerExit2D(Collider2D collision)
- {
-     if(collision.gameObject.CompareTag("Player"))
-    {
-    StartCoroutine(FadeIn());
-    Debug.Log("Fade in");
+        if(coll.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(FadeOut());
+        }
     }
- }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(FadeIn());
+
+        }
+    }
 
 
     private IEnumerator FadeOut()
     {
-        float alphaVal = yourSpriteRenderer.color.a;
-        Color tmp = yourSpriteRenderer.color;
-
-        while (yourSpriteRenderer.color.a > 0.2f)
+        foreach(var light in lights)
         {
-            alphaVal -= 0.2f;
-            tmp.a = alphaVal;
-            yourSpriteRenderer.color = tmp;
+            light.TurnOn(fadeSpeed);
+        }
 
-            yield return new WaitForSeconds(0.02f); // update interval
+        float alpha = 1;
+
+        while(alpha > 0)
+        {
+            alpha -= fadeSpeed * Time.deltaTime; ;
+            foreach(var sprtRenderer in spriteRendereres)
+            {
+                Color col = sprtRenderer.color;
+                col.a = alpha;
+                sprtRenderer.color = col;
+            }
+
+            yield return null;
         }
     }
 
     private IEnumerator FadeIn()
     {
-        float alphaVal = yourSpriteRenderer.color.a;
-        Color tmp = yourSpriteRenderer.color;
-
-        while (yourSpriteRenderer.color.a != 1)
+        foreach(var light in lights)
         {
-            alphaVal += 0.2f;
-            tmp.a = alphaVal;
-            yourSpriteRenderer.color = tmp;
+            light.TurnOff(fadeSpeed);
+        }
 
-            yield return new WaitForSeconds(0.02f); // update interval
+        float alpha = 0;
+
+        while (alpha < 1)
+        {
+            alpha += fadeSpeed * Time.deltaTime; ;
+            foreach (var sprtRenderer in spriteRendereres)
+            {
+                Color col = sprtRenderer.color;
+                col.a = alpha;
+                sprtRenderer.color = col;
+            }
+
+            yield return null;
         }
     }
 }
