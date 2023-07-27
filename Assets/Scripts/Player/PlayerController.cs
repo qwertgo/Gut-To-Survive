@@ -84,6 +84,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Image dashUi;
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
+    [SerializeField] Trail trail;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
     [SerializeField] GameObject Highscore;
     [SerializeField] GameObject EndScreen;
@@ -528,6 +529,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             dashVelocity = Vector2.zero;
             turnability = inAirMovementCap;
+            trail.StopMe();
             CrossFade("Drop");
         }
     }
@@ -631,6 +633,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         currentState = State.dash;
         canDash = false;
         dashUi.color = dashUnavailable;
+        trail.StartMe(dashDirection);
         timeSinceStartedDashing = 0;
         timeSinceStartedDropping = 0;
         turnability = 0;
