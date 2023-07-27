@@ -84,9 +84,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
 
     public GameObject Indicator;
+    public GameObject Skip;
     public int DeathCount;
-    public bool death = false;
     public int revive;
+    public bool death = false;
+    
+   
     
 
 
@@ -683,6 +686,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
         {
             maxFallingSpeed = 9f;
+            Skip.SetActive(true);
         }      
 
        

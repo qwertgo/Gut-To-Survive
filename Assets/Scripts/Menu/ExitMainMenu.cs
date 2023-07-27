@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class ExitMainMenu : MonoBehaviour
 {
     public GameObject Game;
-  public GameObject PauseMenu;
-    // Start is called before the first frame update
+    public GameObject PauseMenu;
+    public GameObject HighScoreTable; 
+    public GameObject EndScreen; 
+      // Start is called before the first frame update
     public void ExitMenu()
     {
         Game.SetActive(true);
@@ -20,5 +22,11 @@ public class ExitMainMenu : MonoBehaviour
     {
    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+  public void Skip()
+  {
+     EndScreen.SetActive(true);
+     HighScoreTable.SetActive(true);
+  }
 
 }
