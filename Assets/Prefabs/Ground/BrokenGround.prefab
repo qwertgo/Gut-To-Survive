@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 921259473105927581}
   - component: {fileID: 9057208583285247406}
   - component: {fileID: 5376249815426202050}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Ground (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 3834750334651703770}
   - component: {fileID: 6142318008683802971}
   - component: {fileID: 4170169596920330189}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: BrokenGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,6 +227,7 @@ MonoBehaviour:
   - {fileID: 3834750335629677015}
   - {fileID: 3834750335133296565}
   - {fileID: 3834750334177788036}
+  gravityDirection: {x: 0, y: 0}
 --- !u!212 &4170169596920330189
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -292,7 +293,7 @@ GameObject:
   - component: {fileID: 3834750334721778750}
   - component: {fileID: 5728335328960889424}
   - component: {fileID: 533212297553866376}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Ground (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +430,7 @@ GameObject:
   - component: {fileID: 3834750335133296565}
   - component: {fileID: 5216739088859629194}
   - component: {fileID: 3560989993771266051}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Ground (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +567,7 @@ GameObject:
   - component: {fileID: 3834750335382860863}
   - component: {fileID: 3132103601150358442}
   - component: {fileID: 1607019748857260902}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Ground (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +704,7 @@ GameObject:
   - component: {fileID: 3834750335629677015}
   - component: {fileID: 6455107379011476000}
   - component: {fileID: 7754440458024438925}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Ground (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -25,6 +25,7 @@ public class SceneManagement : MonoBehaviour
       else 
       pc.isSleeping = false;
  
+        pc.isSleeping = playerSleepin;
     }
    
 
@@ -46,10 +47,10 @@ public class SceneManagement : MonoBehaviour
     }
 
 
-  public void Restart()
+    public void Restart()
     {
-   SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    playerSleepin = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        playerSleepin = false;
 
     }
 
@@ -69,9 +70,10 @@ public class SceneManagement : MonoBehaviour
    StartCanvas.SetActive(false);
 }
 
-   IEnumerator Zoom()
+
+    IEnumerator Zoom()
     {
-       while(cam.m_Lens.OrthographicSize > 8)
+        while(cam.m_Lens.OrthographicSize > 8)
         {   
             float zoom = cam.m_Lens.OrthographicSize *0.98f;
             cam.m_Lens.OrthographicSize = zoom;
