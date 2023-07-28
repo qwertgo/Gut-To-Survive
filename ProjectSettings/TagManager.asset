@@ -11,6 +11,7 @@ TagManager:
   - Ground
   - EntryContainer
   - EntryTemplate
+  - SpikeExit
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Zoom
   - Highscore
   - OffSet
-  - 
+  - SceneSwitch
   - 
   - 
   - 

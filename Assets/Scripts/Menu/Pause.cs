@@ -22,7 +22,7 @@ public class Pause : MonoBehaviour
   
       void Break()
     {
-        
+      pc.isSleeping = true;
       PauseMenu.SetActive(true);
         
       }

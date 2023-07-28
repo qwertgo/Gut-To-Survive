@@ -514,6 +514,26 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             yield return null;
         } 
     }
+     IEnumerator ZoomOut()
+    {
+        
+        while(cam.m_Lens.OrthographicSize  <=25)
+        {   
+            float zoom = cam.m_Lens.OrthographicSize *1.02f;
+            cam.m_Lens.OrthographicSize = zoom;
+            yield return null;
+        }
+    }
+
+    IEnumerator OffSetUp()
+    {
+        while(camfind.upwardOffset < 10)
+        {
+            float offsetViewFinder = camfind.upwardOffset *1.01f;
+            camfind.upwardOffset = offsetViewFinder;
+            yield return null;
+        } 
+    }
 
     //Handling States
     //---------------------------------------------------------
@@ -747,6 +767,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             EndScreen.SetActive(true);
             Highscore.SetActive(true);
         }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))
+        {
+        StartCoroutine(ZoomOut());
+        StartCoroutine(OffSetUp());
+        SceneManager.LoadScene("Final_Leveldesign");
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
