@@ -11,25 +11,28 @@ public class SceneManagement : MonoBehaviour
     public GameObject HighScoreTable; 
     public GameObject EndScreen; 
     public CinemachineVirtualCamera cam;
-    public bool playerSleepin = true;
+    public bool playerSleepin;
     public PlayerController pc;
     public cameraViewFinder camfind;
     public GameObject SpikeExit;
     public GameObject StartCanvas;
       // Start is called before the first frame update
+   
     public void Update()
     {
       if(playerSleepin == true)
       pc.isSleeping = true;
       else 
       pc.isSleeping = false;
+ 
     }
    
+
     public void ExitMenu()
     {
         Game.SetActive(true);
         PauseMenu.SetActive(false);
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu_");
         playerSleepin = true;
     }
 
@@ -60,7 +63,7 @@ public class SceneManagement : MonoBehaviour
 
   public void Play() 
 { 
-  StartCoroutine(OffSet());
+   StartCoroutine(OffSet());
    StartCoroutine(Zoom());
    playerSleepin = false;
    StartCanvas.SetActive(false);

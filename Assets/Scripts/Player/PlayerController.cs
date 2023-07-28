@@ -93,17 +93,18 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] GameObject Skip;
     [SerializeField] CinemachineVirtualCamera cam;
     [SerializeField] cameraViewFinder camfind;
+    [SerializeField] Vector2 startPosition;
+    [SerializeField] SceneManagement sceneManager;
 
     
 
-   
-    
    
     
 
 
     private void Start()
-    {
+    {   
+        
         if (controls == null)
         {
             controls = new PlayerInput();
@@ -768,12 +769,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             Highscore.SetActive(true);
         }
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("ZoomOut"))
         {
         StartCoroutine(ZoomOut());
         StartCoroutine(OffSetUp());
-        SceneManager.LoadScene("Final_Leveldesign");
+        startPosition = gameObject.transform.position;
         }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))
+        SceneManager.LoadScene("Final_Leveldesign");
+
 
     }
 
