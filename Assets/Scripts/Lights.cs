@@ -15,6 +15,7 @@ public class Lights : MonoBehaviour
     private void Start()
     {
         GameEvents.gravityChangedEvent.AddListener(ChangedGravity);
+        GameEvents.Respawn.AddListener(ChangedGravity);
     }
 
     void ChangedGravity()

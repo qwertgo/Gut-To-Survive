@@ -58,8 +58,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Blur: -0.24
     - _WobbleSpeed: 0.5
-    - _WobbleStrength: 0.015
+    - _WobbleStrength: 0.01
     - _scale: 70
     m_Colors:
     - _Color_Bottom: {r: 0.32156864, g: 0.23529413, b: 0.43137258, a: 0}
