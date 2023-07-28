@@ -30,8 +30,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float forcefieldVelocityDrag;
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
-    [SerializeField] Color dashUnavailable;
-    [SerializeField] Color dashAvailable;
 
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
@@ -69,7 +67,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
     public bool endedGame;
-    bool camPosition = false;
+    //bool camPosition = false;
    
 
     [Header("References")]
@@ -82,7 +80,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Sprite bloodSplash;
     [SerializeField] Sprite normalSprite;
     [SerializeField] Animator animator;
-    [SerializeField] Image dashUi;
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
     [SerializeField] Trail trail;
@@ -117,7 +114,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         GameEvents.gravityChangedEvent.AddListener(EndedgravityChange);
         GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
 
-        dashUi.color = dashAvailable;
         inAirMovementCap = -inAirMovementCap + 1;   //invert value between 0-1 for better usability
         walkVelocityX = 0;
         coyoteTimer = coyoteTime + 1;
@@ -178,7 +174,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             timeSinceStartedDropping = 0;
             walkVelocityX = leftStickDir.x;
             canDash = true;
-            dashUi.color = dashAvailable;
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
@@ -677,7 +672,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         currentState = State.dash;
         canDash = false;
-        dashUi.color = dashUnavailable;
         trail.StartMe(dashDirection);
         timeSinceStartedDashing = 0;
         timeSinceStartedDropping = 0;
@@ -799,7 +793,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             turnability = inAirMovementCap;
             canDash = true;
-            dashUi.color = dashAvailable;
 
             dashVelocity = Vector2.zero;
             forcefieldVelocity = Vector2.zero;

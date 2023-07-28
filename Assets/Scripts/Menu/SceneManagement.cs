@@ -19,10 +19,7 @@ public class SceneManagement : MonoBehaviour
       // Start is called before the first frame update
     public void Update()
     {
-      if(playerSleepin == true)
-      pc.isSleeping = true;
-      else 
-      pc.isSleeping = false;
+        pc.isSleeping = playerSleepin;
     }
    
     public void ExitMenu()
@@ -43,32 +40,32 @@ public class SceneManagement : MonoBehaviour
     }
 
 
-  public void Restart()
+    public void Restart()
     {
-   SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    playerSleepin = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        playerSleepin = false;
 
     }
 
-  public void Skip()
-  {
-     EndScreen.SetActive(true);
-     HighScoreTable.SetActive(true);
-     playerSleepin = true;
-
-  }
-
-  public void Play() 
-{ 
-  StartCoroutine(OffSet());
-   StartCoroutine(Zoom());
-   playerSleepin = false;
-   StartCanvas.SetActive(false);
-}
-
-   IEnumerator Zoom()
+    public void Skip()
     {
-       while(cam.m_Lens.OrthographicSize > 8)
+        EndScreen.SetActive(true);
+        HighScoreTable.SetActive(true);
+        playerSleepin = true;
+
+    }
+
+    public void Play() 
+    { 
+        StartCoroutine(OffSet());
+        StartCoroutine(Zoom());
+        playerSleepin = false;
+        StartCanvas.SetActive(false);
+    }
+
+    IEnumerator Zoom()
+    {
+        while(cam.m_Lens.OrthographicSize > 8)
         {   
             float zoom = cam.m_Lens.OrthographicSize *0.98f;
             cam.m_Lens.OrthographicSize = zoom;
