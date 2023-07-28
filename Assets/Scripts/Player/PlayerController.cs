@@ -672,7 +672,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         currentState = State.dash;
         canDash = false;
-        trail.StartMe(dashDirection);
         timeSinceStartedDashing = 0;
         timeSinceStartedDropping = 0;
         turnability = 0;
@@ -685,6 +684,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         //Rotate dashdirection according to Gravity
         dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
+        trail.StartMe(dashDirection);
     }
 
     public void OnSwitchPolarity(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -711,6 +711,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 turnability = 0;
                 
                 Indicator.SetActive(true);
+                trail.StopMe();
                
                 Vector2 dropVelocity = gravityVelocity + new Vector2(walkVelocityX * walkSpeed, 0);
                 dropMagnitudeSaver = dropVelocity.magnitude;
