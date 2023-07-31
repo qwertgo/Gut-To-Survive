@@ -75,7 +75,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform leftSideCheckTransform;
     [SerializeField] Transform rightSideCheckTransform;
     [SerializeField] Transform visualsTransform;
-    [SerializeField] Sprite bloodSplash;
+    [SerializeField] GameObject bloodSplash;
     [SerializeField] Sprite normalSprite;
     [SerializeField] Animator animator;
     [SerializeField] Image dashUi;
@@ -554,6 +554,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void Die()
     {
+        GameObject splash = Instantiate(bloodSplash);
+        splash.transform.position = transform.position;
+        splash.transform.localScale *= Random.Range(.8f, 1.2f);
+        splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
         isSleeping = true;
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
