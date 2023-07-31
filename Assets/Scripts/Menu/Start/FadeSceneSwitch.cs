@@ -11,8 +11,7 @@ public class FadeSceneSwitch : MonoBehaviour
     public CinemachineVirtualCamera cam;
     public GameObject Player;
     public cameraViewFinder camfind;
-    private HorizontalOffset script;
-    private cameraViewFinder script2;
+    public HorizontalOffset hOffset;
 
 
 
@@ -49,10 +48,8 @@ public class FadeSceneSwitch : MonoBehaviour
 
     void Awake()
     {
-/*        script = GetComponent<HorizontalOffset>();
-        script.enabled=false;
-        script2 = GetComponent<cameraViewFinder>();
-        script2.enabled=true;*/
+        hOffset.enabled = false;
+        camfind.enabled = true;
         Fade_();
         Invoke("PlayerActive",1);
         

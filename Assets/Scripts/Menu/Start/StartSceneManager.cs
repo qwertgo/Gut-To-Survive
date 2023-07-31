@@ -24,7 +24,7 @@ public class StartSceneManager : MonoBehaviour
     {
         cam.m_Lens.OrthographicSize = 10;
         hOffset.horizontalOffset = 179;
-        camfind.upwardOffset = 15f;
+        hOffset.upwardOffset = 15f;
 
     }
  
@@ -45,9 +45,10 @@ public class StartSceneManager : MonoBehaviour
     StartCoroutine(horizontalOffset());
     StartCanvas.SetActive(false);
     fadePlay.Invoke("Fade",6);
-    StartCoroutine(ZoomOut());
+    Invoke("ZoomOutDelay",1);
     Invoke("PlayerActive",9);
     Invoke("LoadScene",13);
+    Invoke("PlayerMove",5);
 
     
     
@@ -78,7 +79,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(cam.m_Lens.OrthographicSize < 25)
         {   
-            float zoomOut = cam.m_Lens.OrthographicSize *1.0015f;
+            float zoomOut = cam.m_Lens.OrthographicSize *1.0005f;
             cam.m_Lens.OrthographicSize = zoomOut;
             yield return null;
         }
@@ -86,10 +87,10 @@ public class StartSceneManager : MonoBehaviour
 
     IEnumerator OffSet()
     {
-        while(camfind.upwardOffset >10)
+        while(hOffset.upwardOffset >10)
         {
-            float offsetViewFinder = camfind.upwardOffset *0.99f;
-            camfind.upwardOffset = offsetViewFinder;
+            float offsetViewFinder = hOffset.upwardOffset *0.999991f;
+            hOffset.upwardOffset = offsetViewFinder;
             yield return null; 
         } 
 
@@ -99,7 +100,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(hOffset.horizontalOffset>90)
         {
-            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.998f;
+            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.99925f;
             hOffset.horizontalOffset = horizontalOffsetViewFinder;
             yield return null;
         }
@@ -112,6 +113,9 @@ public class StartSceneManager : MonoBehaviour
     }
 
     
-   
+   void PlayerMove()
+   {
+    Player.GetComponent<Rigidbody2D>().velocity = new Vector2(Player.transform.position.x *-0.25f, Player.transform.position.y);
+   }
 
 }

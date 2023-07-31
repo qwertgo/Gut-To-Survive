@@ -40,6 +40,10 @@ public class Break : MonoBehaviour
 
         
     }
+    void Respawn()
+    {
+        
+    }
 
 
 }
