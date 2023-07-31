@@ -10,7 +10,7 @@ public class SceneManagement : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject HighScoreTable; 
     public GameObject EndScreen; 
-    public CinemachineVirtualCamera cam;
+    /*public CinemachineVirtualCamera cam;
     public bool playerSleepin;
     public PlayerController pc;
     public cameraViewFinder camfind;
@@ -28,16 +28,16 @@ public class SceneManagement : MonoBehaviour
         pc.isSleeping = playerSleepin;
     }
    
-
+*/
     public void ExitMenu()
     {
         Game.SetActive(true);
         PauseMenu.SetActive(false);
         SceneManager.LoadScene("Menu_");
-        playerSleepin = true;
+        //playerSleepin = true;
     }
 
-    public void Exit()
+    /*public void Exit()
     {
       StartCoroutine(Zoom());
       StartCoroutine(OffSet());
@@ -45,12 +45,12 @@ public class SceneManagement : MonoBehaviour
       Application.Quit();
       
     }
-
+*/
 
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        playerSleepin = false;
+      //  playerSleepin = false;
 
     }
 
@@ -58,11 +58,11 @@ public class SceneManagement : MonoBehaviour
   {
      EndScreen.SetActive(true);
      HighScoreTable.SetActive(true);
-     playerSleepin = true;
+   //  playerSleepin = true;
 
   }
 
-  public void Play() 
+/*  public void Play() 
 { 
    StartCoroutine(OffSet());
    StartCoroutine(Zoom());
@@ -92,5 +92,5 @@ public class SceneManagement : MonoBehaviour
     }
 
     
-
+*/
 }

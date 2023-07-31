@@ -41,8 +41,5 @@ public class Break : MonoBehaviour
         
     }
 
-    void Respawn(){
-            //Logik für Respawn
-    }
 
 }

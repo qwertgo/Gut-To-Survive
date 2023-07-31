@@ -30,7 +30,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float forcefieldVelocityDrag;
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
-
+    
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public SavePoint lastSavePoint;
@@ -92,7 +92,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] cameraViewFinder camfind;
     [SerializeField] Vector2 startPosition;
     [SerializeField] SceneManagement sceneManager;
-
     
 
    
@@ -531,6 +530,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         } 
     }
 
+  
+
     //Handling States
     //---------------------------------------------------------
     void Drop()
@@ -772,7 +773,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))
-        SceneManager.LoadScene("Final_Leveldesign");
+        {
+            
+        isSleeping = true;
+        rb.velocity = Vector2.zero;
+        StopCoroutinesSafely();
+        CrossFade("Death");
+        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+        gameObject.SetActive(false);
+        }
 
 
     }

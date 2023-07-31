@@ -12,6 +12,7 @@ TagManager:
   - EntryContainer
   - EntryTemplate
   - SpikeExit
+  - End
   layers:
   - Default
   - TransparentFX
