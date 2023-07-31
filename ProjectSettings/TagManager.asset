@@ -32,6 +32,10 @@ TagManager:
   - OffSet
   - SceneSwitch
   - ZoomOut
+  - Background
+  - Blood
+  - 
+  - 
   - 
   - 
   - 
@@ -61,4 +65,7 @@ TagManager:
     locked: 0
   - name: Spikes
     uniqueID: 3869266855
+    locked: 0
+  - name: Decal
+    uniqueID: 1944784703
     locked: 0

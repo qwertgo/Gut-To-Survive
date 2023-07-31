@@ -30,7 +30,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] float forcefieldVelocityDrag;
     [SerializeField] float groundFriciton;
     [SerializeField] float groundCheckradius;
-    
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public SavePoint lastSavePoint;
@@ -77,8 +76,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Transform leftSideCheckTransform;
     [SerializeField] Transform rightSideCheckTransform;
     [SerializeField] Transform visualsTransform;
-    [SerializeField] Sprite bloodSplash;
-    [SerializeField] Sprite normalSprite;
+    [SerializeField] GameObject bloodSplashPrefab;
     [SerializeField] Animator animator;
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
@@ -92,6 +90,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] cameraViewFinder camfind;
     [SerializeField] Vector2 startPosition;
     [SerializeField] SceneManagement sceneManager;
+    SoundManager soundManager;
+
+    public GameObject Indicator;
+    public GameObject Skip;
+    public int deathCount;
+    public int revive;
+   
     
 
    
@@ -110,6 +115,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         gravityDirection = Vector2.down;
         gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
+        soundManager = GetComponent<SoundManager>();
 
         GameEvents.gravityChangedEvent.AddListener(EndedgravityChange);
         GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
@@ -163,6 +169,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             turnability = inAirMovementCap;
 
+            soundManager.Stop();
             CrossFade("Drop");
 
             StartCoroutine(CoyoteTimer());
@@ -177,6 +184,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
+            soundManager.Stop();
             CrossFade("Drop Impact");
 
             if (jumpBufferTimer <= jumpBuffer)
@@ -191,12 +199,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking
         {
             currentState = State.walk;
+            soundManager.Play(SoundManager.PlayerSound.Walk, .5f);
             if(!isSleeping)
                 CrossFade("StartWalk");
         }
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
         {
             currentState = State.idle;
+            soundManager.Stop();
             if (!isSleeping && !isDying)
                 CrossFade("Idle");
         }
@@ -598,10 +608,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void Die()
     {
+        GameObject splash = Instantiate(bloodSplashPrefab);
+        splash.transform.position = transform.position;
+        splash.transform.localScale *= Random.Range(.8f, 1.2f);
+        splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
         isSleeping = true;
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
         CrossFade("Death");
+        soundManager.Play(SoundManager.PlayerSound.Die, .7f);
         ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
         StartCoroutine(Respawn());
@@ -652,6 +667,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
         CrossFade("Jump");
+        soundManager.Stop();
         ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
@@ -683,6 +699,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         walkVelocityX = 0;
         gravityVelocity = Vector2.zero;
         CrossFade("Jump");
+        soundManager.Stop();
 
         //Rotate dashdirection according to Gravity
         dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;

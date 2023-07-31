@@ -150,8 +150,8 @@ TextureImporter:
       name: Drop_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 256
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -171,8 +171,8 @@ TextureImporter:
       name: Drop_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
+        x: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -184,6 +184,90 @@ TextureImporter:
       bones: []
       spriteID: 21620b51b6bccfe439ef21c8ef25e7fa
       internalID: 1274016760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Drop_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7003ba0fd54fd604c85260916640076e
+      internalID: -115539396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Drop_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac104dbcdcf540a469b694861d45e499
+      internalID: -416224256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Drop_6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 804a343176d2eeb4cb8e77c87c56438a
+      internalID: -1821657420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Drop_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27a3bf5b84e568d4abdf29551a76ad97
+      internalID: -1747771903
       vertices: []
       indices: 
       edges: []
@@ -203,6 +287,10 @@ TextureImporter:
       Drop_1: -660821395
       Drop_2: -185735786
       Drop_3: 1274016760
+      Drop_4: -115539396
+      Drop_5: -416224256
+      Drop_6: -1821657420
+      Drop_7: -1747771903
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
