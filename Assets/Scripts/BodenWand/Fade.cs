@@ -7,10 +7,13 @@ public class Fade : MonoBehaviour
     // Start is called before the first frame update
 
     public SpriteRenderer yourSpriteRenderer;
+    
 
     void Start()
     {
         StartCoroutine(Fading());
+    
+
     }
      IEnumerator Fading()
     {

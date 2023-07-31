@@ -7,7 +7,7 @@ using System.Timers;
 public class BrokenGround : MonoBehaviour
 {
   [SerializeField] List<Rigidbody2D> bodyParts;
-  public Vector2 gravityDirection;
+
 
 
 
