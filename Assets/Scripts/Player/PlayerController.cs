@@ -82,6 +82,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] GravityHandler gravityHandler;
     [SerializeField] Collider2D pCollider;
     [SerializeField] LayerMask groundLayer;                     //Layer Player can stand on (ground and gravityObject)
+    SoundManager soundManager;
 
     public GameObject Indicator;
     public GameObject Skip;
@@ -104,6 +105,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         gravityDirection = Vector2.down;
         gravityAngle = Vector2.SignedAngle(Vector2.down, gravityDirection);
+        soundManager = GetComponent<SoundManager>();
 
         GameEvents.gravityChangedEvent.AddListener(EndedgravityChange);
         GameEvents.prepareGravityChangeEvent.AddListener(PrepareGravityChange);
@@ -158,6 +160,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             currentState = State.drop;
             turnability = inAirMovementCap;
 
+            soundManager.Stop();
             CrossFade("Drop");
 
             StartCoroutine(CoyoteTimer());
@@ -173,6 +176,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
+            soundManager.Stop();
             CrossFade("Drop Impact");
 
             if (jumpBufferTimer <= jumpBuffer)
@@ -187,12 +191,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking
         {
             currentState = State.walk;
+            soundManager.Play(SoundManager.PlayerSound.Walk, .5f);
             if(!isSleeping)
                 CrossFade("StartWalk");
         }
         else if (currentState == State.walk && walkVelocityX == 0)       //player stopped walking
         {
             currentState = State.idle;
+            soundManager.Stop();
             if (!isSleeping && !isDying)
                 CrossFade("Idle");
         }
@@ -552,6 +558,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
         CrossFade("Death");
+        soundManager.Play(SoundManager.PlayerSound.Die, .7f);
         ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
         StartCoroutine(Respawn());
@@ -602,6 +609,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
         CrossFade("Jump");
+        soundManager.Stop();
         ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
@@ -634,6 +642,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         walkVelocityX = 0;
         gravityVelocity = Vector2.zero;
         CrossFade("Jump");
+        soundManager.Stop();
 
         //Rotate dashdirection according to Gravity
         dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;
