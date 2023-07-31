@@ -43,6 +43,9 @@ GameObject:
   - component: {fileID: 2421048444573215168}
   - component: {fileID: 2421048444573215171}
   - component: {fileID: 2421048444573215170}
+  - component: {fileID: 1323781858}
+  - component: {fileID: 1323781860}
+  - component: {fileID: 1323781859}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -143,11 +146,11 @@ MonoBehaviour:
   forcefieldVelocityDrag: 40
   groundFriciton: 100
   groundCheckradius: 0.48
-  dashUnavailable: {r: 0, g: 0, b: 0, a: 1}
-  dashAvailable: {r: 1, g: 1, b: 1, a: 1}
   isSleeping: 0
   isGrounded: 0
   lastSavePoint: {fileID: 0}
+  deathCount: 0
+  revive: 0
   endedGame: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
@@ -155,21 +158,144 @@ MonoBehaviour:
   leftSideCheckTransform: {fileID: 8008313694768922629}
   rightSideCheckTransform: {fileID: 8207008697910916395}
   visualsTransform: {fileID: 4799064850904579423}
-  bloodSplash: {fileID: 21300000, guid: e7fffb55504249b4793d4704591a803c, type: 3}
-  normalSprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  bloodSplashPrefab: {fileID: 8783761660609141525, guid: b00d4fc1b6ed76e42be04a7c5bed7eb3, type: 3}
   animator: {fileID: 1098022616249471419}
-  dashUi: {fileID: 0}
   gravityHandler: {fileID: 0}
   pCollider: {fileID: 2421048444573215168}
   trail: {fileID: 886814973}
   groundLayer:
     serializedVersion: 2
     m_Bits: 136
+  Highscore: {fileID: 0}
+  EndScreen: {fileID: 0}
   Indicator: {fileID: 8001582189423572635}
   Skip: {fileID: 0}
-  deathCount: 0
-  revive: 0
   cam: {fileID: 0}
+  camfind: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  sceneManager: {fileID: 0}
+  orthosize: 8
+--- !u!81 &1323781858
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2421048444573215173}
+  m_Enabled: 1
+--- !u!82 &1323781860
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2421048444573215173}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1323781859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2421048444573215173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dd8105d20302b4d992b34e196139d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walk:
+  - {fileID: 8300000, guid: fd66b1696267f3b4d828cdb0e9dd9549, type: 3}
+  die:
+  - {fileID: 8300000, guid: 4d7eec88551abd34db6ff77d8c8cd224, type: 3}
+  - {fileID: 8300000, guid: bff18cbbd41e3d14e82dda8d6b6876ab, type: 3}
 --- !u!1 &2421048445925974518
 GameObject:
   m_ObjectHideFlags: 0

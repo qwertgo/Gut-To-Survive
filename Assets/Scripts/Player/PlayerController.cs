@@ -91,11 +91,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] Vector2 startPosition;
     [SerializeField] SceneManagement sceneManager;
     SoundManager soundManager;
-
-    public GameObject Indicator;
-    public GameObject Skip;
-    public int deathCount;
-    public int revive;
    
     
 

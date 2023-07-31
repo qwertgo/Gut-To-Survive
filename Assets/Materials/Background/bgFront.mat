@@ -58,6 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Blur: 0
     - _WobbleSpeed: 0.5
     - _WobbleStrength: 0.015
     - _scale: 70
