@@ -194,7 +194,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking
         {
             currentState = State.walk;
-            soundManager.Play(SoundManager.PlayerSound.Walk, .5f);
+            soundManager.Play(SoundManager.PlayerSound.Walk, .7f);
             if(!isSleeping)
                 CrossFade("StartWalk");
         }

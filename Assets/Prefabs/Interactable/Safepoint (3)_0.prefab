@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374240e2a9b76c642ba8b7ab15814d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deactivatedColor: {r: 0.22352943, g: 0.63529414, b: 0.48235297, a: 1}
-  activatedColor: {r: 0.82745105, g: 0.7686275, b: 0.10980393, a: 1}
+  deactivatedColor: {r: 1, g: 1, b: 1, a: 1}
+  activatedColor: {r: 0.22352943, g: 0.63529414, b: 0.48235297, a: 1}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
