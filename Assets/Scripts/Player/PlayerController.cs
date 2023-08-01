@@ -35,6 +35,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [HideInInspector] public SavePoint lastSavePoint;
     [HideInInspector] public int deathCount;
     [HideInInspector] public int revive;
+    [HideInInspector] public bool sleep;
+    
 
     PlayerInput controls;
     ForceField currentForcefield;
@@ -121,6 +123,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jumpBufferTimer = jumpBuffer + 1;
 
         rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
+
+        
     }
 
     private void OnDrawGizmos()
@@ -795,6 +799,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gameObject.SetActive(false);
         }
 
+        if(collision.gameObject.CompareTag("Saw"))
+                {
+                    Debug.Log("Hi");
+                    GameObject splash = Instantiate(bloodSplashPrefab);
+                    splash.transform.position = transform.position;
+                    splash.transform.localScale *= Random.Range(.8f, 1.2f);
+                    splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+                    sceneManager.Restart(); 
+                  
+                }
 
     }
 
@@ -803,6 +817,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         
         if (collision.collider.gameObject.layer == 8)
             Die();
+
+     
+       
+        
 
         
     }
@@ -837,6 +855,5 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         } 
     }
 
- 
  public float orthosize = 8f;
 }

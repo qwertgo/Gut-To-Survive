@@ -10,6 +10,7 @@ public class SceneManagement : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject HighScoreTable; 
     public GameObject EndScreen; 
+    PlayerController pc;
     /*public CinemachineVirtualCamera cam;
     public bool playerSleepin;
     public PlayerController pc;
@@ -49,8 +50,8 @@ public class SceneManagement : MonoBehaviour
 
     public void Restart()
     {
+      
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-      //  playerSleepin = false;
 
     }
 
@@ -58,7 +59,6 @@ public class SceneManagement : MonoBehaviour
   {
      EndScreen.SetActive(true);
      HighScoreTable.SetActive(true);
-   //  playerSleepin = true;
 
   }
 

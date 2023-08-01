@@ -13,6 +13,7 @@ TagManager:
   - EntryTemplate
   - SpikeExit
   - End
+  - Saw
   layers:
   - Default
   - TransparentFX
@@ -34,10 +35,6 @@ TagManager:
   - ZoomOut
   - Background
   - Blood
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
