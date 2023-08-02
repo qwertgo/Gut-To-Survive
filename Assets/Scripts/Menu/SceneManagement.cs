@@ -10,7 +10,9 @@ public class SceneManagement : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject HighScoreTable; 
     public GameObject EndScreen; 
-    PlayerController pc;
+
+    public GameObject Player;
+    public PlayerController pc;
     /*public CinemachineVirtualCamera cam;
     public bool playerSleepin;
     public PlayerController pc;
@@ -56,9 +58,9 @@ public class SceneManagement : MonoBehaviour
     }
 
   public void Skip()
-  {
-     EndScreen.SetActive(true);
-     HighScoreTable.SetActive(true);
+  {  
+    Player.transform.position = new Vector2(732, Player.transform.position.y);   
+    pc.SetActiveEnd();
 
   }
 

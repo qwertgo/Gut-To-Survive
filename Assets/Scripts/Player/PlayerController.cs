@@ -68,6 +68,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool isRotating;
     bool isDying;
     public bool endedGame;
+    bool end = false;
     //bool camPosition = false;
    
 
@@ -92,6 +93,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] cameraViewFinder camfind;
     [SerializeField] Vector2 startPosition;
     [SerializeField] SceneManagement sceneManager;
+    [SerializeField] GameObject Credits; 
     SoundManager soundManager;
    
     
@@ -356,6 +358,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         if (isSleeping)
             StartCoroutine(DropImpactTimer());
+        
+        if(end)
+        StopAllCoroutines();
     }
 
     IEnumerator DropImpactTimer()
@@ -801,16 +806,23 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         if(collision.gameObject.CompareTag("Saw"))
                 {
-                    Debug.Log("Hi");
                     GameObject splash = Instantiate(bloodSplashPrefab);
                     splash.transform.position = transform.position;
                     splash.transform.localScale *= Random.Range(.8f, 1.2f);
                     splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-                    sceneManager.Restart(); 
-                  
-                }
+                    isSleeping = true;
+        rb.velocity = Vector2.zero;
+        StopCoroutinesSafely();
+        CrossFade("Death");
+        soundManager.Play(SoundManager.PlayerSound.Die, .7f);
+        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
+                    Invoke("SetActiveEnd",0.4f);
+
+                    
     }
+
+        }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -855,5 +867,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         } 
     }
 
- public float orthosize = 8f;
+
+        public void SetActiveEnd()
+        {
+            Credits.SetActive(false);    
+            Skip.SetActive(false);
+            StopCoroutinesSafely();
+            gameObject.SetActive(false);  
+            Highscore.SetActive(true);
+            cam.m_Lens.OrthographicSize = 110;
+            end = true;
+                }
 }
