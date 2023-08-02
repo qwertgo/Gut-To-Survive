@@ -12,6 +12,7 @@ public class Pause : MonoBehaviour
   public PlayerController pc;
   
   	PlayerInput controls;
+
   void Awake()
   { 
     controls = new PlayerInput();
@@ -24,6 +25,7 @@ public class Pause : MonoBehaviour
     {
       pc.isSleeping = true;
       PauseMenu.SetActive(true);
+      
         
       }
 

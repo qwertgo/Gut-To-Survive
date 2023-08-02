@@ -258,6 +258,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8d1dbf7-6874-4239-b19a-796f946e8641"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -298,7 +307,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""48088a78-dd87-4bef-813e-1b56fcf1053a"",
                     ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ScrollDown"",
@@ -313,6 +322,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eacd6db1-1f81-4200-8d5d-9f2cd9144a31"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": ""Press(pressPoint=0.5)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -334,6 +354,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Pause_ScrollUp = m_Pause.FindAction("ScrollUp", throwIfNotFound: true);
         m_Pause_ScrollDown = m_Pause.FindAction("ScrollDown", throwIfNotFound: true);
         m_Pause_Select = m_Pause.FindAction("Select", throwIfNotFound: true);
+        m_Pause_SelectRight = m_Pause.FindAction("SelectRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -470,6 +491,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Pause_ScrollUp;
     private readonly InputAction m_Pause_ScrollDown;
     private readonly InputAction m_Pause_Select;
+    private readonly InputAction m_Pause_SelectRight;
     public struct PauseActions
     {
         private @PlayerInput m_Wrapper;
@@ -479,6 +501,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @ScrollUp => m_Wrapper.m_Pause_ScrollUp;
         public InputAction @ScrollDown => m_Wrapper.m_Pause_ScrollDown;
         public InputAction @Select => m_Wrapper.m_Pause_Select;
+        public InputAction @SelectRight => m_Wrapper.m_Pause_SelectRight;
         public InputActionMap Get() { return m_Wrapper.m_Pause; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -503,6 +526,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @SelectRight.started += instance.OnSelectRight;
+            @SelectRight.performed += instance.OnSelectRight;
+            @SelectRight.canceled += instance.OnSelectRight;
         }
 
         private void UnregisterCallbacks(IPauseActions instance)
@@ -522,6 +548,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @SelectRight.started -= instance.OnSelectRight;
+            @SelectRight.performed -= instance.OnSelectRight;
+            @SelectRight.canceled -= instance.OnSelectRight;
         }
 
         public void RemoveCallbacks(IPauseActions instance)
@@ -553,5 +582,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnScrollUp(InputAction.CallbackContext context);
         void OnScrollDown(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnSelectRight(InputAction.CallbackContext context);
     }
 }
