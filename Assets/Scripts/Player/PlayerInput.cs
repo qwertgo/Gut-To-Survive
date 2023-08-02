@@ -296,7 +296,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""bb4cad47-8bc1-4507-a4ad-f5fc3901e2c7"",
                     ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ScrollUp"",
