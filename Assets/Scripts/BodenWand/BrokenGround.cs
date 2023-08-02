@@ -19,7 +19,7 @@ public class BrokenGround : MonoBehaviour
       bodyParts[i].AddTorque(200);
       
     }
-    Debug.Log(bodyParts[0].angularVelocity);
+    //Debug.Log(bodyParts[0].angularVelocity);
 
     StartCoroutine(DestroyAfterTime());
    

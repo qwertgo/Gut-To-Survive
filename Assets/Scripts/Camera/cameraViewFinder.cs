@@ -5,7 +5,9 @@ using UnityEngine;
 public class cameraViewFinder : GravityObject
 {
     public float upwardOffset;
- //   public float horizontalOffset = 1;
+    public float horizontalOffset = 1;
+
+    public bool isInMenuScene = false;
 
     [SerializeField] Transform player;
 
@@ -18,7 +20,6 @@ public class cameraViewFinder : GravityObject
     [SerializeField, Range(0, 1)] float offsetAmountLights;
 
     Vector3 startPos;
-  //  Vector3 horizontalStartPos;
 
     private void Start()
     {
@@ -28,14 +29,18 @@ public class cameraViewFinder : GravityObject
 
     void Update()
     {
-        transform.position = (Vector2)player.transform.position + -gravityDirection * upwardOffset;
+        if(isInMenuScene)
+            transform.position = new Vector2(horizontalOffset, transform.position.y);
+        else
+            transform.position = (Vector2)player.transform.position + -gravityDirection * upwardOffset;
+
+
         materialFront.SetVector("_Offset", new Vector4(-transform.position.x * offsetAmountFront, -transform.position.y * offsetAmountFront));
         materialMiddle.SetVector("_Offset", new Vector4(-transform.position.x * offsetAmountMiddle, -transform.position.y * offsetAmountMiddle));
 
         Vector2 tmp = transform.position - startPos;
         lights.position = tmp * offsetAmountLights;
 
-       // transform.position = new Vector2(horizontalOffset, transform.position.y);
     }
 
     private void OnDestroy()

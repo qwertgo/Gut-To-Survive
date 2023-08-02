@@ -6,6 +6,7 @@ public class SavePoint : MonoBehaviour
 {
     [SerializeField] Color deactivatedColor;
     [SerializeField] Color activatedColor;
+    [SerializeField] AudioClip savePointClip;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float radius;
 
@@ -13,6 +14,8 @@ public class SavePoint : MonoBehaviour
 
     [HideInInspector] public Vector2 savedGravityDir;
     [HideInInspector] public float savedGravityAngle;
+
+    bool activated = false;
 
     private void OnDrawGizmos()
     {
@@ -33,14 +36,16 @@ public class SavePoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Player"))
+        if (!activated && collision.gameObject.tag.Equals("Player"))
         {
             spriteRenderer.color = activatedColor;
+            AudioSource.PlayClipAtPoint(savePointClip, transform.position);
 
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.lastSavePoint = this;
 
             GameEvents.HitSavePoint.Invoke();
+            activated = true;
         }
     }
 }

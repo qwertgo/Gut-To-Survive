@@ -95,12 +95,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] SceneManagement sceneManager;
     [SerializeField] GameObject Credits; 
     SoundManager soundManager;
-   
-    
-
-   
-    
-
 
     private void Start()
     {   
@@ -123,6 +117,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         walkVelocityX = 0;
         coyoteTimer = coyoteTime + 1;
         jumpBufferTimer = jumpBuffer + 1;
+        gravityChangeBufferTimer = gravityChangeBuffer + 1;
 
         rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
 
@@ -185,14 +180,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             turnability = 1;
             gravityVelocity = Vector2.zero;
 
-            soundManager.Stop();
+            soundManager.Play(SoundManager.PlayerSound.Landing, 1, true);
             CrossFade("Drop Impact");
+            StartCoroutine(DropImpactTimer());
 
             if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
 
             LandedOnPlattform();
-            StartCoroutine(DropImpactTimer());
             ControllerRumbleManager.StartTimedRumble(.2f, .1f, .2f);
 
         }
@@ -200,7 +195,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (currentState == State.idle && walkVelocityX != 0)            //player started walking
         {
             currentState = State.walk;
-            soundManager.Play(SoundManager.PlayerSound.Walk, .7f);
+            soundManager.Play(SoundManager.PlayerSound.Walk, 1, false);
             if(!isSleeping)
                 CrossFade("StartWalk");
         }
@@ -616,12 +611,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         splash.transform.position = transform.position;
         splash.transform.localScale *= Random.Range(.8f, 1.2f);
         splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+
         isSleeping = true;
         rb.velocity = Vector2.zero;
         StopCoroutinesSafely();
         CrossFade("Death");
-        soundManager.Play(SoundManager.PlayerSound.Die, .7f);
+        soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
         ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+        trail.StopMe();
 
         StartCoroutine(Respawn());
     }
@@ -656,13 +653,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         if (isGrounded || coyoteTimer <= coyoteTime)
-        {
             StartJumping();
-        }
         else
-        {
             StartCoroutine(JumpBufferTimer());
-        }
     }
 
     void StartJumping()
@@ -671,7 +664,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         timeSinceStartedJumping = 0;
         turnability = inAirMovementCap;
         CrossFade("Jump");
-        soundManager.Stop();
+        soundManager.Play(SoundManager.PlayerSound.Jump, 1, false);
         ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
@@ -719,6 +712,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             string animationName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
             animationName = animationName.Substring(9);
             CrossFade(animationName);
+            SoundManager.PlayerSound polaritySound = polarity == Polarity.positiv ? SoundManager.PlayerSound.P_Polarity : SoundManager.PlayerSound.N_Polarity;
+            soundManager.Play(polaritySound, 1, true);
         }
     }
 
@@ -759,7 +754,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if(collision.gameObject.layer == LayerMask.NameToLayer("Collectable"))
         {
             revive++;
-            Debug.Log(revive);
+            //Debug.Log(revive);
         }  
 
             
@@ -788,53 +783,46 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("ZoomOut"))
         {
-        StartCoroutine(ZoomOut());
-        StartCoroutine(OffSetUp());
-        startPosition = gameObject.transform.position;
+            StartCoroutine(ZoomOut());
+            StartCoroutine(OffSetUp());
+            startPosition = gameObject.transform.position;
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))
         {
             
-        isSleeping = true;
-        rb.velocity = Vector2.zero;
-        StopCoroutinesSafely();
-        CrossFade("Death");
-        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
-        gameObject.SetActive(false);
+            isSleeping = true;
+            rb.velocity = Vector2.zero;
+            StopCoroutinesSafely();
+            CrossFade("Death");
+            ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+            gameObject.SetActive(false);
         }
 
         if(collision.gameObject.CompareTag("Saw"))
-                {
-                    GameObject splash = Instantiate(bloodSplashPrefab);
-                    splash.transform.position = transform.position;
-                    splash.transform.localScale *= Random.Range(.8f, 1.2f);
-                    splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-                    isSleeping = true;
-        rb.velocity = Vector2.zero;
-        StopCoroutinesSafely();
-        CrossFade("Death");
-        soundManager.Play(SoundManager.PlayerSound.Die, .7f);
-        ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+        {
+            GameObject splash = Instantiate(bloodSplashPrefab);
+            splash.transform.position = transform.position;
+            splash.transform.localScale *= Random.Range(.8f, 1.2f);
+            splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+            isSleeping = true;
+            rb.velocity = Vector2.zero;
+            StopCoroutinesSafely();
+            CrossFade("Death");
+            soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
+            ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
-                    Invoke("SetActiveEnd",0.4f);
+            Invoke("SetActiveEnd",0.4f);
 
                     
-    }
-
         }
 
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+    { 
         if (collision.collider.gameObject.layer == 8)
             Die();
-
-     
-       
-        
-
-        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -868,14 +856,14 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     }
 
 
-        public void SetActiveEnd()
-        {
-            Credits.SetActive(false);    
-            Skip.SetActive(false);
-            StopCoroutinesSafely();
-            gameObject.SetActive(false);  
-            Highscore.SetActive(true);
-            cam.m_Lens.OrthographicSize = 110;
-            end = true;
-                }
+    public void SetActiveEnd()
+    {
+        Credits.SetActive(false);    
+        Skip.SetActive(false);
+        StopCoroutinesSafely();
+        gameObject.SetActive(false);  
+        Highscore.SetActive(true);
+        cam.m_Lens.OrthographicSize = 110;
+        end = true;
+    }
 }
