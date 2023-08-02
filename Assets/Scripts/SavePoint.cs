@@ -6,7 +6,8 @@ public class SavePoint : MonoBehaviour
 {
     [SerializeField] Color deactivatedColor;
     [SerializeField] Color activatedColor;
-    [SerializeField] AudioClip savePointClip;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float radius;
 
@@ -39,7 +40,8 @@ public class SavePoint : MonoBehaviour
         if (!activated && collision.gameObject.tag.Equals("Player"))
         {
             spriteRenderer.color = activatedColor;
-            AudioSource.PlayClipAtPoint(savePointClip, transform.position);
+            audioSource.clip = audioClip;
+            audioSource.Play();
 
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.lastSavePoint = this;

@@ -67,10 +67,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool canDash = true;
     bool isRotating;
     bool isDying;
-    public bool endedGame;
-    bool end = false;
-    //bool camPosition = false;
-   
+    bool endedGame;
+
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
@@ -330,6 +328,11 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dropMagnitudeSaver = 0;
     }
 
+    public void Disable()
+    {
+        endedGame = true;
+    }
+
 
     //Coroutines
     //---------------------------------------------------------
@@ -353,9 +356,10 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         if (isSleeping)
             StartCoroutine(DropImpactTimer());
-        
-        if(end)
-        StopAllCoroutines();
+
+        if (endedGame)
+            StopAllCoroutines();
+       
     }
 
     IEnumerator DropImpactTimer()
@@ -627,6 +631,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     //---------------------------------------------------------
     public void OnMovement(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        if (endedGame)
+            return;
+
         leftStickDir = context.ReadValue<Vector2>();
         float tmpWalkVelocity = leftStickDir.x * turnability;
 
@@ -649,8 +656,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (!context.started)
             return;
 
-        if (endedGame)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //if (endedGame)
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         if (isGrounded || coyoteTimer <= coyoteTime)
             StartJumping();
@@ -670,7 +677,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (!context.started || !canDash || currentForcefield != null)
+        if (!context.started || !canDash || currentForcefield != null || endedGame)
             return;
 
         if (leftStickDir.magnitude == 0)
@@ -864,6 +871,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gameObject.SetActive(false);  
         Highscore.SetActive(true);
         cam.m_Lens.OrthographicSize = 110;
-        end = true;
+        endedGame = true;
     }
 }
