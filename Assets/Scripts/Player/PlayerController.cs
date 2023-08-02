@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using static PolarityExtention;
 using static MathExtention;
 using Cinemachine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 {
@@ -724,6 +725,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
     }
 
+    #region Collision Stuff
     //Collider Stuff
     //---------------------------------------------------------
     private void OnTriggerEnter2D(Collider2D collision)
@@ -819,9 +821,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
             ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
-            Invoke("SetActiveEnd",0.4f);
-
-                    
+            Invoke("SetActiveEnd",0.4f);        
         }
 
     }
@@ -862,15 +862,21 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         } 
     }
 
+    #endregion
+
 
     public void SetActiveEnd()
     {
         Credits.SetActive(false);    
         Skip.SetActive(false);
         StopCoroutinesSafely();
-        gameObject.SetActive(false);  
+        //gameObject.SetActive(false);  
         Highscore.SetActive(true);
         cam.m_Lens.OrthographicSize = 110;
         endedGame = true;
+        enabled = false;
+        rb.velocity = Vector2.zero;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<Light2D>().enabled = false;
     }
 }
