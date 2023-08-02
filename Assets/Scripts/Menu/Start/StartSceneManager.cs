@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using TMPro;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -17,6 +18,17 @@ public class StartSceneManager : MonoBehaviour
     public FadePlay fadePlay;
     public cameraViewFinder camfind;
     public GameObject Player;
+    string first;
+    string second; 
+    string third; 
+    string fourth;
+    string PlayerName; 
+    public GameObject Name;
+    public GameObject firstLetter;
+    public GameObject secondLetter;
+    public GameObject thirdLetter;
+    public GameObject fourthLetter;
+    
 
       // Start is called before the first frame update
    
@@ -28,7 +40,17 @@ public class StartSceneManager : MonoBehaviour
 
     }
  
+    public void Save()
+    {
+        first = firstLetter.GetComponent<TextMeshProUGUI>().text;
+        second = secondLetter.GetComponent<TextMeshProUGUI>().text;
+        third = thirdLetter.GetComponent<TextMeshProUGUI>().text;
+        fourth = fourthLetter.GetComponent<TextMeshProUGUI>().text;
 
+        PlayerName = first + second + third + fourth;
+        Debug.Log(PlayerName);
+
+    }
 
     public void Exit()
     {

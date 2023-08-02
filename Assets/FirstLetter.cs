@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Alphabet : MonoBehaviour
+public class FirstLetter : MonoBehaviour
 {
     // Start is called before the first frame update
     public string Letter1;
@@ -14,7 +14,6 @@ public class Alphabet : MonoBehaviour
     public GameObject ALetter;
     [SerializeField] RectTransform ScrollContent;
     
-    Alphabet alphabet;
 
 
 
