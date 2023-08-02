@@ -771,6 +771,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             maxFallingSpeed = 9f;
             Skip.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(Skip);
             
         }      
 

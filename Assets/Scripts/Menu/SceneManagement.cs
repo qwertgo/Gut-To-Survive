@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
+
 public class SceneManagement : MonoBehaviour
 {
     public GameObject Game;
@@ -13,6 +14,7 @@ public class SceneManagement : MonoBehaviour
 
     public GameObject Player;
     public PlayerController pc;
+    
     /*public CinemachineVirtualCamera cam;
     public bool playerSleepin;
     public PlayerController pc;
@@ -95,4 +97,5 @@ public class SceneManagement : MonoBehaviour
 
     
 */
+
 }

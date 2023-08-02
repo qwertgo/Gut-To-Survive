@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class Pause : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Pause : MonoBehaviour
   public GameObject Game;
   public bool pause;
   public PlayerController pc;
-  
+  public GameObject Play;
   	PlayerInput controls;
 
   void Awake()
@@ -25,6 +26,7 @@ public class Pause : MonoBehaviour
     {
       pc.isSleeping = true;
       PauseMenu.SetActive(true);
+      EventSystem.current.SetSelectedGameObject(Play);
       
         
       }

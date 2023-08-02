@@ -23,7 +23,7 @@ public class Alphabet : MonoBehaviour
         controls = new PlayerInput();
         controls.Pause.ScrollUp.performed += ctx => ScrollUp();  
         controls.Pause.ScrollDown.performed += ctx => ScrollDown();
-        controls.Pause.SelectRight.performed += ctx => SelectRight();
+      //  controls.Pause.SelectRight.performed += ctx => SelectRight();
     }
 
     public void A()
@@ -204,7 +204,7 @@ void ScrollUp()
     ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y + ScrollContent.rect.height  *0.0003846f);
     }
 
-    void SelectRight() 
+  /*  void SelectRight() 
     { 
       alphabet.enabled = false;
     }
@@ -218,5 +218,5 @@ void ScrollUp()
       void OnDisable()
      {
        controls.Pause.Disable();
-     }
+     }*/
 }
