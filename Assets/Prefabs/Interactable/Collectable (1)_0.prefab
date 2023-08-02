@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pc: {fileID: 0}
   revive: 0
+  collectableClip: {fileID: 8300000, guid: dd7a4445f03d77547b04acda72a770a9, type: 3}
 --- !u!58 &6072027547032565927
 CircleCollider2D:
   m_ObjectHideFlags: 0

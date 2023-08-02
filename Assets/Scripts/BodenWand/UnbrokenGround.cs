@@ -34,7 +34,7 @@ public class UnbrokenGround : MonoBehaviour
     {
       StartCoroutine(WaitToDestroyYourself());
     
-      Debug.Log("test");
+      //Debug.Log("test");
 
     }   
   }
