@@ -52,6 +52,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
     //Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
 
+    public static string playerName;
+
     float turnability = 1;
     [HideInInspector] public float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
     float timeSinceStartedJumping;

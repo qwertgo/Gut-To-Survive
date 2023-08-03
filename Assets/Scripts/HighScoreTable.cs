@@ -13,10 +13,6 @@ public class HighScoreTable : MonoBehaviour
 {
 
     [SerializeField] float controllerScrollSpeed;
-    private int minCharAmount = 3;
-    private int maxCharAmount = 6;
-    const string glyphs = "0123456789";
-    string myString;
 
     PlayerInput input;
 
@@ -36,15 +32,9 @@ public class HighScoreTable : MonoBehaviour
         input = new PlayerInput();
         highscorePanelTransform = highscorePanel.GetComponent<RectTransform>();
 
-        int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
-        for (int i = 0; i < charAmount; i++)
-        {
-            myString += glyphs[Random.Range(0, glyphs.Length)];
-        }
-
         List<HighScoreEntry> highscoreList = SaveSystem.LoadHighscore();
 
-        highscoreList.Add(new HighScoreEntry(pc.deathCount, myString, pc.collectables, pc.time));
+        highscoreList.Add(new HighScoreEntry(pc.deathCount, PlayerController.playerName, pc.collectables, pc.time));
         highscoreList = BubbleSort(highscoreList);
 
         SaveSystem.SaveHighscore(highscoreList);

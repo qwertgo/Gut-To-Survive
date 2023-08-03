@@ -56,6 +56,7 @@ public class StartSceneManager : MonoBehaviour
 
         PlayerName = first + second + third + fourth;
         Debug.Log(PlayerName);
+        PlayerController.playerName = PlayerName;
         SceneManager.LoadScene("Final_Leveldesign");
 
 
