@@ -23,7 +23,7 @@ public class StartSceneManager : MonoBehaviour
     string second; 
     string third; 
     string fourth;
-    string PlayerName; 
+    public string PlayerName; 
     public GameObject Name;
     public GameObject firstLetter;
     public GameObject secondLetter;

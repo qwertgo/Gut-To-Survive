@@ -15,7 +15,7 @@ public class FirstLetter : MonoBehaviour
     public GameObject ALetter;
 
     [SerializeField] float controllerScrollSpeed;
-    [SerializeField] RectTransform Image;
+    [SerializeField] RectTransform ScrollContentLetter1;
   
 
     
@@ -30,14 +30,14 @@ public class FirstLetter : MonoBehaviour
         inputs = new PlayerInput();
 
         EventSystem.current.SetSelectedGameObject(ALetter);
-        Image = Image.GetComponent<RectTransform>();
+        ScrollContentLetter1 = ScrollContentLetter1.GetComponent<RectTransform>();
 
 
     }
 
     void Update()
     {
-        Image.position += new Vector3(0, Time.deltaTime *  controllerScrollSpeed*scrollDirection.y, 0);
+        ScrollContentLetter1.position += new Vector3(0, Time.deltaTime *  controllerScrollSpeed*scrollDirection.y, 0);
 
     }
 
@@ -234,17 +234,5 @@ public class FirstLetter : MonoBehaviour
     }
 
 
-/*void ScrollUp()
-    {
-    Debug.Log("Input");
-    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y + ScrollContent.rect.height  *-0.00038462f);
-
-    }
-
-     void ScrollDown()
-    {
-    Debug.Log("Input");
-    ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y + ScrollContent.rect.height  *0.0003846f);
-    }*/
 
 }
