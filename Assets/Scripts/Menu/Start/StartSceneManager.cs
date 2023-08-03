@@ -76,7 +76,7 @@ public class StartSceneManager : MonoBehaviour
     { 
 
     StartCoroutine(Zoom());
-    StartCoroutine(OffSet());
+    //StartCoroutine(OffSet());
     StartCoroutine(horizontalOffset());
     pc.endedGame = false;
     pc.enabled = true;
@@ -116,7 +116,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(cam.m_Lens.OrthographicSize < 25)
         {   
-            float zoomOut = cam.m_Lens.OrthographicSize *1.005f;
+            float zoomOut = cam.m_Lens.OrthographicSize *1.0005f;
             cam.m_Lens.OrthographicSize = zoomOut;
             yield return null;
         }
@@ -126,7 +126,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(hOffset.upwardOffset >10)
         {
-            float offsetViewFinder = hOffset.upwardOffset *0.9951f;
+            float offsetViewFinder = hOffset.upwardOffset *0.9981f;
             hOffset.upwardOffset = offsetViewFinder;
             yield return null; 
         } 
@@ -137,7 +137,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(hOffset.horizontalOffset>90)
         {
-            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.99725f;
+            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.99925f;
             hOffset.horizontalOffset = horizontalOffsetViewFinder;
             yield return null;
         }
