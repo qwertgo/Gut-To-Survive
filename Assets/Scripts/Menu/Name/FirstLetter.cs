@@ -10,11 +10,16 @@ public class FirstLetter : MonoBehaviour
     // Start is called before the first frame update
     public string Letter1;
     public Transform Name;
-    PlayerInput controls;
+    PlayerInput inputs;
     public PlayerController pc;
     public GameObject ALetter;
-    [SerializeField] RectTransform ScrollContent;
+
+    [SerializeField] float controllerScrollSpeed;
+    [SerializeField] RectTransform Image;
+  
+
     
+    Vector2 scrollDirection;
 
 
 
@@ -22,12 +27,47 @@ public class FirstLetter : MonoBehaviour
    void Awake()
     {   
         pc.isSleeping = true;
-        controls = new PlayerInput();
-        controls.Pause.ScrollUp.performed += ctx => ScrollUp();  
-        controls.Pause.ScrollDown.performed += ctx => ScrollDown();
+        inputs = new PlayerInput();
+
         EventSystem.current.SetSelectedGameObject(ALetter);
+        Image = Image.GetComponent<RectTransform>();
+
 
     }
+
+    void Update()
+    {
+        Image.position += new Vector3(0, Time.deltaTime *  controllerScrollSpeed*scrollDirection.y, 0);
+
+    }
+
+    
+    private void OnEnable()
+    {
+        inputs.Enable();
+        inputs.Player.Movement.performed += OnMovement;
+        inputs.Player.Movement.canceled += OnMovementCancelled;
+    }
+
+    private void OnDisable()
+    {
+        inputs.Disable();
+        inputs.Player.Movement.performed -= OnMovement;
+        inputs.Player.Movement.canceled -= OnMovementCancelled;
+    }
+
+    void OnMovement(InputAction.CallbackContext context)
+    {
+        scrollDirection = -context.ReadValue<Vector2>();
+    }
+
+    void OnMovementCancelled(InputAction.CallbackContext c)
+    {
+        scrollDirection = Vector2.zero;
+    }
+
+   
+
 
     public void A()
     {   
@@ -194,7 +234,7 @@ public class FirstLetter : MonoBehaviour
     }
 
 
-void ScrollUp()
+/*void ScrollUp()
     {
     Debug.Log("Input");
     ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y + ScrollContent.rect.height  *-0.00038462f);
@@ -205,6 +245,6 @@ void ScrollUp()
     {
     Debug.Log("Input");
     ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x,ScrollContent.transform.position.y + ScrollContent.rect.height  *0.0003846f);
-    }
+    }*/
 
 }
