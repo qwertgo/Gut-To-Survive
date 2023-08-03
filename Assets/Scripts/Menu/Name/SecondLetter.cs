@@ -37,7 +37,7 @@ public class SecondLetter : MonoBehaviour
 
     void Update()
     {
-        ScrollContentLetter2.position += new Vector3(0, Time.deltaTime *  controllerScrollSpeed*scrollDirection.y, 0);
+        ScrollContentLetter2.position += new Vector3(0, Time.deltaTime *  controllerScrollSpeed *scrollDirection.y, 0);
 
     }
 
