@@ -34,8 +34,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [HideInInspector] public bool isSleeping;                               //If Player should calculate physics and act on currentStage
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public SavePoint lastSavePoint;
-    [HideInInspector] public int deathCount;
-    [HideInInspector] public int revive;
+    [HideInInspector] public int deathCount { get; private set; }
+    [HideInInspector] public int collectables { get; private set; }
+    [HideInInspector] public float time { get; private set; }
     [HideInInspector] public bool sleep;
     
 
@@ -64,6 +65,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     float jumpBufferTimer;
     float gravityChangeBufferTimer;
     float visualsScale = 1.13f;
+    float temporaryTime;
 
     bool canDash = true;
     bool isRotating;
@@ -90,7 +92,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [SerializeField] GameObject Skip;
     [SerializeField] CinemachineVirtualCamera cam;
     [SerializeField] cameraViewFinder camfind;
-    [SerializeField] Vector2 startPosition;
     [SerializeField] SceneManagement sceneManager;
     [SerializeField] GameObject Credits; 
     SoundManager soundManager;
@@ -118,9 +119,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jumpBufferTimer = jumpBuffer + 1;
         gravityChangeBufferTimer = gravityChangeBuffer + 1;
 
-        rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
-
-        
+        rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2); 
     }
 
     private void OnDrawGizmos()
@@ -142,6 +141,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     private void Update()
     {
         CheckIfPlayerEnteredNewState();
+        temporaryTime += Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -332,6 +332,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public void Disable()
     {
         endedGame = true;
+        time = temporaryTime;
+        walkVelocityX = 0;
     }
 
 
@@ -762,7 +764,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Collectable"))
         {
-            revive++;
+            collectables++;
             //Debug.Log(revive);
         }  
 
@@ -795,7 +797,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             StartCoroutine(ZoomOut());
             StartCoroutine(OffSetUp());
-            startPosition = gameObject.transform.position;
+            //startPosition = gameObject.transform.position;
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))

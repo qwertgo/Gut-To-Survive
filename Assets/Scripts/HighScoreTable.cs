@@ -5,44 +5,36 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.InputSystem;
 
 
 
 public class HighScoreTable : MonoBehaviour
 {
-    public Transform entryContainer;
-    public Transform entryTemplate;
-    // private List<HighScoreEntry> highscoreEntryList;
-    private List<Transform> highscoreEntryTransformList;
-    private string adjectives;
+
+    [SerializeField] float controllerScrollSpeed;
     private int minCharAmount = 3;
     private int maxCharAmount = 6;
-    public const string glyphs = "0123456789";
-    public string myString;
-    public PlayerController pc;
-    public int remove;
+    const string glyphs = "0123456789";
+    string myString;
 
-    PlayerInput controls;
-    public ScrollRect scrollRect;
-    public Transform ScrollContent;
+    PlayerInput input;
 
-    public float speed;
+    Vector2 scrollDirection;
 
-    
 
-    void Start()
-    {
+    [Header("References")]
+    [SerializeField] PlayerController pc;
+    [SerializeField] GameObject entryPrefab;
+    [SerializeField] GameObject highscorePanel;
 
-        scrollRect = GetComponent<ScrollRect>();
-
-    }
+    RectTransform highscorePanelTransform;
 
 
     void Awake()
     {
-        controls = new PlayerInput();
-        controls.Pause.ScrollUp.performed += ctx => ScrollUp();
-        controls.Pause.ScrollDown.performed += ctx => ScrollDown();
+        input = new PlayerInput();
+        highscorePanelTransform = highscorePanel.GetComponent<RectTransform>();
 
         int charAmount = Random.Range(minCharAmount, maxCharAmount); //set those to the minimum and maximum length of your string
         for (int i = 0; i < charAmount; i++)
@@ -50,233 +42,105 @@ public class HighScoreTable : MonoBehaviour
             myString += glyphs[Random.Range(0, glyphs.Length)];
         }
 
-        HighscoreData data = SaveSystem.LoadHighscore();
+        List<HighScoreEntry> highscoreList = SaveSystem.LoadHighscore();
+        highscoreList = new List<HighScoreEntry>();
 
-        data.highscoreList.Add(new HighScoreEntry(pc.deathCount - pc.revive, myString));
-
-        //AddEntry(pc.deathCount - pc.revive, myString);
-
-        entryTemplate.gameObject.SetActive(false);
-
-
-        //highScoreEntryList manuelle Eingabe
-        /* highscoreEntryList = new List<HighScoreEntry>()
-             {
-                 new HighScoreEntry{ score =3, name ="1234"},
-                 new HighScoreEntry{ score =1, name ="1234"},
-                 new HighScoreEntry{ score = 4, name ="ABC"},
-                 new HighScoreEntry{score= 7, name = "5962" },
-                 new HighScoreEntry{ score =9, name ="Lisa"},
-                 new HighScoreEntry{ score =56, name ="Ann"},
-                 new HighScoreEntry{ score = 86, name ="Lena"},
-                 new HighScoreEntry{score= 103, name = "Samu" },
-                 new HighScoreEntry{ score =72, name ="Lisa"},
-                 new HighScoreEntry{ score =63, name ="Ann"},
-                 new HighScoreEntry{ score = 117, name ="Lena"},
-                 new HighScoreEntry{score= 59, name = "Samu" },
-                 new HighScoreEntry{ score =99, name ="Ann"},
-                 new HighScoreEntry{ score = 86, name ="Lena"},
-                 new HighScoreEntry{score= 112, name = "Samu" },
-                 new HighScoreEntry{ score =20, name ="Lisa"},
-                 new HighScoreEntry{ score =63, name ="Ann"},
-                 new HighScoreEntry{ score = 164, name ="Lena"},
-                 new HighScoreEntry{score= 15, name = "Samu" },
-             };
-
-             Highscores highscores = new Highscores{highscoreEntryList = highscoreEntryList};       
-             string json = JsonUtility.ToJson(highscores);
-             PlayerPrefs.SetString("highscoreTable", json);
-             PlayerPrefs.Save();
-             Debug.Log(PlayerPrefs.GetString("highscoreTable"));*/
-
-
-
-        //Sort entry list by Score
-        /*  for(int i=0; i< highscoreEntryList.Count; i++)
-           {
-               for(int j = i+1; j< highscoreEntryList.Count; j++)
-               {
-                   if(highscoreEntryList[j].score > highscoreEntryList[i].score)
-                   {
-                       HighScoreEntry tmp = highscoreEntryList[i];
-                       highscoreEntryList[i] = highscoreEntryList[j];
-                       highscoreEntryList[j] = tmp; 
-                   }
-               }
-           }
-   */
-
-        //string jsonString = PlayerPrefs.GetString("highscoreTable");
-
-        //HighscoreData highscores = JsonUtility.FromJson<HighscoreData>(jsonString);
-
-        for (int i = 0; i < data.highscoreList.Count; i++)
+        highscoreList.Add(new HighScoreEntry(pc.deathCount, myString, pc.collectables, pc.time));
+        for(int i =0; i < 20; i++)
         {
-            for (int j = i + 1; j < data.highscoreList.Count; j++)
-            {
-                if (data.highscoreList[j].score < data.highscoreList[i].score)
-                {
-                    HighScoreEntry tmp = data.highscoreList[i];
-                    data.highscoreList[i] = data.highscoreList[j];
-                    data.highscoreList[j] = tmp;
-                }
-            }
+            highscoreList.Add(new HighScoreEntry(i + 5, "coller Namer", 5, 128));
         }
 
-        SaveSystem.SaveHighscore(data);
+        SaveSystem.SaveHighscore(highscoreList);
 
-        highscoreEntryTransformList = new List<Transform>();
-        foreach (HighScoreEntry highscoreEntry in data.highscoreList)
+        for(int i = 0; i < highscoreList.Count; i++)
         {
-            newEntry(highscoreEntry, entryContainer, highscoreEntryTransformList);
-        }
-    }
-
-
-
-    private void newEntry(HighScoreEntry highscoreEntry, Transform container, List<Transform> transformList)
-    {
-        float temheight = 150f;
-        Transform entryTransform = Instantiate(entryTemplate, container);
-        Transform _entryTransform = entryTransform.GetComponent<Transform>();
-
-        _entryTransform.transform.localPosition = new Vector2(_entryTransform.localPosition.x, -temheight * 0.2f * transformList.Count);
-        //Debug.Log(_entryTransform.transform.localPosition);
-        _entryTransform.gameObject.SetActive(true);
-
-        int rank = transformList.Count + 1;
-        string rankString;
-        switch (rank)
-        {
-            case 1: rankString = "1ST"; break;
-            case 2: rankString = "2ND"; break;
-            case 3: rankString = "3RD"; break;
-            default:
-                rankString = rank + "TH"; break;
+            CreateEntryVisuals(highscoreList[i], i + 1);
         }
 
-        entryTemplate.Find("PositionTex").GetComponent<TextMeshProUGUI>().text = rankString;
-
-        int score = highscoreEntry.score;
-        entryTemplate.Find("DeathsTex").GetComponent<TextMeshProUGUI>().text = score.ToString();
-
-
-        string name = highscoreEntry.name;
-        entryTemplate.Find("NameTex").GetComponent<TextMeshProUGUI>().text = name;
-
-
-        transformList.Add(_entryTransform);
-
-
+        highscorePanelTransform.sizeDelta = new Vector2(highscorePanelTransform.sizeDelta.x, highscoreList.Count * 33);
     }
 
-    public void AddEntry(int score, string name)
+    private void Update()
     {
-        // Create
-        HighScoreEntry highscoreEntry = new HighScoreEntry ( score = 3, name = "dfdf");
-
-        //Load
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        HighscoreData highscores = JsonUtility.FromJson<HighscoreData>(jsonString);
-
-        //Add
-        Debug.Log(highscores);
-        Debug.Log(highscores.highscoreList);
-        Debug.Log(highscoreEntry);
-        highscores.highscoreList.Add(highscoreEntry);
-
-        //Save
-        for (int i = 1; i > highscores.highscoreList.Count; i++)
-        {
-            for (int j = i + 1; j > highscores.highscoreList.Count; j++)
-            {
-                if (highscores.highscoreList[j].score < highscores.highscoreList[i].score)
-                {
-                    HighScoreEntry tmp = highscores.highscoreList[i];
-                    highscores.highscoreList[i] = highscores.highscoreList[j];
-                    highscores.highscoreList[j] = tmp;
-                }
-            }
-        }
-        if (highscores.highscoreList.Count > remove)
-        {
-            for (int h = highscores.highscoreList.Count; h > remove; h--)
-            {
-                highscores.highscoreList.RemoveAt(remove);
-            }
-        }
-        string json = JsonUtility.ToJson(highscores);
-        PlayerPrefs.SetString("highscoreTable", json);
-        PlayerPrefs.Save();
+        highscorePanelTransform.position += new Vector3(0, Time.deltaTime * controllerScrollSpeed * scrollDirection.y, 0);
     }
 
-
-
-
-    void ScrollUp()
+    private void OnEnable()
     {
-        Debug.Log("Input");
-        ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x, ScrollContent.transform.position.y * 0.75f);
+        input.Enable();
+        input.Player.Movement.performed += OnMovement;
+        input.Player.Movement.canceled += OnMovementCancelled;
     }
 
-    void ScrollDown()
+    private void OnDisable()
     {
-        Debug.Log("Input");
-        ScrollContent.transform.position = new Vector2(ScrollContent.transform.position.x, ScrollContent.transform.position.y * 1.25f);
-
+        input.Disable();
+        input.Player.Movement.performed -= OnMovement;
+        input.Player.Movement.canceled -= OnMovementCancelled;
     }
 
-
-    void OnEnable()
+    void OnMovement(InputAction.CallbackContext context)
     {
-        controls.Pause.Enable();
+        scrollDirection = -context.ReadValue<Vector2>();
     }
 
-    void OnDisable()
+    void OnMovementCancelled(InputAction.CallbackContext c)
     {
-        controls.Pause.Disable();
+        scrollDirection = Vector2.zero;
     }
 
-    
+    void CreateEntryVisuals(HighScoreEntry entry, int place)
+    {
+        GameObject entryGo = Instantiate(entryPrefab, highscorePanel.transform);
 
-    
-}
+        TextMeshProUGUI[] textArray = entryGo.GetComponentsInChildren<TextMeshProUGUI>();
 
-[System.Serializable]
-class HighscoreData
-{
-    public List<HighScoreEntry> highscoreList = new List<HighScoreEntry>();
+        textArray[0].text = place.ToString();
+        textArray[1].text = entry.name;
+        textArray[2].text = entry.deathCount.ToString();
+        textArray[3].text = entry.collectables.ToString();
+        textArray[4].text = entry.time.ToString();
+    }
 }
 
 [System.Serializable]
 class HighScoreEntry
 {
-    public HighScoreEntry(int score, string name)
+    public HighScoreEntry(int deathCount, string name, int collectables, float time)
     {
-        this.score = score;
+        this.deathCount = deathCount;
         this.name = name;
+        this.collectables = collectables;
+
+        float minutes = Mathf.FloorToInt(time / 60);
+        float seconds = Mathf.FloorToInt(time % 60);
+
+        this.time = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    public int score;
-    public string name;
+    public int deathCount { get; private set; }
+    public string name { get; private set; }
+    public int collectables { get; private set; }
+    public string time { get; private set; }
 }
 
 static class SaveSystem
 {
 
     static string dataPath = Application.persistentDataPath + "highscore.bin";
-    public static void SaveHighscore(HighscoreData data)
+    public static void SaveHighscore(List<HighScoreEntry> highscoreList)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
         FileStream stream = new FileStream(dataPath, FileMode.Create);
-        formatter.Serialize(stream, data.highscoreList);
+        formatter.Serialize(stream, highscoreList);
 
         stream.Close();
     }
 
 
-    public static HighscoreData LoadHighscore()
+    public static List<HighScoreEntry> LoadHighscore()
     {
         if (File.Exists(dataPath))
         {
@@ -284,17 +148,14 @@ static class SaveSystem
             FileStream stream = new FileStream(dataPath, FileMode.Open);
 
             List<HighScoreEntry> list = formatter.Deserialize(stream) as List<HighScoreEntry>;
-            HighscoreData d = new HighscoreData();
             stream.Close();
 
-            d.highscoreList = list;
-            return d;
-
+            return list;
         }
         else
         {
-            Debug.Log("did not find file");
-            return new HighscoreData();
+            //Debug.Log("did not find file");
+            return new List<HighScoreEntry>();
         }
     }
 }
