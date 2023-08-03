@@ -72,7 +72,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool canDash = true;
     bool isRotating;
     bool isDying;
-    bool endedGame;
+    [HideInInspector] public bool endedGame;
 
 
     [Header("References")]

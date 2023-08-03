@@ -43,6 +43,9 @@ public class StartSceneManager : MonoBehaviour
         hOffset.horizontalOffset = 179;
         hOffset.upwardOffset = 15f;
         EventSystem.current.SetSelectedGameObject(PlayButton);
+        
+        pc.endedGame = true;
+        pc.enabled = false;
 
 
     }
@@ -71,24 +74,26 @@ public class StartSceneManager : MonoBehaviour
 
     public void StartMenuPlay() 
     { 
-    pc.isSleeping = true;
+
     StartCoroutine(Zoom());
     StartCoroutine(OffSet());
     StartCoroutine(horizontalOffset());
+    pc.endedGame = false;
+    pc.enabled = true;
     Player.transform.Rotate(0.0f,180f,0.0f); 
     StartCanvas.SetActive(false);
-    fadePlay.Invoke("Fade",6);
-    Invoke("ZoomOutDelay",1f);
-    Invoke("PlayerActive",7.5f);
-    Invoke("PlayerMove",5);    
-    Invoke("NameSelect",8);
+    fadePlay.Invoke("Fade",4);
+    Invoke("ZoomOutDelay",0.2f);
+    Invoke("PlayerActive",4f);
+    Invoke("PlayerMove",2);    
+    Invoke("NameSelect",5);
+
     }
 
     void PlayerActive()
     {
         pc.StopAllCoroutines();
         pc.isSleeping = true; 
-        pc.walkVelocityX = 0;
     }
 
     
@@ -145,17 +150,20 @@ public class StartSceneManager : MonoBehaviour
     }
 
     
-   void PlayerMove()
+void PlayerMove()
    {
-    pc.isSleeping = false;
+    pc.isSleeping = false; 
+    
     if(!pc.isSleeping)
     pc.CrossFade("StartWalk");
     pc.walkVelocityX = -1;
+
    }
 
    void NameSelect()
    {
     Name.SetActive(true);
+    
    }
 
     public void Settings()
