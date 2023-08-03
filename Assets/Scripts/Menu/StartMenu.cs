@@ -11,10 +11,7 @@ public class StartMenu : MonoBehaviour
         SceneManager.LoadScene("Lisa_Playground");
     }
     
-    public void Settings()
-    {
-        SceneManager.LoadScene("Settings");
-    }
+
     
     public void Exit()
     {

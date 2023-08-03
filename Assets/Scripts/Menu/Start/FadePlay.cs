@@ -6,6 +6,7 @@ public class FadePlay : MonoBehaviour
 {
     public UnityEngine.U2D.SpriteShapeRenderer spriteRenderer;
         [SerializeField] List<UnityEngine.U2D.SpriteShapeRenderer> spriteRendereres = new List<UnityEngine.U2D.SpriteShapeRenderer>();
+        public GameObject Name;
 
     // Start is called before the first frame update
   IEnumerator FadeIn()

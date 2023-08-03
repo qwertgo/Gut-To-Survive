@@ -52,7 +52,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     //Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
 
     float turnability = 1;
-    float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
+    [HideInInspector] public float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
     float timeSinceStartedJumping;
     float timeSinceStartedDashing;
     float forcefieldExitMagnitude;              //Strength of Velocity when exiting a forcefield
@@ -310,7 +310,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         rotationGoal = 0;
     }
 
-    void CrossFade(string name)
+    public void CrossFade(string name)
     {
         name = (polarity == Polarity.positiv ? "Positive " : "Negative ") + name;
         animator.CrossFade(name, 0);

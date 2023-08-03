@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using Cinemachine;
 using TMPro;
-
+using UnityEngine.Audio;
 public class StartSceneManager : MonoBehaviour
 {
     public GameObject Game;
@@ -28,6 +29,10 @@ public class StartSceneManager : MonoBehaviour
     public GameObject secondLetter;
     public GameObject thirdLetter;
     public GameObject fourthLetter;
+    public GameObject PlayButton;
+    public GameObject Volume;
+        public AudioMixer audioMixer;
+
     
 
       // Start is called before the first frame update
@@ -37,6 +42,8 @@ public class StartSceneManager : MonoBehaviour
         cam.m_Lens.OrthographicSize = 10;
         hOffset.horizontalOffset = 179;
         hOffset.upwardOffset = 15f;
+        EventSystem.current.SetSelectedGameObject(PlayButton);
+
 
     }
  
@@ -49,6 +56,8 @@ public class StartSceneManager : MonoBehaviour
 
         PlayerName = first + second + third + fourth;
         Debug.Log(PlayerName);
+        SceneManager.LoadScene("Final_Leveldesign");
+
 
     }
 
@@ -65,15 +74,13 @@ public class StartSceneManager : MonoBehaviour
     StartCoroutine(Zoom());
     StartCoroutine(OffSet());
     StartCoroutine(horizontalOffset());
+    Player.transform.Rotate(0.0f,180f,0.0f); 
     StartCanvas.SetActive(false);
     fadePlay.Invoke("Fade",6);
     Invoke("ZoomOutDelay",1);
     Invoke("PlayerActive",9);
-    Invoke("LoadScene",13);
-    Invoke("PlayerMove",5);
-
-    
-    
+    Invoke("PlayerMove",5);    
+    Invoke("NameSelect",7);
     }
 
     void PlayerActive()
@@ -137,7 +144,28 @@ public class StartSceneManager : MonoBehaviour
     
    void PlayerMove()
    {
-    Player.GetComponent<Rigidbody2D>().velocity = new Vector2(Player.transform.position.x *-0.25f, Player.transform.position.y);
+    pc.isSleeping = false;
+    if(!pc.isSleeping)
+    pc.CrossFade("StartWalk");
+    pc.walkVelocityX = -1;
    }
 
+   void NameSelect()
+   {
+    Name.SetActive(true);
+   }
+
+    public void Settings()
+    {
+        EventSystem.current.SetSelectedGameObject(Volume);
+    }
+
+     public void Back()
+    {
+        EventSystem.current.SetSelectedGameObject(PlayButton);
+    }
+    public void SetVolume(float volume)
+    {
+        audioMixer.SetFloat("volume", volume);
+    }
 }
