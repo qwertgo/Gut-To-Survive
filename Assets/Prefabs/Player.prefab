@@ -152,7 +152,7 @@ MonoBehaviour:
   deathCount: 0
   revive: 0
   sleep: 0
-  endedGame: 0
+  walkVelocityX: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
   headCheckTransform: {fileID: 2421048445925974519}
@@ -172,7 +172,7 @@ MonoBehaviour:
   Indicator: {fileID: 8001582189423572635}
   Skip: {fileID: 0}
   cam: {fileID: 0}
-  camfind: {fileID: 0}
+  camfind: {fileID: 3531936197009121630}
   startPosition: {x: 0, y: 0}
   sceneManager: {fileID: 0}
   Credits: {fileID: 0}
@@ -285,10 +285,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walk:
-  - {fileID: 8300000, guid: fd66b1696267f3b4d828cdb0e9dd9549, type: 3}
+  - {fileID: 8300000, guid: aa52c67185717ee458b66cc5ab64546c, type: 3}
+  - {fileID: 8300000, guid: cae7d9bc596a8914c8016e68ea09bdfa, type: 3}
+  - {fileID: 8300000, guid: 34aa4466a3d92bb42b63bbf895888659, type: 3}
   die:
-  - {fileID: 8300000, guid: 4d7eec88551abd34db6ff77d8c8cd224, type: 3}
-  - {fileID: 8300000, guid: bff18cbbd41e3d14e82dda8d6b6876ab, type: 3}
+  - {fileID: 8300000, guid: 32dc66da060d9574a8b1c6a65e1659a9, type: 3}
+  - {fileID: 8300000, guid: ad3c6c0a5fae1914b9d4b0d15a0d58de, type: 3}
+  - {fileID: 8300000, guid: 079cb63ffec5f0c43a93b7f37a417cfb, type: 3}
+  jump:
+  - {fileID: 8300000, guid: 711f104749cea1b4493ce973249f6a75, type: 3}
+  - {fileID: 8300000, guid: 1e6e6eca5a1b1264f886d586915a46df, type: 3}
+  - {fileID: 8300000, guid: a64b6c84c5ea9b34fb10412328e7f1e0, type: 3}
+  - {fileID: 8300000, guid: 3f69d9553689ce14ea761d1b1ce2b499, type: 3}
+  - {fileID: 8300000, guid: b6ab6e9f5ec6ae04aacdb6fc7cf754bc, type: 3}
+  - {fileID: 8300000, guid: f05bba821899fef43b23ec051689b5a9, type: 3}
+  landing:
+  - {fileID: 8300000, guid: 7ea31c62b0ca65e4b9b4cefecd407e28, type: 3}
+  - {fileID: 8300000, guid: 69d73920f948a684d8bf592d14b07312, type: 3}
+  - {fileID: 8300000, guid: b7fcef5ccd1a60e4abdce49a5a2f4960, type: 3}
+  - {fileID: 8300000, guid: 4af9b013ef04a254c8509ab987a1153d, type: 3}
+  - {fileID: 8300000, guid: f3520937c4252814ba6b174f7e57c9bd, type: 3}
+  - {fileID: 8300000, guid: 3552f67bcc9c3784a832103d7f020661, type: 3}
+  P_Polarity: {fileID: 8300000, guid: 10c2ae23b40c93a4c86084c90b4a442d, type: 3}
+  N_Polarity: {fileID: 8300000, guid: b6f6dadf47696a74e87a1e1a84c62946, type: 3}
 --- !u!1 &2421048445925974518
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +391,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 674d98c200000000fbeaaf70a753a0e6a753a0e6
+  m_ApplyToSortingLayers: 674d98c200000000fbeaaf70a753a0e6
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -472,6 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7794248035697906494}
   - component: {fileID: 8874463916318681645}
+  - component: {fileID: 588834966}
   m_Layer: 11
   m_Name: AudioListener
   m_TagString: Untagged
@@ -502,6 +522,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4860743218641397607}
   m_Enabled: 1
+--- !u!114 &588834966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860743218641397607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94eae6870c986e94cb413fb8b2dfca31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7924625487302062801
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,6 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8920979054459062717}
   - component: {fileID: 3531936197009121630}
+  - component: {fileID: 1229865598}
   m_Layer: 11
   m_Name: camFiewFinder
   m_TagString: Untagged
@@ -526,8 +559,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7924625487302062801}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -22.573324, y: 9.633848, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -541,7 +574,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7924625487302062801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a50104ff2a966547b9efaf98acb469c, type: 3}
   m_Name: 
@@ -556,6 +589,27 @@ MonoBehaviour:
   offsetAmountFront: 0.3
   offsetAmountMiddle: 0.6
   offsetAmountLights: 0.8
+--- !u!114 &1229865598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924625487302062801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2088b104f44ec4699fd7ba0ff2fa05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upwardOffset: 0
+  horizontalOffset: 1
+  player: {fileID: 2421048444573215182}
+  materialFront: {fileID: 2100000, guid: f7d995f61deaf0d498ea2cda18f433ec, type: 2}
+  materialMiddle: {fileID: 2100000, guid: 979aa78314920f54ab5848da050c8c14, type: 2}
+  lights: {fileID: 4234526564676028673}
+  offsetAmountFront: 0
+  offsetAmountMiddle: 0
+  offsetAmountLights: 0
 --- !u!1 &8001582189423572635
 GameObject:
   m_ObjectHideFlags: 0
