@@ -68,7 +68,7 @@ public class StartSceneManager : MonoBehaviour
       
     }
 
-    public void Play() 
+    public void StartMenuPlay() 
     { 
     pc.isSleeping = true;
     StartCoroutine(Zoom());
@@ -77,15 +77,17 @@ public class StartSceneManager : MonoBehaviour
     Player.transform.Rotate(0.0f,180f,0.0f); 
     StartCanvas.SetActive(false);
     fadePlay.Invoke("Fade",6);
-    Invoke("ZoomOutDelay",1);
-    Invoke("PlayerActive",9);
+    Invoke("ZoomOutDelay",1f);
+    Invoke("PlayerActive",7.5f);
     Invoke("PlayerMove",5);    
-    Invoke("NameSelect",7);
+    Invoke("NameSelect",8);
     }
 
     void PlayerActive()
     {
-        Player.SetActive(false);
+        pc.StopAllCoroutines();
+        pc.isSleeping = true; 
+        pc.walkVelocityX = 0;
     }
 
     
@@ -98,7 +100,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(cam.m_Lens.OrthographicSize > 10)
         {   
-            float zoom = cam.m_Lens.OrthographicSize *0.993f;
+            float zoom = cam.m_Lens.OrthographicSize *0.989f;
             cam.m_Lens.OrthographicSize = zoom;
             yield return null;
         }
@@ -108,7 +110,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(cam.m_Lens.OrthographicSize < 25)
         {   
-            float zoomOut = cam.m_Lens.OrthographicSize *1.0005f;
+            float zoomOut = cam.m_Lens.OrthographicSize *1.005f;
             cam.m_Lens.OrthographicSize = zoomOut;
             yield return null;
         }
@@ -118,7 +120,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(hOffset.upwardOffset >10)
         {
-            float offsetViewFinder = hOffset.upwardOffset *0.999991f;
+            float offsetViewFinder = hOffset.upwardOffset *0.9951f;
             hOffset.upwardOffset = offsetViewFinder;
             yield return null; 
         } 
@@ -129,7 +131,7 @@ public class StartSceneManager : MonoBehaviour
     {
         while(hOffset.horizontalOffset>90)
         {
-            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.99925f;
+            float horizontalOffsetViewFinder = hOffset.horizontalOffset * 0.99725f;
             hOffset.horizontalOffset = horizontalOffsetViewFinder;
             yield return null;
         }
