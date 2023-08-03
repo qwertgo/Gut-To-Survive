@@ -43,13 +43,9 @@ public class HighScoreTable : MonoBehaviour
         }
 
         List<HighScoreEntry> highscoreList = SaveSystem.LoadHighscore();
-        highscoreList = new List<HighScoreEntry>();
 
         highscoreList.Add(new HighScoreEntry(pc.deathCount, myString, pc.collectables, pc.time));
-        for(int i =0; i < 20; i++)
-        {
-            highscoreList.Add(new HighScoreEntry(i + 5, "coller Namer", 5, 128));
-        }
+        highscoreList = BubbleSort(highscoreList);
 
         SaveSystem.SaveHighscore(highscoreList);
 
@@ -100,8 +96,64 @@ public class HighScoreTable : MonoBehaviour
         textArray[1].text = entry.name;
         textArray[2].text = entry.deathCount.ToString();
         textArray[3].text = entry.collectables.ToString();
-        textArray[4].text = entry.time.ToString();
+
+        float minutes = Mathf.FloorToInt(entry.time / 60);
+        float seconds = Mathf.FloorToInt(entry.time % 60);
+        string time = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        textArray[4].text = time;
     }
+
+    List<HighScoreEntry> BubbleSort(List<HighScoreEntry> highscorelist)
+    {
+        //sort for deaths
+        int runIndex = highscorelist.Count - 1 ;
+        for(int i = highscorelist.Count -1; i > 0; i--)
+        {
+            int o = i - 1;
+            if(highscorelist[i].deathCount <= highscorelist[o].deathCount)
+            {
+                highscorelist = Swap(highscorelist, i, o);
+                runIndex--;
+            }
+            else
+                break;
+        }
+
+        //sort for collectables
+        for(int i = runIndex; i < highscorelist.Count - 1; i++)
+        {
+            int o = i + 1;
+            if (highscorelist[i].deathCount == highscorelist[o].deathCount && highscorelist[i].collectables < highscorelist[o].collectables)
+            {
+                highscorelist = Swap(highscorelist, i, o);
+                runIndex++;
+            }
+            else
+                break;
+        }
+
+        //sort for time
+        for(int i = runIndex; i < highscorelist.Count -1; i++)
+        {
+            int o = i + 1;
+            if(highscorelist[i].deathCount == highscorelist[o].deathCount && highscorelist[i].collectables == highscorelist[o].collectables && highscorelist[i].time > highscorelist[o].time)
+            {
+
+            }
+        }
+
+        return highscorelist;
+    }
+
+    List<HighScoreEntry> Swap(List<HighScoreEntry> highscorelist,int i, int o)
+    {
+        HighScoreEntry tmp = highscorelist[i];
+        highscorelist[i] = highscorelist[o];
+        highscorelist[o] = tmp;
+        return highscorelist;
+    }
+
 }
 
 [System.Serializable]
@@ -112,17 +164,19 @@ class HighScoreEntry
         this.deathCount = deathCount;
         this.name = name;
         this.collectables = collectables;
+        this.time = time;
+        
+    }
 
-        float minutes = Mathf.FloorToInt(time / 60);
-        float seconds = Mathf.FloorToInt(time % 60);
-
-        this.time = string.Format("{0:00}:{1:00}", minutes, seconds);
+    public string NewToString()
+    {
+        return $"name: {name}, deaths: {deathCount}, collectables: {collectables}, time: {time}";
     }
 
     public int deathCount { get; private set; }
     public string name { get; private set; }
     public int collectables { get; private set; }
-    public string time { get; private set; }
+    public float time { get; private set; }
 }
 
 static class SaveSystem
