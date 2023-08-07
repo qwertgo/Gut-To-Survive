@@ -149,10 +149,9 @@ MonoBehaviour:
   isSleeping: 0
   isGrounded: 0
   lastSavePoint: {fileID: 0}
-  deathCount: 0
-  revive: 0
   sleep: 0
   walkVelocityX: 0
+  endedGame: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
   headCheckTransform: {fileID: 2421048445925974519}
@@ -173,7 +172,6 @@ MonoBehaviour:
   Skip: {fileID: 0}
   cam: {fileID: 0}
   camfind: {fileID: 3531936197009121630}
-  startPosition: {x: 0, y: 0}
   sceneManager: {fileID: 0}
   Credits: {fileID: 0}
 --- !u!82 &1323781860
@@ -279,7 +277,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2421048444573215173}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3dd8105d20302b4d992b34e196139d6, type: 3}
   m_Name: 

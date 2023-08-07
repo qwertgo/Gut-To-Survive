@@ -38,6 +38,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     [HideInInspector] public int collectables { get; private set; }
     [HideInInspector] public float time { get; private set; }
     [HideInInspector] public bool sleep;
+    [HideInInspector] public bool disabled;
     
 
     PlayerInput controls;
@@ -52,7 +53,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     Vector2 forcefieldEnterDirection;           //Same as above but when entering a forcefield
     //Vector2 velocitySaveWhenSleeping;           //Save current Velocity when rotatinig camera to apply it back on after camera finished rotating
 
-    public static string playerName;
+    public static string playerName = "ASLL";
 
     float turnability = 1;
     [HideInInspector] public float walkVelocityX;                        //horizontal Movement from input (Gamepad, Keyboard)
@@ -72,7 +73,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     bool canDash = true;
     bool isRotating;
     bool isDying;
-    [HideInInspector] public bool endedGame;
 
 
     [Header("References")]
@@ -333,7 +333,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     public void Disable()
     {
-        endedGame = true;
+        disabled = true;
         time = temporaryTime;
         walkVelocityX = 0;
     }
@@ -362,7 +362,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (isSleeping)
             StartCoroutine(DropImpactTimer());
 
-        if (endedGame)
+        if (disabled)
             StopAllCoroutines();
        
     }
@@ -636,7 +636,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     //---------------------------------------------------------
     public void OnMovement(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (endedGame)
+        if (disabled)
             return;
 
         leftStickDir = context.ReadValue<Vector2>();
@@ -680,9 +680,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         ControllerRumbleManager.StartTimedRumble(0, .2f, .1f);
     }
 
+    public void OnBack(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+    }
+
     public void OnDash(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (!context.started || !canDash || currentForcefield != null || endedGame)
+        if (!context.started || !canDash || currentForcefield != null || disabled)
             return;
 
         if (leftStickDir.magnitude == 0)
@@ -878,10 +882,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         //gameObject.SetActive(false);  
         Highscore.SetActive(true);
         cam.m_Lens.OrthographicSize = 110;
-        endedGame = true;
+        disabled = true;
         enabled = false;
         rb.velocity = Vector2.zero;
         GetComponentInChildren<SpriteRenderer>().enabled = false;
         GetComponentInChildren<Light2D>().enabled = false;
     }
+
+    
 }

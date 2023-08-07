@@ -21,6 +21,11 @@ public class FirstLetter : MonoBehaviour
     
     Vector2 scrollDirection;
 
+    public void Letter(string letter)
+    {
+
+    }
+
 
 
 

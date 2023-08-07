@@ -22,6 +22,9 @@ public class SoundManager : MonoBehaviour
 
     public void Play(PlayerSound sound, float volume, bool playOneShot)
     {
+        if (enabled == false)
+            return;
+
         StopAllCoroutines();
         switch (sound)
         {
@@ -59,6 +62,8 @@ public class SoundManager : MonoBehaviour
 
     void Play(List<AudioClip> list, float pitchBase, float pitchRandom, float volumeBase, float volumeRandom, bool PlayOneShot)
     {
+        
+
         if (PlayOneShot)
         {
             AudioClip clip = list[Random.Range(0, list.Count)];
@@ -91,6 +96,9 @@ public class SoundManager : MonoBehaviour
 
     public void Stop()
     {
+        if (enabled == false)
+            return;
+
         StopAllCoroutines();
         source.Stop();
     }

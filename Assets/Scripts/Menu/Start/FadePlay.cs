@@ -11,7 +11,7 @@ public class FadePlay : MonoBehaviour
     // Start is called before the first frame update
   IEnumerator FadeIn()
     {
-            float alpha = 0;
+        float alpha = 0;
 
         while(alpha <1)
         {

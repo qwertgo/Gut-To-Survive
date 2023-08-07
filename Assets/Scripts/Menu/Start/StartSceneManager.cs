@@ -44,7 +44,7 @@ public class StartSceneManager : MonoBehaviour
         hOffset.upwardOffset = 15f;
         EventSystem.current.SetSelectedGameObject(PlayButton);
         
-        pc.endedGame = true;
+        pc.disabled = true;
         pc.enabled = false;
 
 
@@ -58,7 +58,7 @@ public class StartSceneManager : MonoBehaviour
         fourth = fourthLetter.GetComponent<TextMeshProUGUI>().text;
 
         PlayerName = first + second + third + fourth;
-        Debug.Log(PlayerName);
+        //Debug.Log(PlayerName);
         PlayerController.playerName = PlayerName;
         SceneManager.LoadScene("Final_Leveldesign");
 
@@ -75,25 +75,27 @@ public class StartSceneManager : MonoBehaviour
     public void StartMenuPlay() 
     { 
 
-    StartCoroutine(Zoom());
-    //StartCoroutine(OffSet());
-    StartCoroutine(horizontalOffset());
-    pc.endedGame = false;
-    pc.enabled = true;
-    Player.transform.Rotate(0.0f,180f,0.0f); 
-    StartCanvas.SetActive(false);
-    fadePlay.Invoke("Fade",4);
-    Invoke("ZoomOutDelay",0.2f);
-    Invoke("PlayerActive",4f);
-    Invoke("PlayerMove",2);    
-    Invoke("NameSelect",5);
+        StartCoroutine(Zoom());
+        //StartCoroutine(OffSet());
+        StartCoroutine(horizontalOffset());
+        pc.disabled = false;
+        pc.enabled = true;
+        Player.transform.Rotate(0.0f,180f,0.0f); 
+        StartCanvas.SetActive(false);
+        fadePlay.Invoke("Fade",4);
+        Invoke("ZoomOutDelay",0.2f);
+        Invoke("PlayerActive",4f);
+        Invoke("PlayerMove",2);    
+        Invoke("NameSelect",5);
 
     }
 
     void PlayerActive()
     {
         pc.StopAllCoroutines();
-        pc.isSleeping = true; 
+        pc.isSleeping = true;
+        pc.Disable();
+
     }
 
     
@@ -150,19 +152,19 @@ public class StartSceneManager : MonoBehaviour
     }
 
     
-void PlayerMove()
-   {
-    pc.isSleeping = false; 
+    void PlayerMove()
+    {
+        pc.isSleeping = false; 
     
-    if(!pc.isSleeping)
-    pc.CrossFade("StartWalk");
-    pc.walkVelocityX = -1;
+        if(!pc.isSleeping)
+            pc.CrossFade("StartWalk");
+        pc.walkVelocityX = -1;
 
-   }
+    }
 
    void NameSelect()
    {
-    Name.SetActive(true);
+        Name.SetActive(true);
     
    }
 
