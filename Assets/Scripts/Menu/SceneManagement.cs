@@ -36,10 +36,10 @@ public class SceneManagement : MonoBehaviour
 */
     public void ExitMenu()
     {
-        Game.SetActive(true);
-        PauseMenu.SetActive(false);
-        SceneManager.LoadScene("Menu_");
-        //playerSleepin = true;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
 
     /*public void Exit()

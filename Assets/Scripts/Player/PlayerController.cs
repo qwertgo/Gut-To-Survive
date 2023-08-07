@@ -121,7 +121,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         jumpBufferTimer = jumpBuffer + 1;
         gravityChangeBufferTimer = gravityChangeBuffer + 1;
 
-        rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2); 
+        rb.centerOfMass = new Vector2(0, -pCollider.offset.y * 2);
+
+        Cursor.visible = false;
     }
 
     private void OnDrawGizmos()
@@ -142,13 +144,16 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
     private void Update()
     {
+        if (disabled)
+            return;
+
         CheckIfPlayerEnteredNewState();
         temporaryTime += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
-        if (isSleeping)
+        if (isSleeping || disabled)
             return;
 
         ActOnCurrentStage();

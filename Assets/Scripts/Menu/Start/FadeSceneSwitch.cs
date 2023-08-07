@@ -50,7 +50,7 @@ public class FadeSceneSwitch : MonoBehaviour
     {
         hOffset.enabled = false;
         camfind.enabled = true;
-        Fade_();
+        StartCoroutine(Fade());
         Invoke("PlayerActive",1);
         
     }

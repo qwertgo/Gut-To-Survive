@@ -7,29 +7,36 @@ using UnityEngine.EventSystems;
 public class Pause : MonoBehaviour
 {
 
-  public GameObject PauseMenu;
-  public GameObject Game;
-  public bool pause;
-  public PlayerController pc;
-  public GameObject Play;
-  	PlayerInput controls;
+    [SerializeField] GameObject PauseMenu;
+    [SerializeField] GameObject resumeButton;
+    bool pause;
+    PlayerInput controls;
 
   void Awake()
   { 
     controls = new PlayerInput();
-    controls.Pause.PauseMenu.performed += ctx => Break(); 
+    controls.Pause.PauseMenu.performed += ctx => TogglePause(); 
   }
 
-
-  
-      void Break()
+    public void TogglePause()
     {
-      pc.isSleeping = true;
-      PauseMenu.SetActive(true);
-      EventSystem.current.SetSelectedGameObject(Play);
-      
-        
-      }
+        if (pause)
+        {
+            PauseMenu.SetActive(false);
+            Time.timeScale = 1;
+            EventSystem.current.SetSelectedGameObject(null);
+            pause = false;
+            Cursor.visible = false;
+        }
+        else
+        {
+            PauseMenu.SetActive(true);
+            Time.timeScale = 0;
+            EventSystem.current.SetSelectedGameObject(resumeButton);
+            pause = true;
+            Cursor.visible = true;
+        }
+    }
 
 
     void OnEnable()

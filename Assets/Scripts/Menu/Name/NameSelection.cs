@@ -35,7 +35,7 @@ public class NameSelection : MonoBehaviour
     PlayerInput input;
     EventSystem ev;
 
-    string name;
+    string playerName;
     int scrollDirection = 0;
     int positionOffset = 568; //idk Recttransform not working need to subtract sometimes
 
@@ -48,6 +48,8 @@ public class NameSelection : MonoBehaviour
         input = new PlayerInput();
         selectedLetterBox = firstLetterBox;
         ev = EventSystem.current;
+
+        positionOffset = Mathf.RoundToInt(selectedLetterBox.position.y);
     }
 
     private void OnEnable()
@@ -80,12 +82,11 @@ public class NameSelection : MonoBehaviour
     {
         
         int letterIndex = Mathf.RoundToInt((selectedLetterBox.position.y - positionOffset) / letterHeight);
-        letterIndex--;
 
         char letter = letters[letterIndex];
-        name += letter;
+        playerName += letter;
 
-        switch (name.Length -1)
+        switch (playerName.Length -1)
         {
             case 0:
                 firstLetter.text = ""+letter;
@@ -105,7 +106,7 @@ public class NameSelection : MonoBehaviour
             case 3:
                 fourthLetter.text = "" + letter;
                 currentLetterSelectionIcon.position += new Vector3(1000, 0, 0);
-                PlayerController.playerName = name;
+                PlayerController.playerName = playerName;
 
                 StopAllCoroutines();
                 input.Player.Movement.performed -= OnMovement;
@@ -119,8 +120,8 @@ public class NameSelection : MonoBehaviour
 
     void DeleteLastLetter(InputAction.CallbackContext context)
     {
-        Debug.Log(name.Length);
-        switch (name.Length)
+        Debug.Log(playerName.Length);
+        switch (playerName.Length)
         {
             case 1:
                 firstLetter.text = "";
@@ -150,8 +151,8 @@ public class NameSelection : MonoBehaviour
 
         }
 
-        name = name.Remove(name.Length - 1);
-        Debug.Log(name.Length);
+        playerName = playerName.Remove(playerName.Length - 1);
+        Debug.Log(playerName.Length);
 
     }
 
@@ -168,6 +169,7 @@ public class NameSelection : MonoBehaviour
         isScrolling = true;
         while(scrollDirection != 0)
         {
+            //Debug.Log(selectedLetterBox.position.y);
             int height = Mathf.RoundToInt(selectedLetterBox.position.y + scrollDirection * letterHeight);
             height = Mathf.Min(1040 + positionOffset, height);
             selectedLetterBox.position = new Vector3(selectedLetterBox.position.x, height, selectedLetterBox.position.z);
