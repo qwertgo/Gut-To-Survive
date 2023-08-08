@@ -15,7 +15,7 @@ public class RotateGravityOnLevelEnd : MonoBehaviour
             float angle = Vector2.SignedAngle(Vector2.down, gravityDir);
             handler.StartGravityChange(angle, gravityDir);
             ControllerRumbleManager.StopRumble();
-            playerController.Disable();
+            playerController.Disable(true);
         }
     }
 }

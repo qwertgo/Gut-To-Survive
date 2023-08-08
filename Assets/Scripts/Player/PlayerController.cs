@@ -126,6 +126,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Cursor.visible = false;
     }
 
+    #region Editor related
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, .3f, .3f);
@@ -136,6 +137,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Gizmos.DrawWireSphere(leftSideCheckTransform.position, .1f);
         Gizmos.DrawWireSphere(rightSideCheckTransform.position, .1f);
     }
+    #endregion
 
     private void OnDestroy()
     {
@@ -240,6 +242,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }
     }
 
+    #region Bools
     //Bools
     //---------------------------------------------------------
     bool IsGrounded()
@@ -270,7 +273,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         return t >= a && t <= b;
     }
+    #endregion
 
+    #region Random Methods thats dont fit into other categories
     //Various Methods
     //---------------------------------------------------------
     void LandedOnPlattform()
@@ -336,14 +341,34 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         dropMagnitudeSaver = 0;
     }
 
-    public void Disable()
+    public void Disable(bool endedGame)
     {
         disabled = true;
         time = temporaryTime;
         walkVelocityX = 0;
+
+        if (endedGame)
+        {
+            rb.velocity = new Vector2(maxFallingSpeed * 2, 0);
+        }
     }
 
+    public void ShowHighscore()
+    {
+        Credits.SetActive(false);
+        Skip.SetActive(false);
+        StopCoroutinesSafely();
+        Highscore.SetActive(true);
+        //cam.m_Lens.OrthographicSize = 110;
+        disabled = true;
+        enabled = false;
+        rb.velocity = Vector2.zero;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<Light2D>().enabled = false;
+    }
+    #endregion
 
+    #region Coroutines
     //Coroutines
     //---------------------------------------------------------
 
@@ -510,28 +535,28 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
     }
 
-    IEnumerator Zoom()
-    {
+    //IEnumerator Zoom()
+    //{
         
-        while(cam.m_Lens.OrthographicSize > 5)
-        {   
-            float zoom = cam.m_Lens.OrthographicSize *0.98f;
-            cam.m_Lens.OrthographicSize = zoom;
-            yield return null;
-        }
+    //    while(cam.m_Lens.OrthographicSize > 5)
+    //    {   
+    //        float zoom = cam.m_Lens.OrthographicSize *0.98f;
+    //        cam.m_Lens.OrthographicSize = zoom;
+    //        yield return null;
+    //    }
 
         
-    }
+    //}
 
-    IEnumerator OffSet()
-    {
-        while(camfind.upwardOffset > 0)
-        {
-            float offsetViewFinder = camfind.upwardOffset *0.99f;
-            camfind.upwardOffset = offsetViewFinder;
-            yield return null;
-        } 
-    }
+    //IEnumerator OffSet()
+    //{
+    //    while(camfind.upwardOffset > 0)
+    //    {
+    //        float offsetViewFinder = camfind.upwardOffset *0.99f;
+    //        camfind.upwardOffset = offsetViewFinder;
+    //        yield return null;
+    //    } 
+    //}
      IEnumerator ZoomOut()
     {
         
@@ -552,9 +577,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             yield return null;
         } 
     }
-
-  
-
+    #endregion
+    #region States
     //Handling States
     //---------------------------------------------------------
     void Drop()
@@ -636,7 +660,8 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
         StartCoroutine(Respawn());
     }
-
+    #endregion
+    #region Input System
     //Handling Input System
     //---------------------------------------------------------
     public void OnMovement(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -737,7 +762,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             soundManager.Play(polaritySound, 1, true);
         }
     }
-
+    #endregion
     #region Collision Stuff
     //Collider Stuff
     //---------------------------------------------------------
@@ -768,8 +793,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 StartCoroutine(LookToForcefieldDirection());
                 ControllerRumbleManager.StartRumble(.05f, .2f);
                 break;
-            case "GameWon":
-                SceneManager.LoadScene("GameWon");
+            case "Reduce Drop Speed":
+                rb.velocity = new Vector2(maxFallingSpeed, 0);
+                Skip.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(Skip);
+                break;
+            case "End":
+                ShowHighscore();
                 break;
         }
         
@@ -780,23 +810,23 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         }  
 
             
-        if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
-        {
-            maxFallingSpeed = 9f;
-            Skip.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(Skip);
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
+        //{
+        //    maxFallingSpeed = 9f;
+        //    Skip.SetActive(true);
+        //    EventSystem.current.SetSelectedGameObject(Skip);
             
-        }      
+        //}      
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
-        {
-            StartCoroutine(Zoom());
-        }
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
+        //{
+        //    StartCoroutine(Zoom());
+        //}
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("OffSet"))
-        {
-            StartCoroutine(OffSet());
-        }
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("OffSet"))
+        //{
+        //    StartCoroutine(OffSet());
+        //}
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Highscore"))
         {
@@ -822,21 +852,21 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             gameObject.SetActive(false);
         }
 
-        if(collision.gameObject.CompareTag("Saw"))
-        {
-            GameObject splash = Instantiate(bloodSplashPrefab);
-            splash.transform.position = transform.position;
-            splash.transform.localScale *= Random.Range(.8f, 1.2f);
-            splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-            isSleeping = true;
-            rb.velocity = Vector2.zero;
-            StopCoroutinesSafely();
-            CrossFade("Death");
-            soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
-            ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+        //if(collision.gameObject.CompareTag("Saw"))
+        //{
+        //    GameObject splash = Instantiate(bloodSplashPrefab);
+        //    splash.transform.position = transform.position;
+        //    splash.transform.localScale *= Random.Range(.8f, 1.2f);
+        //    splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+        //    isSleeping = true;
+        //    rb.velocity = Vector2.zero;
+        //    StopCoroutinesSafely();
+        //    CrossFade("Death");
+        //    soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
+        //    ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
 
-            Invoke("SetActiveEnd",0.4f);        
-        }
+        //    Invoke("ShowHighscore",0.4f);        
+        //}
 
     }
 
@@ -877,22 +907,4 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     }
 
     #endregion
-
-
-    public void SetActiveEnd()
-    {
-        Credits.SetActive(false);    
-        Skip.SetActive(false);
-        StopCoroutinesSafely();
-        //gameObject.SetActive(false);  
-        Highscore.SetActive(true);
-        cam.m_Lens.OrthographicSize = 110;
-        disabled = true;
-        enabled = false;
-        rb.velocity = Vector2.zero;
-        GetComponentInChildren<SpriteRenderer>().enabled = false;
-        GetComponentInChildren<Light2D>().enabled = false;
-    }
-
-    
 }

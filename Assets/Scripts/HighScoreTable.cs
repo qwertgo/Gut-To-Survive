@@ -26,6 +26,8 @@ public class HighScoreTable : MonoBehaviour
 
     RectTransform highscorePanelTransform;
 
+    int currentRunIndex;
+
 
     void Awake()
     {
@@ -35,6 +37,7 @@ public class HighScoreTable : MonoBehaviour
         List<HighScoreEntry> highscoreList = SaveSystem.LoadHighscore();
 
         highscoreList.Add(new HighScoreEntry(pc.deathCount, PlayerController.playerName, pc.collectables, pc.time));
+        currentRunIndex = highscoreList.Count - 1;
         highscoreList = BubbleSort(highscoreList);
 
         SaveSystem.SaveHighscore(highscoreList);
@@ -92,6 +95,14 @@ public class HighScoreTable : MonoBehaviour
         string time = string.Format("{0:00}:{1:00}", minutes, seconds);
 
         textArray[4].text = time;
+
+        Image image = entryGo.GetComponent<Image>();
+        Color col = image.color;
+
+        if(currentRunIndex + 1 == place)
+            image.color = new Color(col.r, col.g, col.b, .6f);
+        else
+            image.color = new Color(col.r, col.g, col.b, place % 2 < 1 ? .1f: .2f);
     }
 
     List<HighScoreEntry> BubbleSort(List<HighScoreEntry> highscorelist)
@@ -129,9 +140,12 @@ public class HighScoreTable : MonoBehaviour
             int o = i + 1;
             if(highscorelist[i].deathCount == highscorelist[o].deathCount && highscorelist[i].collectables == highscorelist[o].collectables && highscorelist[i].time > highscorelist[o].time)
             {
-
+                highscorelist = Swap(highscorelist, i, o);
+                runIndex++;
             }
         }
+
+        currentRunIndex = runIndex;
 
         return highscorelist;
     }

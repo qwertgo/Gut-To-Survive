@@ -14,6 +14,7 @@ TagManager:
   - SpikeExit
   - End
   - Saw
+  - Reduce Drop Speed
   layers:
   - Default
   - TransparentFX

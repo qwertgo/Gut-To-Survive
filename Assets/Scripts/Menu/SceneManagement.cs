@@ -15,25 +15,6 @@ public class SceneManagement : MonoBehaviour
     public GameObject Player;
     public PlayerController pc;
     
-    /*public CinemachineVirtualCamera cam;
-    public bool playerSleepin;
-    public PlayerController pc;
-    public cameraViewFinder camfind;
-    public GameObject SpikeExit;
-    public GameObject StartCanvas;
-      // Start is called before the first frame update
-   
-    public void Update()
-    {
-      if(playerSleepin == true)
-      pc.isSleeping = true;
-      else 
-      pc.isSleeping = false;
- 
-        pc.isSleeping = playerSleepin;
-    }
-   
-*/
     public void ExitMenu()
     {
 #if UNITY_EDITOR
@@ -62,40 +43,7 @@ public class SceneManagement : MonoBehaviour
   public void Skip()
   {  
     Player.transform.position = new Vector2(732, Player.transform.position.y);   
-    pc.SetActiveEnd();
+    pc.ShowHighscore();
 
   }
-
-/*  public void Play() 
-{ 
-   StartCoroutine(OffSet());
-   StartCoroutine(Zoom());
-   playerSleepin = false;
-   StartCanvas.SetActive(false);
-}
-
-
-    IEnumerator Zoom()
-    {
-        while(cam.m_Lens.OrthographicSize > 8)
-        {   
-            float zoom = cam.m_Lens.OrthographicSize *0.98f;
-            cam.m_Lens.OrthographicSize = zoom;
-            yield return null;
-        }
-    }
-
-    IEnumerator OffSet()
-    {
-        while(camfind.upwardOffset > 0)
-        {
-            float offsetViewFinder = camfind.upwardOffset *0.89f;
-            camfind.upwardOffset = offsetViewFinder;
-            yield return null;
-        } 
-    }
-
-    
-*/
-
 }

@@ -94,7 +94,7 @@ public class StartSceneManager : MonoBehaviour
     {
         pc.StopAllCoroutines();
         pc.isSleeping = true;
-        pc.Disable();
+        pc.Disable(false);
 
     }
 
