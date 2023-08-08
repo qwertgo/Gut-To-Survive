@@ -9,6 +9,7 @@ public class Pause : MonoBehaviour
 
     [SerializeField] GameObject PauseMenu;
     [SerializeField] GameObject resumeButton;
+    [SerializeField] PlayerController player;
     bool pause;
     PlayerInput controls;
 
@@ -27,6 +28,7 @@ public class Pause : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             pause = false;
             Cursor.visible = false;
+            player.enabled = true;
         }
         else
         {
@@ -35,6 +37,7 @@ public class Pause : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(resumeButton);
             pause = true;
             Cursor.visible = true;
+            player.enabled = false;
         }
     }
 

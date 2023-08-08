@@ -6,6 +6,7 @@ using TMPro;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 
 
@@ -40,14 +41,20 @@ public class HighScoreTable : MonoBehaviour
         currentRunIndex = highscoreList.Count - 1;
         highscoreList = BubbleSort(highscoreList);
 
-        SaveSystem.SaveHighscore(highscoreList);
 
         for(int i = 0; i < highscoreList.Count; i++)
         {
             CreateEntryVisuals(highscoreList[i], i + 1);
         }
 
-        highscorePanelTransform.sizeDelta = new Vector2(highscorePanelTransform.sizeDelta.x, highscoreList.Count * 33);
+        highscorePanelTransform.sizeDelta = new Vector2(highscorePanelTransform.sizeDelta.x, highscoreList.Count * 100);
+        highscorePanelTransform.position += new Vector3(0, currentRunIndex * 100 - 300, 0);
+
+        //pls ignore this is a quick dirty fix
+        Button b = highscorePanel.transform.parent.parent.GetComponentInChildren<Button>();
+        EventSystem.current.SetSelectedGameObject(b.gameObject);
+
+        SaveSystem.SaveHighscore(highscoreList);
     }
 
     private void Update()
@@ -88,7 +95,7 @@ public class HighScoreTable : MonoBehaviour
         textArray[0].text = place.ToString();
         textArray[1].text = entry.name;
         textArray[2].text = entry.deathCount.ToString();
-        textArray[3].text = entry.collectables.ToString();
+        textArray[3].text = entry.collectables.ToString() + "/9";
 
         float minutes = Mathf.FloorToInt(entry.time / 60);
         float seconds = Mathf.FloorToInt(entry.time % 60);

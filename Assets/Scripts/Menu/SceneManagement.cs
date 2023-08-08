@@ -15,7 +15,7 @@ public class SceneManagement : MonoBehaviour
     public GameObject Player;
     public PlayerController pc;
     
-    public void ExitMenu()
+    public void Quit()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -37,6 +37,7 @@ public class SceneManagement : MonoBehaviour
     {
       
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
 
     }
 

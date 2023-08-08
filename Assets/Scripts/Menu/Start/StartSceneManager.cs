@@ -50,20 +50,20 @@ public class StartSceneManager : MonoBehaviour
 
     }
  
-    public void Save()
-    {
-        first = firstLetter.GetComponent<TextMeshProUGUI>().text;
-        second = secondLetter.GetComponent<TextMeshProUGUI>().text;
-        third = thirdLetter.GetComponent<TextMeshProUGUI>().text;
-        fourth = fourthLetter.GetComponent<TextMeshProUGUI>().text;
+    //public void Save()
+    //{
+    //    first = firstLetter.GetComponent<TextMeshProUGUI>().text;
+    //    second = secondLetter.GetComponent<TextMeshProUGUI>().text;
+    //    third = thirdLetter.GetComponent<TextMeshProUGUI>().text;
+    //    fourth = fourthLetter.GetComponent<TextMeshProUGUI>().text;
 
-        PlayerName = first + second + third + fourth;
-        //Debug.Log(PlayerName);
-        PlayerController.playerName = PlayerName;
-        SceneManager.LoadScene("Final_Leveldesign");
+    //    PlayerName = first + second + third + fourth;
+    //    //Debug.Log(PlayerName);
+    //    PlayerController.playerName = PlayerName;
+    //    SceneManager.LoadScene("Final_Leveldesign");
 
 
-    }
+    //}
 
     public void Exit()
     {
@@ -146,7 +146,7 @@ public class StartSceneManager : MonoBehaviour
     }
 
 
-    void LoadScene()
+    public void LoadScene()
     {
         SceneManager.LoadScene("Final_Leveldesign");
     }

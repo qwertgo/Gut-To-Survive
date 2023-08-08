@@ -139,9 +139,15 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     }
     #endregion
 
-    private void OnDestroy()
+    private void OnEnable()
     {
-        controls.Disable();
+        if(controls != null)
+            controls.Enable();
+    }
+    private void OnDisable()
+    {
+        if(controls != null)
+            controls.Disable();
     }
 
     private void Update()
@@ -344,12 +350,12 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
     public void Disable(bool endedGame)
     {
         disabled = true;
-        time = temporaryTime;
         walkVelocityX = 0;
 
         if (endedGame)
         {
             rb.velocity = new Vector2(maxFallingSpeed * 2, 0);
+            time = temporaryTime;
         }
     }
 
@@ -523,6 +529,7 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gravityDirection = lastSavePoint.savedGravityDir;
         gravityAngle = lastSavePoint.savedGravityAngle;
         rb.rotation = gravityAngle;
+        trail.StopMe();
 
         turnability = 1;
 
@@ -535,28 +542,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         Camera.main.transform.eulerAngles = new Vector3(0,0, gravityAngle);
     }
 
-    //IEnumerator Zoom()
-    //{
-        
-    //    while(cam.m_Lens.OrthographicSize > 5)
-    //    {   
-    //        float zoom = cam.m_Lens.OrthographicSize *0.98f;
-    //        cam.m_Lens.OrthographicSize = zoom;
-    //        yield return null;
-    //    }
-
-        
-    //}
-
-    //IEnumerator OffSet()
-    //{
-    //    while(camfind.upwardOffset > 0)
-    //    {
-    //        float offsetViewFinder = camfind.upwardOffset *0.99f;
-    //        camfind.upwardOffset = offsetViewFinder;
-    //        yield return null;
-    //    } 
-    //}
      IEnumerator ZoomOut()
     {
         
@@ -656,7 +641,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         CrossFade("Death");
         soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
         ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
-        trail.StopMe();
 
         StartCoroutine(Respawn());
     }
@@ -793,40 +777,33 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
                 StartCoroutine(LookToForcefieldDirection());
                 ControllerRumbleManager.StartRumble(.05f, .2f);
                 break;
+
             case "Reduce Drop Speed":
                 rb.velocity = new Vector2(maxFallingSpeed, 0);
                 Skip.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(Skip);
                 break;
+
             case "End":
-                ShowHighscore();
+                GameObject splash = Instantiate(bloodSplashPrefab);
+                splash.transform.position = transform.position;
+                splash.transform.localScale *= Random.Range(.8f, 1.2f);
+                splash.transform.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
+                isSleeping = true;
+                rb.velocity = Vector2.zero;
+                StopCoroutinesSafely();
+                CrossFade("Death");
+                soundManager.Play(SoundManager.PlayerSound.Die, 1, true);
+                ControllerRumbleManager.StartTimedRumble(.5f, .7f, .25f);
+
+                Invoke("ShowHighscore", 0.4f);
                 break;
         }
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Collectable"))
         {
             collectables++;
-            //Debug.Log(revive);
         }  
-
-            
-        //if(collision.gameObject.layer == LayerMask.NameToLayer("End"))
-        //{
-        //    maxFallingSpeed = 9f;
-        //    Skip.SetActive(true);
-        //    EventSystem.current.SetSelectedGameObject(Skip);
-            
-        //}      
-
-        //if(collision.gameObject.layer == LayerMask.NameToLayer("Zoom"))
-        //{
-        //    StartCoroutine(Zoom());
-        //}
-
-        //if(collision.gameObject.layer == LayerMask.NameToLayer("OffSet"))
-        //{
-        //    StartCoroutine(OffSet());
-        //}
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Highscore"))
         {
@@ -838,7 +815,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         {
             StartCoroutine(ZoomOut());
             StartCoroutine(OffSetUp());
-            //startPosition = gameObject.transform.position;
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("SceneSwitch"))

@@ -16,6 +16,14 @@ public class RotateGravityOnLevelEnd : MonoBehaviour
             handler.StartGravityChange(angle, gravityDir);
             ControllerRumbleManager.StopRumble();
             playerController.Disable(true);
+            StartCoroutine(changeAnimation());
         }
+    }
+
+    IEnumerator changeAnimation()
+    {
+        yield return new WaitForSeconds(1f);
+
+        playerController.CrossFade("Drop");
     }
 }
