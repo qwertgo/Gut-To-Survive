@@ -3,21 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class Pause : MonoBehaviour
 {
 
     [SerializeField] GameObject PauseMenu;
     [SerializeField] GameObject resumeButton;
+    [SerializeField] GameObject volumeSlider;
+    [SerializeField] Slider slider;
+    [SerializeField] GameObject settingsButton;
     [SerializeField] PlayerController player;
+    [SerializeField] AudioMixer audioMixer;
     bool pause;
     PlayerInput controls;
 
-  void Awake()
-  { 
-    controls = new PlayerInput();
-    controls.Pause.PauseMenu.performed += ctx => TogglePause(); 
-  }
+    void Awake()
+    { 
+        controls = new PlayerInput();
+        controls.Pause.PauseMenu.performed += ctx => TogglePause();
+
+        slider.onValueChanged.AddListener((v) =>
+        {
+            audioMixer.SetFloat("volume", v);
+            Debug.Log(v);
+        });
+    }
 
     public void TogglePause()
     {
@@ -50,6 +62,21 @@ public class Pause : MonoBehaviour
      void OnDisable()
     {
       controls.Pause.Disable();
+    }
+
+    public void SetVolume(float volume)
+    {
+        audioMixer.SetFloat("volume", volume);
+    }
+
+    public void PressedSettingsButton()
+    {
+        EventSystem.current.SetSelectedGameObject(volumeSlider);
+    }
+
+    public void PressedBackButton()
+    {
+        EventSystem.current.SetSelectedGameObject(settingsButton);
     }
 }
 

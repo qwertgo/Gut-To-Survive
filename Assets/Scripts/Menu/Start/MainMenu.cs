@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 using Cinemachine;
 using TMPro;
 using UnityEngine.Audio;
+using UnityEngine.UI;
+
+
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject controlsMenu;
@@ -16,13 +19,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject volume;
     [SerializeField] AudioMixer audioMixer;
 
-    
-
       // Start is called before the first frame update
    
    public void Start()
     {
         EventSystem.current.SetSelectedGameObject(playButton);
+
+        
     }
 
     public void Exit()
@@ -61,9 +64,5 @@ public class MainMenu : MonoBehaviour
      public void PressedBackButton()
     {
         EventSystem.current.SetSelectedGameObject(playButton);
-    }
-    public void SetVolume(float volume)
-    {
-        audioMixer.SetFloat("volume", volume);
     }
 }

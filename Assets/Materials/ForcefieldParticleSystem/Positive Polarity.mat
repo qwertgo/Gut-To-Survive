@@ -54,7 +54,7 @@ Material:
     - _Center_Size: 1.232
     - _Distortion_Repetition: 2
     - _Distortion_Speed: 2
-    - _Distortion_Strength: 1
+    - _Distortion_Strength: 0.3
     - _Distortion_Width: 4
     - _Float: 0.295
     - _Halo_Distortion: 0

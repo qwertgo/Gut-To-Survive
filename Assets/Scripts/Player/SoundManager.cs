@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-
+    [SerializeField] bool playRunningSounds;
     [SerializeField] List<AudioClip> walk;
     [SerializeField] List<AudioClip> die;
     [SerializeField] List<AudioClip> jump;
     [SerializeField] List<AudioClip> landing;
     [SerializeField] AudioClip P_Polarity;
     [SerializeField] AudioClip N_Polarity;
+
+    
 
     public enum PlayerSound {Walk, Die, Jump, Landing, P_Polarity, N_Polarity};
     private AudioSource source;
@@ -22,7 +24,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(PlayerSound sound, float volume, bool playOneShot)
     {
-        if (enabled == false)
+        if (enabled == false || sound <= PlayerSound.Landing)
             return;
 
         StopAllCoroutines();

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8083299266740399396}
   - component: {fileID: 4091010139218544588}
   m_Layer: 0
-  m_Name: Savepoint
+  m_Name: SavePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ AudioSource:
   m_GameObject: {fileID: 8083299266740399419}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 008d032a980fd6d478731d8503711a04, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

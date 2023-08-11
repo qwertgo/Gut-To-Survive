@@ -196,7 +196,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
 
             soundManager.Play(SoundManager.PlayerSound.Landing, 1, true);
             CrossFade("Drop Impact");
-            StartCoroutine(DropImpactTimer());
 
             if (jumpBufferTimer <= jumpBuffer)
                 StartJumping();
@@ -402,19 +401,9 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
             StartCoroutine(KillForcefieldExitVelocity());
         }
 
-        if (isSleeping)
-            StartCoroutine(DropImpactTimer());
-
         if (disabled)
             StopAllCoroutines();
        
-    }
-
-    IEnumerator DropImpactTimer()
-    {
-        yield return new WaitForSeconds(.25f);
-        if(!isDying)
-            CrossFade("Idle");
     }
 
     IEnumerator LookToForcefieldDirection()

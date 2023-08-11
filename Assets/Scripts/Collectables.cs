@@ -5,7 +5,7 @@ using UnityEngine;
 public class Collectables : MonoBehaviour
 {
     public PlayerController pc;
-    public int revive =0;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip collectableClip;
     
         
@@ -17,9 +17,7 @@ public class Collectables : MonoBehaviour
         {  
             Destroy(gameObject);
 
-            //AudioSource source = collision.gameObject.GetComponent<AudioSource>();
-            AudioSource.PlayClipAtPoint(collectableClip, transform.position);
-            //source.PlayOneShot(collectableClip);
+            audioSource.PlayOneShot(collectableClip);
         }
     }
 }
