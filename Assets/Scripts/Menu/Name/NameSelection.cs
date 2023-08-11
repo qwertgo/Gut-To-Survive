@@ -46,10 +46,16 @@ public class NameSelection : MonoBehaviour
     private void Awake()
     {
         input = new PlayerInput();
-        selectedLetterBox = firstLetterBox;
         ev = EventSystem.current;
 
+        
+    }
+
+    public void ActivateNameSelection()
+    {
+        selectedLetterBox = firstLetterBox;
         positionOffset = Mathf.RoundToInt(selectedLetterBox.position.y);
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnEnable()
@@ -59,6 +65,8 @@ public class NameSelection : MonoBehaviour
         input.Player.Movement.canceled += OnMovementCancelled;
         input.Player.Jump.started += SelectLetter;
         input.Player.Back.started += DeleteLastLetter;
+
+        
     }
 
     private void OnDisable()
@@ -105,7 +113,7 @@ public class NameSelection : MonoBehaviour
                 break;
             case 3:
                 fourthLetter.text = "" + letter;
-                currentLetterSelectionIcon.position += new Vector3(1000, 0, 0);
+                currentLetterSelectionIcon.gameObject.SetActive(false);
                 PlayerController.playerName = playerName;
 
                 StopAllCoroutines();
@@ -141,7 +149,7 @@ public class NameSelection : MonoBehaviour
             case 4:
                 fourthLetter.text = "";
                 selectedLetterBox = fourthLetterBox;
-                currentLetterSelectionIcon.position -= new Vector3(1000, 0, 0);
+                currentLetterSelectionIcon.gameObject.SetActive(true);
                 ev.SetSelectedGameObject(null);
 
                 input.Player.Movement.performed += OnMovement;
@@ -152,8 +160,6 @@ public class NameSelection : MonoBehaviour
         }
 
         playerName = playerName.Remove(playerName.Length - 1);
-        Debug.Log(playerName.Length);
-
     }
 
     private void Update()

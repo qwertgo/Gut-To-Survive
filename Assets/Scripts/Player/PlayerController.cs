@@ -372,6 +372,13 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         GetComponentInChildren<SpriteRenderer>().enabled = false;
         GetComponentInChildren<Light2D>().enabled = false;
     }
+
+
+    public void WalkLeft()
+    {
+        rb.velocity = new Vector2(-walkSpeed, 0);
+        CrossFade("StartWalk");
+    }
     #endregion
 
     #region Coroutines
