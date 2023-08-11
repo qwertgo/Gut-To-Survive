@@ -699,18 +699,6 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         if (!context.started || !canDash || currentForcefield != null || disabled)
             return;
 
-        if (leftStickDir.magnitude == 0)
-        {
-            if (rb.velocity.magnitude > 0)
-                dashDirection = rb.velocity.normalized;
-            else
-                return;
-        }
-        else
-        {
-            dashDirection = leftStickDir;
-        }
-
         currentState = State.dash;
         canDash = false;
         timeSinceStartedDashing = 0;
@@ -723,6 +711,21 @@ public class PlayerController : GravityObject, PlayerInput.IPlayerActions
         gravityVelocity = Vector2.zero;
         CrossFade("Jump");
         soundManager.Stop();
+
+        if (leftStickDir.magnitude == 0)
+        {
+            if (rb.velocity.magnitude > 0)
+            {
+                dashDirection = rb.velocity.normalized;
+                trail.StartMe(dashDirection);
+            }
+            return;
+        }
+        else
+        {
+            dashDirection = leftStickDir;
+        }
+
 
         //Rotate dashdirection according to Gravity
         dashDirection = Quaternion.Euler(0f, 0f, gravityAngle) * dashDirection;

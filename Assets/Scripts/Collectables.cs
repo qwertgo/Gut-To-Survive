@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Collectables : MonoBehaviour
 {
-    public PlayerController pc;
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioClip collectableClip;
+    [SerializeField] CollectableSound cs;
     
         
 
@@ -14,10 +12,10 @@ public class Collectables : MonoBehaviour
     {   
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {  
+        {
+            cs.Play(transform.position);
             Destroy(gameObject);
 
-            audioSource.PlayOneShot(collectableClip);
         }
     }
 }

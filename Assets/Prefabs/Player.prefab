@@ -150,8 +150,8 @@ MonoBehaviour:
   isGrounded: 0
   lastSavePoint: {fileID: 0}
   sleep: 0
+  disabled: 0
   walkVelocityX: 0
-  endedGame: 0
   rb: {fileID: 2421048444573215171}
   groundCheckTransform: {fileID: 2421048444175191825}
   headCheckTransform: {fileID: 2421048445925974519}
@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3dd8105d20302b4d992b34e196139d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playRunningSounds: 0
   walk:
   - {fileID: 8300000, guid: aa52c67185717ee458b66cc5ab64546c, type: 3}
   - {fileID: 8300000, guid: cae7d9bc596a8914c8016e68ea09bdfa, type: 3}

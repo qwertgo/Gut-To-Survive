@@ -219,6 +219,18 @@ static class SaveSystem
         }
         else
         {
+            List<HighScoreEntry> list = new List<HighScoreEntry>();
+            list.Add(new HighScoreEntry(0, "SAMU", 9, 108));
+            list.Add(new HighScoreEntry(2, "URMA", 8, 100));
+            list.Add(new HighScoreEntry(2, "ABCD", 3, 63));
+            list.Add(new HighScoreEntry(2, "SAMU", 2, 91));
+            list.Add(new HighScoreEntry(4, "QNFD", 7, 128));
+            list.Add(new HighScoreEntry(6, "GULP", 5, 149));
+            list.Add(new HighScoreEntry(11, "CLIT", 6, 166));
+            list.Add(new HighScoreEntry(18, "BAKA", 4, 186));
+            list.Add(new HighScoreEntry(26, "SAMU", 4, 283));
+            list.Add(new HighScoreEntry(39, "DAAA", 4, 360));
+
             //Debug.Log("did not find file");
             return new List<HighScoreEntry>();
         }

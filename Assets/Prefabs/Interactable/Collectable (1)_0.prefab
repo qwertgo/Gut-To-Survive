@@ -122,7 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pc: {fileID: 0}
-  revive: 0
   audioSource: {fileID: -588032481267636358}
   collectableClip: {fileID: 8300000, guid: dd7a4445f03d77547b04acda72a770a9, type: 3}
 --- !u!58 &6072027547032565927
@@ -152,7 +151,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 008d032a980fd6d478731d8503711a04, type: 2}
   m_audioClip: {fileID: 8300000, guid: dd7a4445f03d77547b04acda72a770a9, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

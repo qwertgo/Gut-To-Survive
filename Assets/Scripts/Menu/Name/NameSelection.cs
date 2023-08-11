@@ -35,7 +35,7 @@ public class NameSelection : MonoBehaviour
     PlayerInput input;
     EventSystem ev;
 
-    string playerName;
+    string playerName = "";
     int scrollDirection = 0;
     int positionOffset = 568; //idk Recttransform not working need to subtract sometimes
 
@@ -128,7 +128,6 @@ public class NameSelection : MonoBehaviour
 
     void DeleteLastLetter(InputAction.CallbackContext context)
     {
-        Debug.Log(playerName.Length);
         switch (playerName.Length)
         {
             case 1:
@@ -156,7 +155,8 @@ public class NameSelection : MonoBehaviour
                 input.Player.Movement.canceled += OnMovement;
                 input.Player.Jump.started += SelectLetter;
                 break;
-
+            case 0:
+                return;
         }
 
         playerName = playerName.Remove(playerName.Length - 1);
