@@ -232,7 +232,7 @@ static class SaveSystem
             list.Add(new HighScoreEntry(39, "DAAA", 4, 360));
 
             //Debug.Log("did not find file");
-            return new List<HighScoreEntry>();
+            return list;
         }
     }
 }
